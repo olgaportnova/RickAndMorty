@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Colors -->
+    <color name="colorPrimary">#6B92A5</color>
+    <color name="colorPrimaryDark">#FFE6AD</color>
+    <color name="colorAccent">#30D07B</color>
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.RickAndMorty" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.RickAndMorty" parent="Base.Theme.RickAndMorty" />
+</resources>

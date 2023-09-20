@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="item_image">
+        <item name="android:background">@drawable/background_character_image</item>
+        <item name="android:clipToOutline">true</item>
+        <item name="android:outlineProvider">background</item>
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+</resources>
