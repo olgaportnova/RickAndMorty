@@ -89,4 +89,35 @@
     </style>
 
 
+
+    <style name="bottom_sheet">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_bottom_sheet</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:orientation">vertical</item>
+
+
+    </style>
+
+    <style name="header_bottom_sheet">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/fresh_green</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/schwifty</item>
+    </style>
+
+
+    <style name="handler_bottom_sheet">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/bottom_sheet_small_handler</item>
+    </style>
+
+
 </resources>

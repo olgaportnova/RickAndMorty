@@ -12,5 +12,4 @@ val viewModelModule = module {
         CharacterViewModel(get())
     }
 
-
 }

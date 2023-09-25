@@ -34,8 +34,8 @@
 
         <EditText
             android:id="@+id/input_text_search"
-            android:hint="@string/hint_search"
-            style="@style/edit_text_search" />
+            style="@style/edit_text_search"
+            android:hint="Search" />
 
         <ImageButton
             android:id="@+id/bt_filter"
@@ -56,7 +56,200 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_layout" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    <LinearLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/standard_bottom_sheet"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        style="@style/bottom_sheet"
+        android:backgroundTint="@color/peach">
+
+        <View style="@style/handler_bottom_sheet" />
+
+
+        <TextView
+            android:id="@+id/btn_sheet_header"
+            style="@style/header_bottom_sheet"
+            android:text="Filters"
+            android:gravity="center"/>
+
+
+        <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="5dp"
+        android:text="Status"
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
+        <RadioGroup
+            android:id="@+id/rgStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/fresh_green" />
+
+            <CheckBox
+                android:id="@+id/cbAlive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alive" />
+
+            <CheckBox
+                android:id="@+id/cbDead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dead" />
+
+            <CheckBox
+                android:id="@+id/cbUnknown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unknown" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="5dp"
+            android:text="Gender"
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgStatus" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/fresh_green" />
+
+
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+            <CheckBox
+                android:id="@+id/rbFemale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+            <CheckBox
+                android:id="@+id/rbMale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+
+            <CheckBox
+                android:id="@+id/rbGenderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Genderless" />
+
+
+            <CheckBox
+                android:id="@+id/rbgUnknown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unknown" />
+
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:textSize="24sp"
+            android:background="@drawable/btn_filters"
+            android:textColor="@color/black"
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="Apply" />
+
+        <Button
+
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:textSize="24sp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/btn_filters"
+            android:textColor="@color/black"
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+    </LinearLayout>
+
+
+
+    </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

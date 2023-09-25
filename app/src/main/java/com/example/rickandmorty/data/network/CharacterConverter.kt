@@ -1,13 +1,13 @@
 package com.example.rickandmorty.data.network
 
-import com.example.rickandmorty.data.dto.CharacterDto
+import com.example.rickandmorty.data.dto.ApiResponse
 import com.example.rickandmorty.domain.model.Characters
 import com.example.rickandmorty.domain.model.Location
 import com.example.rickandmorty.domain.model.Origin
 
 class CharacterConverter {
 
-    fun map(characterDto: CharacterDto): Characters {
+    fun map(characterDto: ApiResponse.CharacterDto): Characters {
         return Characters(
             id = characterDto.id,
             name = characterDto.name,

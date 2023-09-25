@@ -8,11 +8,13 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
+  //  factory { CharacterConverter() }
+
     single<CharacterRepository> {
-        CharacterRepositoryImpl(get(), get())
+        CharacterRepositoryImpl(get())
     }
 
-    factory { CharacterConverter() }
+
 
 
 }

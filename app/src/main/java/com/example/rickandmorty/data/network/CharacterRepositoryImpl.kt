@@ -9,20 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class CharacterRepositoryImpl(
-    private val api: RickAndMortyApi,
-    private val characterConverter: CharacterConverter
+    private val api: RickAndMortyApi
 ): CharacterRepository {
 
-    override suspend fun getCharacters(page: Int): Resource<List<Characters>> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = api.getCharacters(page)
-                val characters = response.results.map { characterConverter.map(it) }
-                Resource.Success(characters)
-            } catch (e: Exception) {
-                Resource.Error(e.localizedMessage ?: "An error occurred")
-            }
-        }
-    }
+    override suspend fun getCharactersList(page: Int) = api.getCharacters(page)
 }
 
