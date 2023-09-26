@@ -31,12 +31,10 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
-        holder.setIsRecyclable(false)
     }
 
     inner class ViewHolder (private val binding: ItemViewRecycleViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
         fun bind(item: ApiResponse.CharacterDto) {
             binding.apply {
 
@@ -66,6 +64,8 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
     }
 
 
+
+
        companion object {
            val differCallback = object : DiffUtil.ItemCallback<ApiResponse.CharacterDto>() {
                override fun areItemsTheSame(oldItem: ApiResponse.CharacterDto, newItem: ApiResponse.CharacterDto): Boolean {
@@ -78,62 +78,3 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
            }
        }
 }
-
-//class CharacterAdapter(
-//) : PagingDataAdapter<ApiResponse,CharacterAdapter.CharacterViewHolder>(differCallback) {
-//
-//    private var charactersList = mutableListOf<Characters>()
-//
-//    inner class CharacterViewHolder(private val binding: ItemViewRecycleViewBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//        fun bind(character: Characters) {
-//            binding.apply {
-//                itemHeader.text = character.name
-//                itemFiled1Value.text = character.species
-//                itemFiled2Value.text = character.status
-//                itemFiled3Value.text = character.gender
-//                Glide.with(root.context)
-//                    .load(character.image)
-//                    .placeholder(R.drawable.ic_characters)
-//                    .into(itemImage)
-//                 }
-//            }
-//        }
-//
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-//        val binding = ItemViewRecycleViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return CharacterViewHolder(binding)
-//    }
-//
-//    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-//        holder.bind(charactersList[position])
-//    }
-//
-//    fun addCharacters(characters: List<Characters>) {
-//        val positionStart = charactersList.size
-//        charactersList.addAll(characters)
-//        notifyItemRangeInserted(positionStart, characters.size)
-//    }
-//
-//
-//
-//    interface Listener {
-//        fun onClick(character: Characters)
-//    }
-//
-//    companion object {
-//        val differCallback = object : DiffUtil.ItemCallback<ApiResponse.CharacterDto>() {
-//            override fun areItemsTheSame(oldItem: ApiResponse.CharacterDto, newItem: ApiResponse.CharacterDto): Boolean {
-//                return oldItem.id == oldItem.id
-//            }
-//
-//            override fun areContentsTheSame(oldItem: ApiResponse.CharacterDto, newItem: ApiResponse.CharacterDto): Boolean {
-//                return oldItem == newItem
-//            }
-//        }
-//    }
-//
-//
-//
-//}

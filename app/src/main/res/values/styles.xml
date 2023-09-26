@@ -92,7 +92,7 @@
 
     <style name="bottom_sheet">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/rounded_bottom_sheet</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:orientation">vertical</item>

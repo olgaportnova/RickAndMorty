@@ -28,7 +28,7 @@ val dataModule = module {
 
     factory { Gson() }
 
-    factory { CharactersPagingSource(get()) }
+    factory { CharactersPagingSource(get(), get(), get()) }
 
 
 }

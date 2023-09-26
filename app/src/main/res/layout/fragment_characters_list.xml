@@ -129,28 +129,31 @@
                 android:layout_height="1dp"
                 android:background="@color/fresh_green" />
 
-            <CheckBox
-                android:id="@+id/cbAlive"
+            <RadioButton
+                android:layout_marginTop="12dp"
+                android:id="@+id/rbAlive"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Alive" />
 
-            <CheckBox
-                android:id="@+id/cbDead"
+            <RadioButton
+                android:id="@+id/rbDead"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Dead" />
 
-            <CheckBox
-                android:id="@+id/cbUnknown"
+            <RadioButton
+                android:id="@+id/rbUnknown"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Unknown" />
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/status_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
@@ -162,15 +165,14 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rgStatus" />
+            app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/fresh_green" />
-
-
         <RadioGroup
             android:id="@+id/rgGender"
             android:layout_width="match_parent"
@@ -180,40 +182,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-            <CheckBox
+            <RadioButton
+                android:layout_marginTop="12dp"
+                android:layout_height="24dp"
                 android:id="@+id/rbFemale"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Female" />
 
-            <CheckBox
+            <RadioButton
+                android:layout_marginTop="12dp"
                 android:id="@+id/rbMale"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Male" />
 
-
-            <CheckBox
+            <RadioButton
+                android:layout_marginTop="12dp"
                 android:id="@+id/rbGenderless"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Genderless" />
 
-
-            <CheckBox
-                android:id="@+id/rbgUnknown"
+            <RadioButton
+                android:layout_marginTop="12dp"
+                android:id="@+id/rbUnknownGender"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:text="Unknown" />
 
         </RadioGroup>
-
 
         <LinearLayout
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="80dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -242,7 +245,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Cancel" />
+            android:text="Clear" />
     </LinearLayout>
 
 
