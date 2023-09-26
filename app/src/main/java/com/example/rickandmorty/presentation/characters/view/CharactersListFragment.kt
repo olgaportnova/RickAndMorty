@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.characters
+package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
-import com.example.rickandmorty.presentation.characters.utils.Gender
-import com.example.rickandmorty.presentation.characters.utils.Status
+import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
+import com.example.rickandmorty.presentation.characters.viewmodel.CharacterViewModel
+import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
+import com.example.rickandmorty.domain.characters.model.utils.Gender
+import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch

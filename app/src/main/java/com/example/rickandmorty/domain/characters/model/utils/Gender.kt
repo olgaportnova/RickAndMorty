@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.characters.utils
+package com.example.rickandmorty.domain.characters.model.utils
 
 enum class Gender(val title: String) {
     FEMALE("female"),

@@ -1,32 +1,32 @@
-package com.example.rickandmorty.paging
+package com.example.rickandmorty.paging.characters
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.rickandmorty.data.dto.ApiResponse
-import com.example.rickandmorty.domain.api.CharacterInteractor
-import com.example.rickandmorty.presentation.characters.utils.Gender
-import com.example.rickandmorty.presentation.characters.utils.Status
+import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
+import com.example.rickandmorty.domain.characters.CharacterInteractor
+import com.example.rickandmorty.domain.characters.model.Characters
+import com.example.rickandmorty.domain.characters.model.utils.Gender
+import com.example.rickandmorty.domain.characters.model.utils.Status
 
 class CharactersPagingSource(
     private val interactor: CharacterInteractor,
     private val gender: LiveData<Gender>,
     private val status: LiveData<Status>
-) : PagingSource<Int, ApiResponse.CharacterDto>() {
+) : PagingSource<Int, Characters>() {
 
-    override fun getRefreshKey(state: PagingState<Int, ApiResponse.CharacterDto>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Characters>): Int? {
         return null
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ApiResponse.CharacterDto> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Characters> {
         return try {
             val currentPage = params.key ?: 1
             val currentGender = gender.value ?: Gender.NONE
             val currentStatus = status.value ?: Status.NONE
 
-            val response = interactor.getCharacters(currentPage, currentGender, currentStatus) //
-            val data = response.body()!!.results
-            val responseData = mutableListOf<ApiResponse.CharacterDto>()
+            val data = interactor.getCharacters(currentPage, currentGender, currentStatus) //
+            val responseData = mutableListOf<Characters>()
             responseData.addAll(data)
 
             LoadResult.Page(

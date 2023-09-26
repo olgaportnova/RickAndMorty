@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.characters
+package com.example.rickandmorty.presentation.characters.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.rickandmorty.domain.api.CharacterInteractor
-import com.example.rickandmorty.domain.api.CharacterRepository
-import com.example.rickandmorty.paging.CharactersPagingSource
-import com.example.rickandmorty.presentation.characters.utils.Gender
-import com.example.rickandmorty.presentation.characters.utils.Status
+import com.example.rickandmorty.domain.characters.CharacterInteractor
+import com.example.rickandmorty.paging.characters.CharactersPagingSource
+import com.example.rickandmorty.domain.characters.model.utils.Gender
+import com.example.rickandmorty.domain.characters.model.utils.Status
 
 class CharacterViewModel (
     private val interactor: CharacterInteractor,

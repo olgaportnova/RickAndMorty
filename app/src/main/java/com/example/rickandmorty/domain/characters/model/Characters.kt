@@ -1,4 +1,4 @@
-package com.example.rickandmorty.domain.model
+package com.example.rickandmorty.domain.characters.model
 
 
 data class Characters(

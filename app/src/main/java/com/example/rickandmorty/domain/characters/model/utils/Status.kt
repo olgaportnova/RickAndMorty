@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.characters.utils
+package com.example.rickandmorty.domain.characters.model.utils
 
 enum class Status(val title: String) {
     ALIVE("alive"),

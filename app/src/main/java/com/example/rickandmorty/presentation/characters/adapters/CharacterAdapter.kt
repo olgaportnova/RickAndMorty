@@ -1,6 +1,5 @@
-package com.example.rickandmorty.presentation.characters
+package com.example.rickandmorty.presentation.characters.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,14 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.dto.ApiResponse
+import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
 import com.example.rickandmorty.databinding.ItemViewRecycleViewBinding
-import com.example.rickandmorty.domain.model.Characters
+import com.example.rickandmorty.domain.characters.model.Characters
 
 
-
-
-class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAdapter.ViewHolder>(differCallback)
+class CharacterAdapter:  PagingDataAdapter<Characters, CharacterAdapter.ViewHolder>(differCallback
+)
    {
 
     private lateinit var binding: ItemViewRecycleViewBinding
@@ -35,7 +33,7 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
 
     inner class ViewHolder (private val binding: ItemViewRecycleViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ApiResponse.CharacterDto) {
+        fun bind(item: Characters) {
             binding.apply {
 
                 itemHeader.text = item.name
@@ -56,9 +54,9 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
         }
 
 
-        private var onItemClickListener: ((ApiResponse.CharacterDto) -> Unit)? = null
+        private var onItemClickListener: ((Characters) -> Unit)? = null
 
-        fun setOnItemClickListener(listener: (ApiResponse.CharacterDto) -> Unit) {
+        fun setOnItemClickListener(listener: (Characters) -> Unit) {
             onItemClickListener = listener
         }
     }
@@ -67,12 +65,12 @@ class CharacterAdapter:  PagingDataAdapter<ApiResponse.CharacterDto,CharacterAda
 
 
        companion object {
-           val differCallback = object : DiffUtil.ItemCallback<ApiResponse.CharacterDto>() {
-               override fun areItemsTheSame(oldItem: ApiResponse.CharacterDto, newItem: ApiResponse.CharacterDto): Boolean {
+           val differCallback = object : DiffUtil.ItemCallback<Characters>() {
+               override fun areItemsTheSame(oldItem: Characters, newItem: Characters): Boolean {
                    return oldItem.id == newItem.id
                }
 
-               override fun areContentsTheSame(oldItem: ApiResponse.CharacterDto, newItem: ApiResponse.CharacterDto): Boolean {
+               override fun areContentsTheSame(oldItem: Characters, newItem: Characters): Boolean {
                    return oldItem == newItem
                }
            }

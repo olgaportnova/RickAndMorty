@@ -1,9 +1,7 @@
 package com.example.rickandmorty.di
 
-import com.example.rickandmorty.data.network.CharacterRepositoryImpl
+import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.data.network.RickAndMortyApi
-import com.example.rickandmorty.domain.api.CharacterRepository
-import com.example.rickandmorty.paging.CharactersPagingSource
 import com.google.gson.Gson
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -28,7 +26,8 @@ val dataModule = module {
 
     factory { Gson() }
 
-    factory { CharactersPagingSource(get(), get(), get()) }
+    factory { CharacterConverter() }
+
 
 
 }

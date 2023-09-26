@@ -1,6 +1,6 @@
 package com.example.rickandmorty.data.network
 
-import com.example.rickandmorty.data.dto.ApiResponse
+import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
 import retrofit2.Response
 
 import retrofit2.http.GET
@@ -12,5 +12,5 @@ interface RickAndMortyApi {
         @Query("page") page: Int,
         @Query("gender") gender: String,
         @Query("status") status: String,
-    ): Response<ApiResponse>
+    ): Response<ApiResponseCharacters>
 }
