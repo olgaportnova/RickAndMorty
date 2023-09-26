@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation
+package com.example.rickandmorty.presentation.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
