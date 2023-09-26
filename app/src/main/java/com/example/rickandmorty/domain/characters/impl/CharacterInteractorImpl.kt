@@ -12,8 +12,11 @@ class CharacterInteractorImpl(
     override suspend fun getCharacters(
         page: Int,
         gender: Gender,
-        status: Status
+        status: Status,
+        name:String?,
+        species:String?,
+        type:String?
     ): List<Characters> {
-        return characterRepository.getCharactersList(page, gender.title, status.title)
+        return characterRepository.getCharactersList(page, gender.title, status.title, name, species,type)
     }
 }

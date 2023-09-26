@@ -55,31 +55,33 @@
     </style>
 
     <style name="bt_filter">
-        <item name="android:layout_marginEnd">20dp</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:background">@drawable/rounded_edittext_bg</item>
     </style>
 
-    <style name="edit_text_search">
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
-        <item name="android:layout_width">0dp</item>
+    <style name="bt_search_filter_black">
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:autofillHints"></item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/bt_search_filter_black</item>
+    </style>
+
+    <style name="edit_text_search">
+        <item name="android:layout_weight">4</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/rounded_edittext_bg</item>
-        <item name="android:drawableStart">@drawable/ic_search</item>
-        <item name="android:drawablePadding">10dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:textColorHint">@color/soft_blue</item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
-        <item name="android:paddingEnd">27dp</item>
+        <item name="android:paddingEnd">4dp</item>
         <item name="android:singleLine">true</item>
     </style>
 

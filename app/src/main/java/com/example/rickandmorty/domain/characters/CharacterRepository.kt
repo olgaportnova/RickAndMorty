@@ -7,5 +7,9 @@ interface CharacterRepository {
     suspend fun getCharactersList(
         page: Int,
         gender: String,
-        status: String): List<Characters>
+        status: String,
+        name:String?,
+        species:String?,
+        type:String?
+        ): List<Characters>
 }

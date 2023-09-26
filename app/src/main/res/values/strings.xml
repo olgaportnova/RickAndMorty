@@ -5,9 +5,17 @@
     <string name="characteres">Персонажи</string>
     <string name="episodes">Эпизоды</string>
     <string name="locations">Локации</string>
-<!-- TODO: Remove or change this placeholder text -->
+
+
+    <string name="search_text_category_empty">Set category and type search request</string>
+    <string name="categoty_search_header">Choose parameter for search</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_search">Начните ввод для поиска</string>
+
 
 
 </resources>

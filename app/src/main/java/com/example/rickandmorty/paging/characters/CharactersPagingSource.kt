@@ -12,7 +12,10 @@ import com.example.rickandmorty.domain.characters.model.utils.Status
 class CharactersPagingSource(
     private val interactor: CharacterInteractor,
     private val gender: LiveData<Gender>,
-    private val status: LiveData<Status>
+    private val status: LiveData<Status>,
+    private val name: LiveData<String?>,
+    private val species: LiveData<String?>,
+    private val type: LiveData<String?>,
 ) : PagingSource<Int, Characters>() {
 
     override fun getRefreshKey(state: PagingState<Int, Characters>): Int? {
@@ -24,8 +27,11 @@ class CharactersPagingSource(
             val currentPage = params.key ?: 1
             val currentGender = gender.value ?: Gender.NONE
             val currentStatus = status.value ?: Status.NONE
+            val searchName = name.value
+            val searchSpecies = species.value
+            val searchType = type.value
 
-            val data = interactor.getCharacters(currentPage, currentGender, currentStatus) //
+            val data = interactor.getCharacters(currentPage, currentGender, currentStatus, searchName, searchSpecies, searchType)
             val responseData = mutableListOf<Characters>()
             responseData.addAll(data)
 

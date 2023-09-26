@@ -16,7 +16,8 @@ val interactorModule = module {
 
     factory { Gson() }
 
-    factory { CharactersPagingSource(get(), get(), get()) }
+    factory { CharactersPagingSource(get(), get(), get(), get(), get(), get())
+    }
 
 
 }

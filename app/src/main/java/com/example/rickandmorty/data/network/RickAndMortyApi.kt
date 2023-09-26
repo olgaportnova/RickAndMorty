@@ -12,5 +12,8 @@ interface RickAndMortyApi {
         @Query("page") page: Int,
         @Query("gender") gender: String,
         @Query("status") status: String,
+        @Query("name") name: String?,
+        @Query("species") species: String?,
+        @Query("type") type: String?
     ): Response<ApiResponseCharacters>
 }
