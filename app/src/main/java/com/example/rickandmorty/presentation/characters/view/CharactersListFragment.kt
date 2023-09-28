@@ -12,17 +12,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.MotionEvent
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
+import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
-import com.example.rickandmorty.presentation.characters.viewmodel.CharacterViewModel
 import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
+import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import com.example.rickandmorty.utils.SearchCategories
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -30,15 +33,12 @@ class CharactersListFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersListBinding
     private lateinit var characterAdapter: CharacterAdapter
-    private val viewModel: CharacterViewModel by activityViewModel()
+    private val viewModel: CharactersViewModel by activityViewModel()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var genderState : Gender = Gender.NONE
     private var statusState : Status = Status.NONE
     private val searchCategories = arrayOf(SearchCategories.NAME,SearchCategories.SPECIES,SearchCategories.TYPE)
     private var isSearchCategorySelected: Boolean = false
-    private var isSearchFieldEmpty: Boolean = false
-
-
 
 
 
@@ -56,6 +56,20 @@ class CharactersListFragment : Fragment() {
         initClickListeners()
         initSpinnerSearchCategories()
         observeCharacterList()
+
+
+        lifecycleScope.launch {
+            viewModel.charactersPagingData.collectLatest { pagingData ->
+                Log.d("tag123", "Received paging data: $pagingData")
+                characterAdapter.submitData(lifecycle, pagingData)
+
+            }
+        }
+
+
+
+
+
     }
 
     private fun initSpinnerSearchCategories() {
@@ -66,7 +80,6 @@ class CharactersListFragment : Fragment() {
         binding.spinnerCategory.adapter = spinnerAdapter
         binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategory = parent?.getItemAtPosition(position).toString()
                 isSearchCategorySelected = true
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -113,7 +126,7 @@ class CharactersListFragment : Fragment() {
 
 
         binding.btnApply.setOnClickListener {
-            viewModel.updateCharactersListWithFilters(genderState, statusState)
+       //     viewModel.selectGender(genderState)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             refreshCharacterList()
         }
@@ -124,7 +137,7 @@ class CharactersListFragment : Fragment() {
             if (!isSearchCategorySelected || searchText.isEmpty()) {
                 Toast.makeText(context, "Set category and type search request",Toast.LENGTH_SHORT). show()
             } else {
-            viewModel.updateCharactersListWithSearch(selectedCategory, searchText)
+  //          viewModel.updateCharactersListWithSearch(selectedCategory, searchText)
             refreshCharacterList() }
         }
 
@@ -134,7 +147,7 @@ class CharactersListFragment : Fragment() {
                 val drawableEnd = binding.inputTextSearch.compoundDrawablesRelative[2]
                 if (drawableEnd != null && event.rawX >= binding.inputTextSearch.right - drawableEnd.bounds.width()) {
                     binding.inputTextSearch.text?.clear()
-                    viewModel.updateCharactersListWithSearch(null,null)
+   //                 viewModel.updateCharactersListWithSearch(null,null)
                     refreshCharacterList()
                 }
             }
@@ -143,7 +156,7 @@ class CharactersListFragment : Fragment() {
 
 
         binding.btnCancel.setOnClickListener {
-            viewModel.updateCharactersListWithFilters(Gender.NONE, Status.NONE)
+  //          viewModel.updateCharactersListWithFilters(Gender.NONE, Status.NONE)
             binding.rbMale.isChecked=false
             binding.rbFemale.isChecked=false
             binding.rbGenderless.isChecked=false
@@ -190,23 +203,23 @@ class CharactersListFragment : Fragment() {
 
     private fun observeCharacterList() {
         lifecycleScope.launch {
-            viewModel.charactersList.collect {
-                characterAdapter.submitData(it)
-            }
+//            viewModel.charactersList.collect {
+//                characterAdapter.submitData(it)
+//            }
         }
     }
 
     private fun refreshCharacterList() {
         lifecycleScope.launch {
-            viewModel.charactersList.collect {
-                characterAdapter.submitData(it)
-            }
+//            viewModel.charactersList.collect {
+//                characterAdapter.submitData(it)
+//            }
         }
     }
 
     private fun clearText() {
         binding.inputTextSearch.text.clear()
-        viewModel.updateCharactersListWithSearch("clear all", null)
+ //       viewModel.updateCharactersListWithSearch("clear all", null)
     }
 
 
