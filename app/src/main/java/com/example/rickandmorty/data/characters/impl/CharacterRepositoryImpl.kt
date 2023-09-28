@@ -1,3 +1,16 @@
+package com.example.rickandmorty.data.characters.impl
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.example.rickandmorty.data.characters.db.dao.CharactersDao
+import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
+import com.example.rickandmorty.data.characters.utils.CharacterConverter
+import com.example.rickandmorty.data.db.AppDatabase
+import com.example.rickandmorty.data.network.CharacterRemoteMediator
+import com.example.rickandmorty.data.network.RickAndMortyApi
+import com.example.rickandmorty.domain.characters.CharacterRepository
+
 //package com.example.rickandmorty.data.characters.impl
 //
 //import android.util.Log
@@ -54,3 +67,24 @@
 //        Log.d("CharactersRepositoryImpl", "Paging Data:\n$items")
 //    }
 //}
+
+
+@OptIn(ExperimentalPagingApi::class)
+class CharactersRepositoryImpl(
+    private val dao: CharactersDao,
+    private val api: RickAndMortyApi,
+    private val characterConverter: CharacterConverter,
+    private val appDatabase: AppDatabase
+) : CharacterRepository {
+    override fun createPager(): Pager<Int, CharactersEntity> {
+        val mediator = CharacterRemoteMediator(appDatabase, api, characterConverter)
+
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            remoteMediator = mediator,
+            pagingSourceFactory = { dao.getPagingSourceCharacters(null, null, null, null, null) }
+        )
+    }
+
+    // Другие методы репозитория, если они есть
+}

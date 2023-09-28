@@ -1,20 +1,14 @@
-//package com.example.rickandmorty.domain.characters.impl
-//
-//import androidx.paging.PagingData
-//import com.example.rickandmorty.domain.characters.CharacterInteractor
-//import com.example.rickandmorty.domain.characters.CharacterRepository
-//import com.example.rickandmorty.domain.characters.model.Characters
-//import com.example.rickandmorty.domain.characters.model.utils.Gender
-//import com.example.rickandmorty.domain.characters.model.utils.Status
-//import kotlinx.coroutines.flow.Flow
-//
-//class CharacterInteractorImpl(
-//    private val characterRepository: CharacterRepository
-//) : CharacterInteractor {
-//    override fun getCharactersPaged(
-//        gender: Gender?
-//    ): Flow<PagingData<Characters>> {
-//        return characterRepository.getCharactersPaged(gender?.title)
-//    }
-//
-//}
+package com.example.rickandmorty.domain.characters.impl
+
+import androidx.paging.Pager
+import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
+import com.example.rickandmorty.domain.characters.CharacterInteractor
+import com.example.rickandmorty.domain.characters.CharacterRepository
+
+class CharacterInteractorImpl(
+    private val repository: CharacterRepository
+) : CharacterInteractor {
+    override fun createPager(): Pager<Int, CharactersEntity> {
+        return repository.createPager()
+    }
+}
