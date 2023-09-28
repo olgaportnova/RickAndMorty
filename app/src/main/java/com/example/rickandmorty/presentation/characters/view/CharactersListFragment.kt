@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.MotionEvent
+import androidx.navigation.fragment.findNavController
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
 import com.example.rickandmorty.domain.characters.model.Characters
@@ -55,21 +56,54 @@ class CharactersListFragment : Fragment() {
         initUI()
         initClickListeners()
         initSpinnerSearchCategories()
-        observeCharacterList()
 
+
+        getListData()
 
         lifecycleScope.launch {
-            viewModel.charactersPagingData.collectLatest { pagingData ->
-                Log.d("tag123", "Received paging data: $pagingData")
-                characterAdapter.submitData(lifecycle, pagingData)
+            viewModel.state.collect {
+                statusState = it.statusState
+                genderState = it.genderState
 
             }
+
+
+        }
+        binding.rgGender.setOnCheckedChangeListener { radioGroup, idThatSelected ->
+            genderState =
+                when (idThatSelected) {
+                    binding.rbFemale.id -> Gender.FEMALE
+                    binding.rbMale.id -> Gender.MALE
+                    binding.rbUnknownGender.id -> Gender.UNKNOWN
+                    binding.rbGenderless.id -> Gender.GENDERLESS
+                    else -> Gender.NONE
+                }
+
+        }
+
+
+        binding.btnCancel.setOnClickListener {
+            viewModel.setStatusState(Status.NONE)
+            viewModel.setGenderState(Gender.NONE)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
         }
 
 
 
 
 
+
+
+
+    }
+
+        private fun getListData() {
+        lifecycleScope.launch {
+            viewModel.getListData().collectLatest {
+                characterAdapter.submitData(it)
+            }
+        }
     }
 
     private fun initSpinnerSearchCategories() {
@@ -115,9 +149,7 @@ class CharactersListFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() {
 
-        binding.inputTextSearch.setOnClickListener {
-            clearText()
-        }
+
 
         binding.btFilter.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -126,9 +158,9 @@ class CharactersListFragment : Fragment() {
 
 
         binding.btnApply.setOnClickListener {
-       //     viewModel.selectGender(genderState)
+            viewModel.setGenderState(genderState)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            refreshCharacterList()
+
         }
 
         binding.btSearch.setOnClickListener {
@@ -138,7 +170,7 @@ class CharactersListFragment : Fragment() {
                 Toast.makeText(context, "Set category and type search request",Toast.LENGTH_SHORT). show()
             } else {
   //          viewModel.updateCharactersListWithSearch(selectedCategory, searchText)
-            refreshCharacterList() }
+            }
         }
 
 
@@ -148,79 +180,24 @@ class CharactersListFragment : Fragment() {
                 if (drawableEnd != null && event.rawX >= binding.inputTextSearch.right - drawableEnd.bounds.width()) {
                     binding.inputTextSearch.text?.clear()
    //                 viewModel.updateCharactersListWithSearch(null,null)
-                    refreshCharacterList()
                 }
             }
             false
         }
 
 
-        binding.btnCancel.setOnClickListener {
-  //          viewModel.updateCharactersListWithFilters(Gender.NONE, Status.NONE)
-            binding.rbMale.isChecked=false
-            binding.rbFemale.isChecked=false
-            binding.rbGenderless.isChecked=false
-            binding.rbUnknownGender.isChecked=false
-            binding.rbAlive.isChecked=false
-            binding.rbDead.isChecked=false
-            binding.rbUnknown.isChecked=false
-            refreshCharacterList()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
 
 
-        binding.rbMale.setOnCheckedChangeListener { _, isChecked ->
-           if (isChecked) genderState = Gender.MALE
-        }
 
-        binding.rbFemale.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) genderState = Gender.FEMALE
-        }
 
-        binding.rbGenderless.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) genderState = Gender.GENDERLESS
-        }
 
-        binding.rbUnknownGender.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) genderState = Gender.UNKNOWN
-        }
-
-        binding.rbAlive.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) statusState = Status.ALIVE
-        }
-
-        binding.rbDead.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) statusState = Status.DEAD
-        }
-
-        binding.rbUnknown.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) statusState = Status.UNKNOWN
-        }
     }
 
 
 
 
-    private fun observeCharacterList() {
-        lifecycleScope.launch {
-//            viewModel.charactersList.collect {
-//                characterAdapter.submitData(it)
-//            }
-        }
-    }
 
-    private fun refreshCharacterList() {
-        lifecycleScope.launch {
-//            viewModel.charactersList.collect {
-//                characterAdapter.submitData(it)
-//            }
-        }
-    }
-
-    private fun clearText() {
-        binding.inputTextSearch.text.clear()
- //       viewModel.updateCharactersListWithSearch("clear all", null)
-    }
 
 
 }
+

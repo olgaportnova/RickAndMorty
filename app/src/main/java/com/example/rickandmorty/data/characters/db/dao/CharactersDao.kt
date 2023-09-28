@@ -21,7 +21,7 @@ interface CharactersDao {
 
 """
     )
-    fun getPagingSourceCharacters(
+     fun getPagingSourceCharacters(
         gender: String?,
         status: String?,
         name: String?,
@@ -30,7 +30,7 @@ interface CharactersDao {
     ): PagingSource<Int, CharactersEntity>
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun save(characters: List<CharactersEntity>)
 
 }

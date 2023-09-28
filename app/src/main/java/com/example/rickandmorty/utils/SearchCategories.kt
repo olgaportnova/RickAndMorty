@@ -1,9 +1,10 @@
 package com.example.rickandmorty.utils
 
-object SearchCategories {
-    const val NAME = "Name"
-    const val SPECIES = "Species"
-    const val TYPE = "Type"
-}
 
+enum class SearchCategories(val title: String) {
+    NAME("Name"),
+    SPECIES("Species"),
+    TYPE("Unknown"),
+    EMPTY("")
+}
 

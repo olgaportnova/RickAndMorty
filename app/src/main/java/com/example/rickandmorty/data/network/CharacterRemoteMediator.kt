@@ -8,6 +8,7 @@ import androidx.room.withTransaction
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.data.db.AppDatabase
+import com.example.rickandmorty.domain.characters.model.utils.Gender
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -15,7 +16,8 @@ import java.io.IOException
 class CharacterRemoteMediator(
     private val appDatabase: AppDatabase,
     private val api: RickAndMortyApi,
-    private val characterConverter: CharacterConverter
+    private val characterConverter: CharacterConverter,
+    private val gender: String
 ) : RemoteMediator<Int, CharactersEntity>() {
 
    // var gender: String? = null
@@ -41,7 +43,7 @@ class CharacterRemoteMediator(
             }
             val response = api.getCharacters(
                 page = loadKey,
-                "",
+                gender,
            //     gender ?: "",
                 "",
                 null,
@@ -54,7 +56,8 @@ class CharacterRemoteMediator(
               //  loadKey = loadKey+
                 }
                 val charactersEntity = data?.map { characterConverter.dtoToEntity(it) }
-                appDatabase.charactersDao().save(charactersEntity!!)
+                if (charactersEntity?.isNotEmpty() == true) {
+                appDatabase.charactersDao().save(charactersEntity)}
             }
             MediatorResult.Success(
                 endOfPaginationReached = data?.isEmpty() == true

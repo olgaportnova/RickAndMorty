@@ -9,6 +9,8 @@ import com.example.rickandmorty.data.db.AppDatabase
 import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,10 +22,18 @@ const val BASE_URL = "https://rickandmortyapi.com/"
 @OptIn(ExperimentalPagingApi::class)
 val dataModule = module {
 
+    val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
+
+    val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .build()
+
 
     single<RickAndMortyApi> {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RickAndMortyApi::class.java)
@@ -40,25 +50,25 @@ val dataModule = module {
     factory { Gson() }
 
     factory { CharacterConverter() }
-
-    single {
-        CharacterRemoteMediator(get(), get(), get())
-    }
-
-    single {
-        Pager(
-            config = PagingConfig(pageSize = 20),
-            remoteMediator = CharacterRemoteMediator(
-                get(),
-                get(),
-                get()
-            ),
-            pagingSourceFactory = {
-                get<AppDatabase>().charactersDao()
-                    .getPagingSourceCharacters(null, null, null, null, null)
-            }
-        )
-    }
+//
+//    single {
+//        CharacterRemoteMediator(get(), get(), get())
+//    }
+//
+//    single {
+//        Pager(
+//            config = PagingConfig(pageSize = 20),
+//            remoteMediator = CharacterRemoteMediator(
+//                get(),
+//                get(),
+//                get()
+//            ),
+//            pagingSourceFactory = {
+//                get<AppDatabase>().charactersDao()
+//                    .getPagingSourceCharacters(null, null, null, null, null)
+//            }
+//        )
+//    }
 
 
 
