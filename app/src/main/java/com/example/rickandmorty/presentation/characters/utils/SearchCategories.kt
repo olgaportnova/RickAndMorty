@@ -1,10 +1,9 @@
-package com.example.rickandmorty.utils
+package com.example.rickandmorty.presentation.characters.utils
 
 
 enum class SearchCategories(val title: String) {
     NAME("Name"),
     SPECIES("Species"),
-    TYPE("Unknown"),
-    EMPTY("")
+    TYPE("Unknown")
 }
 

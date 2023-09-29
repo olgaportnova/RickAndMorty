@@ -21,7 +21,7 @@ import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapte
 import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
-import com.example.rickandmorty.utils.SearchCategories
+import com.example.rickandmorty.presentation.characters.utils.SearchCategories
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,8 +35,7 @@ class CharactersListFragment : Fragment() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var genderState : Gender = Gender.NONE
     private var statusState : Status = Status.NONE
-    private val searchCategories = arrayOf(SearchCategories.NAME,SearchCategories.SPECIES,SearchCategories.TYPE)
-    private var isSearchCategorySelected: Boolean = false
+    private var searchCategory: SearchCategories = SearchCategories.NAME
 
 
     override fun onCreateView(
@@ -57,13 +56,11 @@ class CharactersListFragment : Fragment() {
         restorePreviousState()
 
     }
-
     private fun initUI() {
         initAdapter()
         initBottomSheet()
         initSpinner()
     }
-
     private fun initAdapter() {
         characterAdapter = CharacterAdapter()
         binding.recyclerViewItems.apply {
@@ -80,7 +77,7 @@ class CharactersListFragment : Fragment() {
 
     }
     private fun initSpinner() {
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, searchCategories)
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategories.values())
         spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
         binding.spinnerCategory.adapter = spinnerAdapter
     }
@@ -101,12 +98,11 @@ class CharactersListFragment : Fragment() {
         }
 
         binding.btSearch.setOnClickListener {
-            val searchText = binding.inputTextSearch.text.toString()
-            val selectedCategory = binding.spinnerCategory.selectedItem.toString()
-            if (!isSearchCategorySelected || searchText.isEmpty()) {
-                Toast.makeText(context, "Set category and type search request",Toast.LENGTH_SHORT). show()
+            val searchText = binding.inputTextSearch.text.toString().toLowerCase()
+            if (searchText.isEmpty()) {
+                Toast.makeText(context, "Type search request",Toast.LENGTH_SHORT). show()
             } else {
-                //          viewModel.updateCharactersListWithSearch(selectedCategory, searchText)
+                viewModel.updateCharactersListWithSearch(searchCategory, searchText)
             }
         }
 
@@ -115,7 +111,7 @@ class CharactersListFragment : Fragment() {
                 val drawableEnd = binding.inputTextSearch.compoundDrawablesRelative[2]
                 if (drawableEnd != null && event.rawX >= binding.inputTextSearch.right - drawableEnd.bounds.width()) {
                     binding.inputTextSearch.text?.clear()
-                    //                 viewModel.updateCharactersListWithSearch(null,null)
+                    viewModel.сlearTextSearchField()
                 }
             }
             false
@@ -123,10 +119,9 @@ class CharactersListFragment : Fragment() {
 
         binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                isSearchCategorySelected = true
+                searchCategory = SearchCategories.values()[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                isSearchCategorySelected = false
             }
         }
 
