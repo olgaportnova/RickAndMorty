@@ -49,6 +49,9 @@ class CharactersListFragment : Fragment() {
     ): View? {
         binding = FragmentCharactersListBinding.inflate(layoutInflater, container, false)
         return binding.root
+
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,15 +63,8 @@ class CharactersListFragment : Fragment() {
 
         getListData()
 
-        lifecycleScope.launch {
-            viewModel.state.collect {
-                statusState = it.statusState
-                genderState = it.genderState
-
-            }
 
 
-        }
         binding.rgGender.setOnCheckedChangeListener { radioGroup, idThatSelected ->
             genderState =
                 when (idThatSelected) {
@@ -78,13 +74,24 @@ class CharactersListFragment : Fragment() {
                     binding.rbGenderless.id -> Gender.GENDERLESS
                     else -> Gender.NONE
                 }
+        }
 
+        binding.rgStatus.setOnCheckedChangeListener { radioGroup, idThatSelected ->
+            statusState =
+                when (idThatSelected) {
+                    binding.rbAlive.id -> Status.ALIVE
+                    binding.rbDead.id -> Status.DEAD
+                    binding.rbUnknown.id -> Status.UNKNOWN
+                    else -> Status.NONE
+                }
         }
 
 
         binding.btnCancel.setOnClickListener {
             viewModel.setStatusState(Status.NONE)
             viewModel.setGenderState(Gender.NONE)
+            binding.rgGender.clearCheck()
+            binding.rgStatus.clearCheck()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         }
@@ -98,7 +105,37 @@ class CharactersListFragment : Fragment() {
 
     }
 
-        private fun getListData() {
+    private fun updateRadioGroupGenderThatLastData(genderState: Gender) {
+
+            binding.rgGender.check(
+                when (genderState) {
+                    Gender.MALE -> binding.rbMale.id
+                    Gender.FEMALE -> binding.rbFemale.id
+                    Gender.GENDERLESS -> binding.rbGenderless.id
+                    Gender.UNKNOWN -> binding.rbUnknownGender.id
+                    else -> -1
+                }
+            )
+
+
+
+    }
+
+    private fun updateRadioGroupStatusThatLastData(statusState: Status) {
+
+            binding.rgStatus.check(
+                when (statusState) {
+                    Status.ALIVE -> binding.rbAlive.id
+                    Status.DEAD -> binding.rbDead.id
+                    Status.UNKNOWN -> binding.rbUnknown.id
+                    else -> -1
+                }
+            )
+
+
+    }
+
+    private fun getListData() {
         lifecycleScope.launch {
             viewModel.getListData().collectLatest {
                 characterAdapter.submitData(it)
@@ -153,12 +190,17 @@ class CharactersListFragment : Fragment() {
 
         binding.btFilter.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            updateRadioGroupStatusThatLastData(statusState)
+            updateRadioGroupGenderThatLastData(genderState)
         }
 
 
 
         binding.btnApply.setOnClickListener {
+            var a = genderState
+            var b = statusState
             viewModel.setGenderState(genderState)
+            viewModel.setStatusState(statusState)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         }

@@ -6,5 +6,10 @@ import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 
 interface CharacterInteractor {
-    fun createPager(gender: Gender?): Pager<Int, CharactersEntity>
+    fun getCharacters(gender: Gender?,
+                      status: Status?,
+                      name:String?,
+                      species:String?,
+                      type:String?
+    ): Pager<Int, CharactersEntity>
 }

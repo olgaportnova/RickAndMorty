@@ -19,23 +19,49 @@ class CharactersRepositoryImpl(
     private val characterConverter: CharacterConverter,
     private val appDatabase: AppDatabase
 ) : CharacterRepository {
-    override fun createPager(
-        gender: String
+    override fun getCharacters(
+        gender: String,
+        status: String,
+        name: String?,
+        species: String?,
+        type: String?
     ): Pager<Int, CharactersEntity> {
 
 
-        val mediator = CharacterRemoteMediator(appDatabase, api, characterConverter, gender)
-
+        val mediator = CharacterRemoteMediator(
+            appDatabase,
+            api,
+            characterConverter,
+            gender,
+            status,
+            name,
+            species,
+            type
+        )
         var genderForRoom: String? = gender
-        if(gender == ""){
-          genderForRoom = null
+        var statusForRoom: String? = status
+        if (gender == "") {
+            genderForRoom = null
         }
+        if (status == "") {
+            statusForRoom = null
+        }
+
+
         return Pager(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
             remoteMediator = mediator,
-            pagingSourceFactory = { dao.getPagingSourceCharacters(genderForRoom, null, null, null, null) }
+            pagingSourceFactory = {
+                dao.getPagingSourceCharacters(
+                    genderForRoom,
+                    statusForRoom,
+                    name,
+                    species,
+                    type
+                )
+            }
         )
     }
 
-    // Другие методы репозитория, если они есть
+
 }
