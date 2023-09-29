@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
-    
-    // bottom navigation  menu
+
+    // bottom navigation menu
     <string name="characteres">Персонажи</string>
     <string name="episodes">Эпизоды</string>
     <string name="locations">Локации</string>
@@ -11,15 +11,11 @@
     <string name="categoty_search_header">Choose parameter for search</string>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_search">Начните ввод для поиска</string>
 
     <string name="placeholder_text">No results on your search request, but as Rick says “I know that new situations can be intimidating. You’re lookin’ around and it’s all scary and different, but y’know, meeting them head-on, charging into ‘em like a bull — that’s how we grow as people.”</string>
-
-
-
 
 
 </resources>

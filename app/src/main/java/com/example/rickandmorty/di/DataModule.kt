@@ -5,7 +5,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
+import com.example.rickandmorty.data.characters.utils.EpisodesConverter
 import com.example.rickandmorty.data.db.AppDatabase
+import com.example.rickandmorty.data.db.AppDatabase.Companion.MIGRATION_1_2
 import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.google.gson.Gson
@@ -42,14 +44,18 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "rick_and_morty_db")
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
     single { get<AppDatabase>().charactersDao() }
+    single { get<AppDatabase>().episodeDao() }
 
     factory { Gson() }
 
     factory { CharacterConverter() }
+    factory { EpisodesConverter() }
+
+
 //
 //    single {
 //        CharacterRemoteMediator(get(), get(), get())

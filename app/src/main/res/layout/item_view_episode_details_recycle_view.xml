@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/episode_item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/flexbox_stroke_layout"
+    android:backgroundTint="@color/peach">
+
+
+    <TextView
+        android:id="@+id/episode_name"
+        android:textSize="20sp"
+        android:text="The Ricklantis Mixup The Ricklantis Mixup"
+        style="@style/episode_details_items" />
+
+    <TextView
+        android:id="@+id/episode_number"
+        android:textSize="16sp"
+        style="@style/episode_details_items"
+        android:text="Episode number # " />
+
+    <TextView
+        android:id="@+id/episode_air_date"
+        android:textSize="14sp"
+        style="@style/episode_details_items"
+        android:text="Air date " />
+
+
+
+</LinearLayout>

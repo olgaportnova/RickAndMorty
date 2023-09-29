@@ -1,9 +1,11 @@
 package com.example.rickandmorty.data.network
 
 import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
+import com.example.rickandmorty.data.episodes.dto.EpisodesDto
 import retrofit2.Response
 
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RickAndMortyApi {
@@ -16,4 +18,20 @@ interface RickAndMortyApi {
         @Query("species") species: String?,
         @Query("type") type: String?
     ): Response<ApiResponseCharacters>
+
+
+    @GET("character/{id}")
+    suspend fun getCharacter(@Path("id") id: Int): Response<ApiResponseCharacters.CharacterDto>
+
+
+    @GET("api/episode")
+    suspend fun getEpisodes(
+        @Query("name") name: String?,
+        @Query("episode") episode: String?,
+    ): Response<List<EpisodesDto>>
+
+
+    @GET("episode/{id}")
+    suspend fun getEpisode(@Path("id") id: Int): Response<EpisodesDto>
+
 }

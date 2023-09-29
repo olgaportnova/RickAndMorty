@@ -30,8 +30,14 @@ interface CharactersDao {
     ): PagingSource<Int, CharactersEntity>
 
 
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun save(characters: List<CharactersEntity>)
+
+
+    @Query("SELECT * FROM characters WHERE id = :characterId")
+    fun getCharacterById(characterId: Int): CharactersEntity
+
 
 }
 

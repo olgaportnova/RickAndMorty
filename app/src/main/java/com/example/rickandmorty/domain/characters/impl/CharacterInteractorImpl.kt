@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
 import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.characters.CharacterRepository
+import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 
@@ -20,5 +21,9 @@ class CharacterInteractorImpl(
         val genderString = gender?.title ?: ""
         val statusString = status?.title ?: ""
         return repository.getCharacters(genderString, statusString, name, species, type)
+    }
+
+    override fun getCharacterById(id:Int) : Characters {
+       return repository.getCharacterById(id)
     }
 }

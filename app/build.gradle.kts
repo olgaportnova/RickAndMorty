@@ -4,6 +4,7 @@ plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -96,12 +97,17 @@ android {
         androidTestImplementation("androidx.test.ext:junit:1.1.5")
         androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+
         // AutofitTextView
         implementation("me.grantland:autofittextview:0.2.1")
 
         //Paging 
         implementation("androidx.paging:paging-common-ktx:3.2.1")
         implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+
+        //Flexbox
+        implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
 
 
 

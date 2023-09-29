@@ -10,9 +10,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
@@ -26,7 +27,6 @@ import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import com.example.rickandmorty.presentation.characters.utils.SearchCategories
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -67,6 +67,24 @@ class CharactersListFragment : Fragment() {
     }
     private fun initAdapter() {
         characterAdapter = CharacterAdapter()
+
+
+
+        characterAdapter.onItemClickListener = { character ->
+
+            val detailsFragment = CharactersDetailsFragment.newInstance(
+                character)
+            parentFragmentManager.commit {
+                replace(
+                    R.id.container_view,
+                    detailsFragment,
+                    "TAG"
+                )
+     //           addToBackStack(null)
+            }
+
+
+        }
         binding.recyclerViewItems.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             addItemDecoration(GridItemDecorator(2, 10, 10))

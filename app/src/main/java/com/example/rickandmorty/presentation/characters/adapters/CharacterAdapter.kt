@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
 import com.example.rickandmorty.databinding.ItemViewRecycleViewBinding
 import com.example.rickandmorty.domain.characters.model.Characters
 
@@ -19,6 +18,8 @@ class CharacterAdapter:  PagingDataAdapter<Characters, CharacterAdapter.ViewHold
 
     private lateinit var binding: ItemViewRecycleViewBinding
     private lateinit var context: Context
+
+       var onItemClickListener: ((Characters) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -47,14 +48,11 @@ class CharacterAdapter:  PagingDataAdapter<Characters, CharacterAdapter.ViewHold
             }
 
             binding.root.setOnClickListener {
-                onItemClickListener?.let {
-                    it(item)
-                }
+                onItemClickListener?.invoke(item)
             }
         }
 
 
-        private var onItemClickListener: ((Characters) -> Unit)? = null
 
         fun setOnItemClickListener(listener: (Characters) -> Unit) {
             onItemClickListener = listener

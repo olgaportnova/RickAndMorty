@@ -10,9 +10,14 @@ import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
+import com.example.rickandmorty.domain.episodes.EpisodeInteractor
+import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
 import com.example.rickandmorty.presentation.characters.utils.SearchCategories
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,11 +25,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class CharactersViewModel (
     private val characterConverter: CharacterConverter,
-    private val characterInteractor: CharacterInteractor
+    private val characterInteractor: CharacterInteractor,
+    private val episodeInteractor: EpisodeInteractor
 ): ViewModel() {
 
     private val _state = MutableStateFlow(CharacterState())
@@ -90,6 +97,20 @@ class CharactersViewModel (
        _speciesForSearch.value = ""
         _typeForSearch.value = ""
     }
+
+    suspend fun getEpisodes(listOfId: List<Int>) : List<Episodes> {
+        val characterList = withContext(Dispatchers.Default) {
+            val deferredList = listOfId.map { id ->
+                async {
+                    episodeInteractor.getEpisodeById(id)
+                }
+            }
+            val resultList = deferredList.awaitAll()
+            resultList.filterNotNull() // Удаление null значений из списка
+        }
+        return characterList
+    }
+
 
 
 }

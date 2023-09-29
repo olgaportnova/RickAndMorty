@@ -1,6 +1,9 @@
 package com.example.rickandmorty.domain.characters.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Characters(
     val id: Int,
     val name: String,
@@ -14,15 +17,16 @@ data class Characters(
     val episode: List<String>,
     val url: String,
     val created: String
-)
-
+) : Parcelable
+@Parcelize
 data class Origin(
     val name: String,
     val url: String
-)
+): Parcelable
 
+@Parcelize
 data class Location(
     val name: String,
     val url: String
-)
+): Parcelable
 

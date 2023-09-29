@@ -6,6 +6,7 @@ import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.Location
 import com.example.rickandmorty.domain.characters.model.Origin
 
+
 class CharacterConverter {
 
     fun map(characterDto: ApiResponseCharacters.CharacterDto): Characters {

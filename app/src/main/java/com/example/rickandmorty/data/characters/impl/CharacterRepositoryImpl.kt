@@ -10,7 +10,7 @@ import com.example.rickandmorty.data.db.AppDatabase
 import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.example.rickandmorty.domain.characters.CharacterRepository
-import com.example.rickandmorty.domain.characters.model.utils.Gender
+import com.example.rickandmorty.domain.characters.model.Characters
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRepositoryImpl(
@@ -61,6 +61,12 @@ class CharactersRepositoryImpl(
                 )
             }
         )
+    }
+
+
+    override fun getCharacterById(id:Int): Characters {
+        return characterConverter.map(dao.getCharacterById(id))
+
     }
 
 
