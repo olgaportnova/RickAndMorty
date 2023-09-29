@@ -1,6 +1,5 @@
 package com.example.rickandmorty.presentation.characters.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -49,9 +48,7 @@ class CharactersViewModel (
 
 
     init {
-
         viewModelScope.launch {
-
             getListData().collect { it ->
                 _state.value = _state.value.copy(
                     characters = it
@@ -72,16 +69,14 @@ class CharactersViewModel (
                 .cachedIn(viewModelScope)
         }
     }
-
-
     fun setStatusState(status: Status) {
         _statusStateFlow.value = status
+        _state.value = _state.value.copy(isFilter = status != Status.NONE)
     }
-
     fun setGenderState(gender: Gender) {
         _genderStateFlow.value = gender
+        _state.value = _state.value.copy(isFilter = gender != Gender.NONE)
     }
-
     fun updateCharactersListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategories.NAME->_nameForSearch.value = searchText
@@ -90,7 +85,6 @@ class CharactersViewModel (
             else -> {}
         }
     }
-
     fun сlearTextSearchField() {
        _nameForSearch.value = ""
        _speciesForSearch.value = ""

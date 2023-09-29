@@ -10,8 +10,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
@@ -24,6 +26,7 @@ import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import com.example.rickandmorty.presentation.characters.utils.SearchCategories
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -43,6 +46,7 @@ class CharactersListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCharactersListBinding.inflate(layoutInflater, container, false)
+        binding.placeholder.visibility = View.GONE
         return binding.root
 
     }
@@ -68,6 +72,8 @@ class CharactersListFragment : Fragment() {
             addItemDecoration(GridItemDecorator(2, 10, 10))
             adapter =
                 characterAdapter.withLoadStateFooter(LoadMoreAdapter { characterAdapter.retry() })
+
+
         }
     }
     private fun initBottomSheet() {
@@ -157,6 +163,50 @@ class CharactersListFragment : Fragment() {
 
     }
     private fun observeData() {
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { characterState ->
+                if (characterState.isFilter) {
+                    binding.btFilter.setBackgroundResource(R.drawable.bt_search_filter_selected)
+                } else {
+                    binding.btFilter.setBackgroundResource(R.drawable.bt_search_filter_black)
+                }
+            }
+        }
+
+        characterAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                binding.placeholder.visibility = View.GONE
+                 binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+
+                if (characterAdapter.itemCount == 0 && loadState.refresh is LoadState.NotLoading) {
+                    binding.recyclerViewItems.visibility = View.GONE
+                    binding.placeholder.visibility = View.VISIBLE
+                } else {
+                    binding.recyclerViewItems.visibility = View.VISIBLE
+                    binding.placeholder.visibility = View.GONE
+                }
+
+                // Обработка ошибок загрузки
+                val errorState = loadState.refresh as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(
+                        context,
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+        }
+
+
+
+
         lifecycleScope.launch {
             viewModel.getListData().collectLatest {
                 characterAdapter.submitData(it)
