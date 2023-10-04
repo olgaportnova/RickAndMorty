@@ -13,6 +13,6 @@ interface CharacterRepository {
                       type: String?): Pager<Int, CharactersEntity>
 
 
-    fun getCharacterById(id:Int) : Characters
+    suspend fun getCharacterByIdFromApi(id:Int) : Characters?
 
 }

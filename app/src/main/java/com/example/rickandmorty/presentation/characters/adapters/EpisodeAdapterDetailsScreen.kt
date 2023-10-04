@@ -18,8 +18,8 @@ class EpisodeAdapterDetailsScreen(
         fun bind(episode: Episodes) {
             binding.apply {
                 episodeName.text = episode.name
-                episodeNumber.text = "Номер эпизода - ${episode.episode} -"
-                episodeAirDate.text = "Дата релиза - ${episode.air_date} -"
+                episodeNumber.text = "Episode # - ${episode.episode} -"
+                episodeAirDate.text = "Air date - ${episode.air_date} -"
 
             }
 

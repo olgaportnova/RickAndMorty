@@ -47,7 +47,7 @@ class EpisodeRemoteMediator(
                 name = name,
                 episode = episode
             )
-            val data = response.body()
+            val data = response.body()?.results
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     //  loadKey = loadKey+

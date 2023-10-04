@@ -1,5 +1,6 @@
 package com.example.rickandmorty.data.characters.impl
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -64,10 +65,23 @@ class CharactersRepositoryImpl(
     }
 
 
-    override fun getCharacterById(id:Int): Characters {
-        return characterConverter.map(dao.getCharacterById(id))
+    override suspend fun getCharacterByIdFromApi(id: Int): Characters? {
+        val response = api.getCharacter(id)
 
+        if (response.isSuccessful) {
+            val characterBody = response.body()
+            Log.d ("TAG123", "characterBody = $characterBody")
+            if (characterBody != null) {
+                appDatabase.charactersDao().saveById(characterConverter.dtoToEntity(characterBody))
+                return characterConverter.map(characterBody)
+            } else {
+                return null
+            }
+        } else {
+            return null
+        }
     }
+
 
 
 }

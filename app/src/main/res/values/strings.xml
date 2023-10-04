@@ -2,9 +2,9 @@
     <string name="app_name">RickAndMorty</string>
 
     // bottom navigation menu
-    <string name="characteres">Персонажи</string>
-    <string name="episodes">Эпизоды</string>
-    <string name="locations">Локации</string>
+    <string name="characteres">Characters</string>
+    <string name="episodes">Episodes</string>
+    <string name="locations">Locations</string>
 
 
     <string name="search_text_category_empty">Set category and type search request</string>

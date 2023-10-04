@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
+import com.example.rickandmorty.data.episodes.db.entity.EpisodeEntity
+import com.example.rickandmorty.domain.characters.model.Characters
 
 @Dao
 interface CharactersDao {
@@ -33,6 +35,9 @@ interface CharactersDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun save(characters: List<CharactersEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun saveById(character: CharactersEntity)
 
 
     @Query("SELECT * FROM characters WHERE id = :characterId")

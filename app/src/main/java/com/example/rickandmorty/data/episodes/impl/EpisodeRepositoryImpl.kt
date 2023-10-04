@@ -1,5 +1,6 @@
 package com.example.rickandmorty.data.episodes.impl
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -46,14 +47,21 @@ class EpisodeRepositoryImpl(
     }
 
     override suspend fun getEpisodeByIdFromApi(id: Int): Episodes? {
-        val episode = api.getEpisode(id)
-        if (episode.body() != null) {
-            appDatabase.episodeDao().saveById(episodeConverter.dtoToEntity(episode.body()!!))
-            return episodeConverter.map(episode.body()!!)
+        val response = api.getEpisode(id)
+
+        return if (response.isSuccessful) {
+            val episodeBody = response.body()
+            if (episodeBody != null) {
+                appDatabase.episodeDao().saveById(episodeConverter.dtoToEntity(episodeBody))
+                episodeConverter.map(episodeBody)
+            } else {
+                null
+            }
         } else {
-            return null
+            null
         }
     }
+
 }
 
 

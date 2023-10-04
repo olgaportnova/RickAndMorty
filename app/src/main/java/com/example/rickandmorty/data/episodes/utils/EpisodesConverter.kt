@@ -1,13 +1,13 @@
 package com.example.rickandmorty.data.characters.utils
 
 import com.example.rickandmorty.data.episodes.db.entity.EpisodeEntity
-import com.example.rickandmorty.data.episodes.dto.EpisodesDto
+import com.example.rickandmorty.data.episodes.dto.ApiResponseEpisodes
 import com.example.rickandmorty.domain.episodes.model.Episodes
 
 
 class EpisodesConverter {
 
-    fun map(episodesDto: EpisodesDto): Episodes {
+    fun map(episodesDto: ApiResponseEpisodes.EpisodesDto): Episodes {
         return Episodes(
             id = episodesDto.id,
             name = episodesDto.name,
@@ -31,7 +31,7 @@ class EpisodesConverter {
         )
     }
 
-    fun dtoToEntity(episodesDto: EpisodesDto): EpisodeEntity {
+    fun dtoToEntity(episodesDto: ApiResponseEpisodes.EpisodesDto): EpisodeEntity {
         return EpisodeEntity(
             id = episodesDto.id,
             name = episodesDto.name,

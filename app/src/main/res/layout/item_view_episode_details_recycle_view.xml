@@ -3,29 +3,39 @@
     android:id="@+id/episode_item_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginTop="8dp"
     android:background="@drawable/flexbox_stroke_layout"
-    android:backgroundTint="@color/peach">
+    android:backgroundTint="@color/peach"
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/episode_name"
-        android:textSize="20sp"
+        style="@style/episode_details_items"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:text="The Ricklantis Mixup The Ricklantis Mixup"
-        style="@style/episode_details_items" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/episode_number"
-        android:textSize="16sp"
         style="@style/episode_details_items"
-        android:text="Episode number # " />
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:text="Episode number # "
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/episode_air_date"
-        android:textSize="14sp"
         style="@style/episode_details_items"
-        android:text="Air date " />
-
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="Air date "
+        android:textSize="14sp" />
 
 
 </LinearLayout>

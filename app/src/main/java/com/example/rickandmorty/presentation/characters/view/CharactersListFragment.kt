@@ -72,16 +72,9 @@ class CharactersListFragment : Fragment() {
 
         characterAdapter.onItemClickListener = { character ->
 
-            val detailsFragment = CharactersDetailsFragment.newInstance(
-                character)
-            parentFragmentManager.commit {
-                replace(
-                    R.id.container_view,
-                    detailsFragment,
-                    "TAG"
-                )
-     //           addToBackStack(null)
-            }
+            val action = CharactersListFragmentDirections.actionToCharactersDetailsFragment(character)
+            findNavController().navigate(action)
+
 
 
         }
@@ -195,7 +188,7 @@ class CharactersListFragment : Fragment() {
         characterAdapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Loading) {
                 binding.placeholder.visibility = View.GONE
-                 binding.progressBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
 

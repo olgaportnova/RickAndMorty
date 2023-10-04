@@ -1,0 +1,65 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/charactersListFragment">
+
+    <fragment
+        android:id="@+id/charactersListFragment"
+        android:name="com.example.rickandmorty.presentation.characters.view.CharactersListFragment"
+        android:label="Characters List Fragment"
+        tools:layout="@layout/fragment_characters_list">
+
+        <action
+            android:id="@+id/action_to_charactersDetailsFragment"
+            app:destination="@id/charactersDetailsFragment">
+            <argument
+                android:name="character"
+                app:argType="com.example.rickandmorty.domain.characters.model.Characters"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/charactersDetailsFragment"
+        android:name="com.example.rickandmorty.presentation.characters.view.CharactersDetailsFragment"
+        android:label="Characters Details Fragment"
+        tools:layout="@layout/fragment_episodes_details" >
+        <action
+            android:id="@+id/action_charactersDetailsFragment_to_episodesDetailsFragment"
+            app:destination="@id/episodesDetailsFragment" >
+        <argument
+            android:name="episode"
+            app:argType="com.example.rickandmorty.domain.episodes.model.Episodes"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/episodesListFragment"
+        android:name="com.example.rickandmorty.presentation.episodes.view.EpisodesListFragment"
+        android:label="EpisodesListFragment" >
+        <action
+            android:id="@+id/action_episodesListFragment_to_episodesDetailsFragment"
+            app:destination="@id/episodesDetailsFragment" >
+        <argument
+            android:name="episode"
+            app:argType="com.example.rickandmorty.domain.episodes.model.Episodes"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/episodesDetailsFragment"
+        android:name="com.example.rickandmorty.presentation.episodes.view.EpisodesDetailsFragment"
+        android:label="EpisodesDetailsFragment" >
+        <action
+            android:id="@+id/action_episodesDetailsFragment_to_charactersDetailsFragment"
+            app:destination="@id/charactersDetailsFragment">
+
+        </action>
+    </fragment>
+
+</navigation>

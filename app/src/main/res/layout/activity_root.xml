@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:navGraph="@navigation/nav_graph"
     tools:context=".presentation.main.RootActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -16,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/main_navigation_graph" />
+        app:navGraph="@navigation/nav_graph"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

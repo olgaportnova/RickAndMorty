@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
-import com.example.rickandmorty.databinding.ItemViewRecycleViewBinding
+import com.example.rickandmorty.databinding.ItemViewRecycleCharacterBinding
 import com.example.rickandmorty.domain.characters.model.Characters
 
 
@@ -16,14 +16,14 @@ class CharacterAdapter:  PagingDataAdapter<Characters, CharacterAdapter.ViewHold
 )
    {
 
-    private lateinit var binding: ItemViewRecycleViewBinding
+    private lateinit var binding: ItemViewRecycleCharacterBinding
     private lateinit var context: Context
 
        var onItemClickListener: ((Characters) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = ItemViewRecycleViewBinding.inflate(inflater, parent, false)
+        binding = ItemViewRecycleCharacterBinding.inflate(inflater, parent, false)
         context = parent.context
         return ViewHolder(binding)
     }
@@ -32,7 +32,7 @@ class CharacterAdapter:  PagingDataAdapter<Characters, CharacterAdapter.ViewHold
         holder.bind(getItem(position)!!)
     }
 
-    inner class ViewHolder (private val binding: ItemViewRecycleViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder (private val binding: ItemViewRecycleCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Characters) {
             binding.apply {

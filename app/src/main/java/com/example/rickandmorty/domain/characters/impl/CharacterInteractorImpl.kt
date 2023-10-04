@@ -1,5 +1,6 @@
 package com.example.rickandmorty.domain.characters.impl
 
+import android.util.Log
 import androidx.paging.Pager
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
 import com.example.rickandmorty.domain.characters.CharacterInteractor
@@ -23,7 +24,9 @@ class CharacterInteractorImpl(
         return repository.getCharacters(genderString, statusString, name, species, type)
     }
 
-    override fun getCharacterById(id:Int) : Characters {
-       return repository.getCharacterById(id)
+    override suspend fun getCharacterById(id:Int) : Characters? {
+        var a = repository.getCharacterByIdFromApi(id)
+       return repository.getCharacterByIdFromApi(id)
+        Log.d("TAG123", " getCharacterById = $a")
     }
 }

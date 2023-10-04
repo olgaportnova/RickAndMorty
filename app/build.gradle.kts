@@ -5,6 +5,7 @@ plugins {
     id ("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -101,7 +102,7 @@ android {
         // AutofitTextView
         implementation("me.grantland:autofittextview:0.2.1")
 
-        //Paging 
+        //Paging
         implementation("androidx.paging:paging-common-ktx:3.2.1")
         implementation("androidx.paging:paging-runtime-ktx:3.2.1")
 
