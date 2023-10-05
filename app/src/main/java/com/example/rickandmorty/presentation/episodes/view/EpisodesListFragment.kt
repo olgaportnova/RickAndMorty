@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -18,12 +17,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentEpisodesListBinding
 import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
-import com.example.rickandmorty.presentation.characters.view.CharactersListFragmentDirections
 import com.example.rickandmorty.presentation.episodes.adapters.EpisodeAdapter
 import com.example.rickandmorty.presentation.episodes.utils.SearchCategoriesEpisodes
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -107,7 +104,7 @@ class EpisodesListFragment : Fragment() {
                 val drawableEnd = binding.inputTextSearch.compoundDrawablesRelative[2]
                 if (drawableEnd != null && event.rawX >= binding.inputTextSearch.right - drawableEnd.bounds.width()) {
                     binding.inputTextSearch.text?.clear()
-                    viewModel.сlearTextSearchField()
+                    viewModel.clearTextSearchField()
                 }
             }
             false

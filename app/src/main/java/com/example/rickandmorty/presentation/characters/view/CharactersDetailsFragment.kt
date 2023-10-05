@@ -1,12 +1,12 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +16,6 @@ import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.adapters.EpisodeAdapterDetailsScreen
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
-import com.example.rickandmorty.presentation.episodes.view.EpisodesListFragmentDirections
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -25,7 +24,10 @@ class CharactersDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersDetailsBinding
     private val viewModelCharacter: CharactersViewModel by activityViewModel()
-    private val viewModelEpisode: EpisodeViewModel by activityViewModel()
+    private val viewModelEpisode: EpisodeViewModel  by activityViewModel()
+
+    private lateinit var adapter: EpisodeAdapterDetailsScreen
+
 
 
     override fun onCreateView(
@@ -48,20 +50,31 @@ class CharactersDetailsFragment : Fragment() {
             }
 
             lifecycleScope.launch {
-                val finalListWithEpisodes = viewModelEpisode.getMultipleEpisodes(listOfEpisodesId) ?: emptyList()
-                val adapter = EpisodeAdapterDetailsScreen(finalListWithEpisodes, object : EpisodeAdapterDetailsScreen.Listener {
-                    override fun onClick(episode: Episodes) {
-                        val action = CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(episode)
-                        findNavController().navigate(action)
-                    }
-                })
-                binding.rvEpisodes.layoutManager = LinearLayoutManager(context)
-                binding.rvEpisodes.adapter = adapter
-
+                viewModelEpisode.getMultipleEpisodes(listOfEpisodesId)
             }
+
+
+            adapter = EpisodeAdapterDetailsScreen(listener = object : EpisodeAdapterDetailsScreen.Listener {
+                override fun onClick(episode: Episodes) {
+                    val action = CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(episode)
+                    findNavController().navigate(action)
+                }
+            })
+            binding.rvEpisodes.layoutManager = LinearLayoutManager(context)
+            binding.rvEpisodes.adapter = adapter
+
 
             initUI(it)
             setupOnClickListeners()
+            setupObservers()
+        }
+    }
+
+    private fun setupObservers() {
+        lifecycleScope.launchWhenStarted {
+            viewModelEpisode.episodeSearchResult.collect { episodesList ->
+                adapter.submitList(episodesList)
+            }
         }
     }
 
