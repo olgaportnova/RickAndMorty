@@ -118,25 +118,6 @@ class CharactersViewModel (
     }
 
 
-    suspend fun getEpisodes(listOfId: List<Int>) : List<Episodes> {
-        return withContext(Dispatchers.Default) {
-            val deferredList = listOfId.map { id ->
-                async {
-                    episodeInteractor.getEpisodeById(id)
-                }
-            }
-            val resultList = deferredList.awaitAll()
-
-            val filteredList = resultList.filterNotNull()
-
-            filteredList
-        }
-    }
-
-
-
-
-
 
 
 }

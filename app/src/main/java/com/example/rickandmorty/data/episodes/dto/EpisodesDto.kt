@@ -1,8 +1,6 @@
 package com.example.rickandmorty.data.episodes.dto
 
-import com.example.rickandmorty.data.characters.dto.ApiResponseCharacters
 import com.google.gson.annotations.SerializedName
-
 
 
 data class ApiResponseEpisodes(

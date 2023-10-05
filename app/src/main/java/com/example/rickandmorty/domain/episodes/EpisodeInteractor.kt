@@ -12,4 +12,6 @@ interface EpisodeInteractor {
     ): Pager<Int, EpisodeEntity>
 
     suspend fun getEpisodeById(id: Int): Episodes?
+
+    suspend fun getMultipleEpisodes(ids: List<Int>): List<Episodes>?
 }

@@ -11,7 +11,8 @@ interface EpisodeRepository {
     ): Pager<Int, EpisodeEntity>
 
 
-
     suspend fun getEpisodeByIdFromApi(id: Int): Episodes?
+
+    suspend fun getMultipleEpisodes(ids: List<Int>): List<Episodes>?
 
 }

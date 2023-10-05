@@ -84,18 +84,11 @@ class EpisodeViewModel (
         _episodeForSearch.value = ""
     }
 
-    suspend fun getEpisodes(listOfId: List<Int>) : List<Episodes> {
-        return withContext(Dispatchers.Default) {
-            val deferredList = listOfId.map { id ->
-                async {
-                    episodeInteractor.getEpisodeById(id)
-                }
-            }
-            val resultList = deferredList.awaitAll()
 
-            val filteredList = resultList.filterNotNull()
 
-            filteredList
+    suspend fun getMultipleEpisodes(listOfId: List<Int>): List<Episodes>? {
+        return withContext(Dispatchers.IO) {
+            episodeInteractor.getMultipleEpisodes(listOfId)
         }
     }
 

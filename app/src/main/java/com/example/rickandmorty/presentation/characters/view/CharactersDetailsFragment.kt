@@ -17,13 +17,16 @@ import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.adapters.EpisodeAdapterDetailsScreen
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.episodes.view.EpisodesListFragmentDirections
+import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class CharactersDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersDetailsBinding
-    private val viewModel: CharactersViewModel by activityViewModel()
+    private val viewModelCharacter: CharactersViewModel by activityViewModel()
+    private val viewModelEpisode: EpisodeViewModel by activityViewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +46,9 @@ class CharactersDetailsFragment : Fragment() {
             val listOfEpisodesId = it.episode.mapNotNull { url ->
                 url.split("/").last().toIntOrNull()
             }
-            Log.d("TAG123", "$listOfEpisodesId")
 
             lifecycleScope.launch {
-                val finalListWithEpisodes = viewModel.getEpisodes(listOfEpisodesId)
+                val finalListWithEpisodes = viewModelEpisode.getMultipleEpisodes(listOfEpisodesId) ?: emptyList()
                 val adapter = EpisodeAdapterDetailsScreen(finalListWithEpisodes, object : EpisodeAdapterDetailsScreen.Listener {
                     override fun onClick(episode: Episodes) {
                         val action = CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(episode)

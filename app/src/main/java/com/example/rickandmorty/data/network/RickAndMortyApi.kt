@@ -33,4 +33,11 @@ interface RickAndMortyApi {
     @GET("/api/episode/{id}")
     suspend fun getEpisode(@Path("id") id: Int): Response<ApiResponseEpisodes.EpisodesDto>
 
+
+        @GET("/api/episode/{ids}")
+        suspend fun getMultipleEpisodes(@Path("ids") ids: String): Response<List<ApiResponseEpisodes.EpisodesDto>>
+
+
+
+
 }
