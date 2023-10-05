@@ -63,30 +63,28 @@ class EpisodeRepositoryImpl(
 
 
     override suspend fun getMultipleEpisodes(ids: List<Int>): List<Episodes>? {
-        val idsString = ids.joinToString(",")
-        val response = api.getMultipleEpisodes(idsString)
-
-        return if (response.isSuccessful) {
-            val episodeBody = response.body()
-            episodeBody?.let { dtoList ->
-                val episodesList: MutableList<Episodes> = mutableListOf()
-
-                dtoList.forEach { dto ->
-                    val episodeEntity = episodeConverter.dtoToEntity(dto)
-                    appDatabase.episodeDao().saveById(episodeEntity)
-                    val episode = episodeConverter.map(dto)
-                    episodesList.add(episode)
-                }
-
-                episodesList
-            } ?: emptyList()
+        var idsString: String? = null
+        var listOfEpisodesResponse: MutableList<Episodes> = mutableListOf()
+        if (ids.size == 1) {
+            val responseDto = api.getEpisode(ids[0]).body()
+            val episodeEntity = episodeConverter.dtoToEntity(responseDto!!)
+            val episode = episodeConverter.map(responseDto)
+            appDatabase.episodeDao().saveById(episodeEntity)
+            listOfEpisodesResponse.add(episode)
         } else {
-            null
+            idsString = ids.joinToString(",")
+            val responseDtoList = api.getMultipleEpisodes(idsString)
+            responseDtoList.forEach { dto ->
+                val episodeEntity = episodeConverter.dtoToEntity(dto)
+                appDatabase.episodeDao().saveById(episodeEntity)
+                val episode = episodeConverter.map(dto)
+                listOfEpisodesResponse.add(episode)
+            }
         }
+        return listOfEpisodesResponse
     }
 
-
-    }
+}
 
 
 
