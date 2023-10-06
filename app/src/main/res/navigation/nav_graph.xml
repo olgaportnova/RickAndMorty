@@ -15,9 +15,7 @@
             app:destination="@id/charactersDetailsFragment">
             <argument
                 android:name="character"
-                app:argType="com.example.rickandmorty.domain.characters.model.Characters"
-                app:nullable="true"
-                android:defaultValue="@null" />
+                app:argType="integer" />
         </action>
 
     </fragment>

@@ -117,7 +117,14 @@ class CharactersViewModel (
         }
     }
 
+    suspend fun getCharacter(id: Int) : Characters? {
+        return withContext(Dispatchers.IO) {
+            characterInteractor.getCharacterById(id)
+                }
+        }
+    }
 
 
 
-}
+
+

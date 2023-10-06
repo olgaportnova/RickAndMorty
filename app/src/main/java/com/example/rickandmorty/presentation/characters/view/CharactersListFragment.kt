@@ -72,8 +72,11 @@ class CharactersListFragment : Fragment() {
 
         characterAdapter.onItemClickListener = { character ->
 
-            val action = CharactersListFragmentDirections.actionToCharactersDetailsFragment(character)
-            findNavController().navigate(action)
+            val bundle = Bundle().apply {
+                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id)
+            }
+            findNavController().navigate(R.id.charactersDetailsFragment, bundle)
+
 
 
 

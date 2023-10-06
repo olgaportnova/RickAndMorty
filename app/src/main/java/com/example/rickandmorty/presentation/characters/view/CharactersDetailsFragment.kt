@@ -24,10 +24,11 @@ class CharactersDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersDetailsBinding
     private val viewModelCharacter: CharactersViewModel by activityViewModel()
-    private val viewModelEpisode: EpisodeViewModel  by activityViewModel()
+    private val viewModelEpisode: EpisodeViewModel by activityViewModel()
 
     private lateinit var adapter: EpisodeAdapterDetailsScreen
-
+    private var characterId: Int? = null
+    private var character: Characters? = null
 
 
     override fun onCreateView(
@@ -35,40 +36,46 @@ class CharactersDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCharactersDetailsBinding.inflate(inflater, container, false)
+        characterId = arguments?.getInt(ARG_CHARACTER_ID)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val character: Characters = arguments?.getParcelable("character") ?: return
 
 
-        character?.let {
-            val listOfEpisodesId = it.episode.mapNotNull { url ->
-                url.split("/").last().toIntOrNull()
-            }
-
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            character = viewModelCharacter.getCharacter(characterId!!)
+            character?.let {
+                val listOfEpisodesId = it.episode.mapNotNull { url ->
+                    url.split("/").last().toIntOrNull()
+                }
                 viewModelEpisode.getMultipleEpisodes(listOfEpisodesId)
+
+                // После получения данных вызываем initUI
+                initUI(character)
             }
+        }
 
-
-            adapter = EpisodeAdapterDetailsScreen(listener = object : EpisodeAdapterDetailsScreen.Listener {
+        adapter =
+            EpisodeAdapterDetailsScreen(listener = object : EpisodeAdapterDetailsScreen.Listener {
                 override fun onClick(episode: Episodes) {
-                    val action = CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(episode)
+                    val action =
+                        CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(
+                            episode
+                        )
                     findNavController().navigate(action)
                 }
             })
-            binding.rvEpisodes.layoutManager = LinearLayoutManager(context)
-            binding.rvEpisodes.adapter = adapter
+        binding.rvEpisodes.layoutManager = LinearLayoutManager(context)
+        binding.rvEpisodes.adapter = adapter
 
 
-            initUI(it)
-            setupOnClickListeners()
-            setupObservers()
-        }
+        setupOnClickListeners()
+        setupObservers()
     }
+
 
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
@@ -87,20 +94,20 @@ class CharactersDetailsFragment : Fragment() {
     }
 
 
-    private fun initUI(character: Characters) {
+    private fun initUI(character: Characters?) {
         binding.apply {
             Glide.with(this@CharactersDetailsFragment)
-                .load(character.image)
+                .load(character?.image)
                 .centerCrop()
                 .into(imageView)
 
-            name.text = character.name
-            status.text = character.status
-            species.text = character.species
-            type.text = character.type
-            gender.text = character.gender
-            origin.text = character.origin?.name
-            location.text = character.location?.name
+            name.text = character?.name
+            status.text = character?.status
+            species.text = character?.species
+            type.text = character?.type
+            gender.text = character?.gender
+            origin.text = character?.origin?.name
+            location.text = character?.location?.name
 
             setVisibility(name)
             setVisibility(status)
@@ -117,14 +124,17 @@ class CharactersDetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_CHARACTER = "characterId"
+        const val ARG_CHARACTER_ID = "characterId"
 
-        fun newInstance(character: Characters): CharactersDetailsFragment {
+        fun newInstance(characterId: Int): CharactersDetailsFragment {
             return CharactersDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_CHARACTER, character)
+                    putInt(ARG_CHARACTER_ID, characterId)
                 }
             }
         }
     }
+
+
 }
+
