@@ -63,14 +63,10 @@ class LocationsListFragment : Fragment() {
     private fun initAdapter() {
         locationsAdapter = LocationAdapter()
 
-
-
         locationsAdapter.onItemClickListener = { episode ->
 
             val action = LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(episode.id)
             findNavController().navigate(action)
-
-
 
         }
         binding.recyclerViewItems.apply {
@@ -85,7 +81,7 @@ class LocationsListFragment : Fragment() {
     }
 
     private fun initSpinner() {
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesEpisodes.values())
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())
         spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
         binding.spinnerCategory.adapter = spinnerAdapter
     }

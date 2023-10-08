@@ -64,7 +64,7 @@ class LocationsDetailsFragment : Fragment() {
             CharacterAdapterDetailsScreen(listener = object : CharacterAdapterDetailsScreen.Listener {
                 override fun onClick(characters: Characters) {
                     val action =
-                        EpisodesDetailsFragmentDirections.actionEpisodesDetailsFragmentToCharactersDetailsFragment(
+                        LocationsDetailsFragmentDirections.actionLocationsDetailsFragmentToCharactersDetailsFragment(
                             characters.id
                         )
                     findNavController().navigate(action)
