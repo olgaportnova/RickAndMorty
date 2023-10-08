@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersDetailsBinding
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.episodes.model.Episodes
@@ -90,9 +92,31 @@ class CharactersDetailsFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
-//        binding.location.setOnClickListener {
-//            loca
-//        }
+        binding.location.setOnClickListener {
+            var locationUrl = character?.location?.url?.split("/")?.last()?.toIntOrNull() ?: 0
+            if (locationUrl == 0 || locationUrl == null) {
+                Toast.makeText(requireContext(), R.string.no_location, Toast.LENGTH_SHORT).show()
+            } else {
+                val action =
+                    CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToLocationsDetailsFragment(
+                        locationUrl
+                    )
+                findNavController().navigate(action)
+            }
+        }
+
+        binding.origin.setOnClickListener {
+            var originUrl = character?.origin?.url?.split("/")?.last()?.toIntOrNull() ?: 0
+            if (originUrl == 0 || originUrl == null) {
+                Toast.makeText(requireContext(), R.string.no_origin, Toast.LENGTH_SHORT).show()
+            } else {
+                val action =
+                    CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToLocationsDetailsFragment(
+                        originUrl
+                    )
+                findNavController().navigate(action)
+            }
+        }
     }
 
 

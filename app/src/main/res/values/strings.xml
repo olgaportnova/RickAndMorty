@@ -7,15 +7,13 @@
     <string name="locations">Locations</string>
 
 
+    // search helpers
     <string name="search_text_category_empty">Set category and type search request</string>
     <string name="categoty_search_header">Choose parameter for search</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hint_search">Начните ввод для поиска</string>
-
     <string name="placeholder_text">No results on your search request, but as Rick says “I know that new situations can be intimidating. You’re lookin’ around and it’s all scary and different, but y’know, meeting them head-on, charging into ‘em like a bull — that’s how we grow as people.”</string>
 
 
+    // Details helpers
+    <string name="no_origin">Origin is unknown</string>
+    <string name="no_location">Location is unknown</string>
 </resources>

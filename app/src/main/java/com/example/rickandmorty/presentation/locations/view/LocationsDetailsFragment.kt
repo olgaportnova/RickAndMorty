@@ -90,13 +90,9 @@ class LocationsDetailsFragment : Fragment() {
     }
 
 
-
-
     private fun setupOnClickListeners() {
-
         binding.back.setOnClickListener {
             requireActivity().onBackPressed()
-
         }
     }
 
