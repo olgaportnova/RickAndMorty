@@ -53,6 +53,11 @@ class CharactersViewModel (
     private val _typeForSearch = MutableStateFlow<String?>("")
     private val typeForSearch: StateFlow<String?> = _typeForSearch
 
+    private val _charactersSearchResult = MutableStateFlow<List<Characters>>(emptyList())
+    val charactersSearchResult: StateFlow<List<Characters>> get() = _charactersSearchResult
+
+
+
 
 
     init {
@@ -99,29 +104,45 @@ class CharactersViewModel (
         _typeForSearch.value = ""
     }
 
-    suspend fun getCharacters(listOfId: List<Int>) : List<Characters> {
-        return withContext(Dispatchers.Default) {
-            val deferredList = listOfId.map { id ->
-                async {
-                    characterInteractor.getCharacterById(id)
-                }
-            }
-            Log.d("TAG123", "deferredList $deferredList")
-            val resultList = deferredList.awaitAll()
-            Log.d("TAG123", "resultList - $resultList")
-
-            val filteredList = resultList.filterNotNull()
-            Log.d("TAG123", "filteredList - $filteredList")
-
-            filteredList
-        }
-    }
+//    suspend fun getCharacters(listOfId: List<Int>) : List<Characters> {
+//        return withContext(Dispatchers.Default) {
+//            val deferredList = listOfId.map { id ->
+//                async {
+//                    characterInteractor.getCharacterById(id)
+//                }
+//            }
+//            Log.d("TAG123", "deferredList $deferredList")
+//            val resultList = deferredList.awaitAll()
+//            Log.d("TAG123", "resultList - $resultList")
+//
+//            val filteredList = resultList.filterNotNull()
+//            Log.d("TAG123", "filteredList - $filteredList")
+//
+//            filteredList
+//        }
+//    }
 
     suspend fun getCharacter(id: Int) : Characters? {
         return withContext(Dispatchers.IO) {
             characterInteractor.getCharacterById(id)
                 }
         }
+
+
+    suspend fun getMultipleCharacters(listOfId: List<Int>) {
+        withContext(Dispatchers.IO) {
+            val result = characterInteractor.getMultipleCharacters(listOfId)
+
+            if (result != null) {
+                _charactersSearchResult.value= result
+            } else {
+                _charactersSearchResult.value= emptyList()
+            }
+        }
+    }
+
+
+
     }
 
 

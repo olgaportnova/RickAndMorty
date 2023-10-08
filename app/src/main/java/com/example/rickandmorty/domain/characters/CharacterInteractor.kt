@@ -15,4 +15,5 @@ interface CharacterInteractor {
     ): Pager<Int, CharactersEntity>
 
     suspend fun getCharacterById(id:Int): Characters?
+    suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>?
 }

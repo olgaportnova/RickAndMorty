@@ -12,6 +12,7 @@ import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.example.rickandmorty.domain.characters.CharacterRepository
 import com.example.rickandmorty.domain.characters.model.Characters
+import com.example.rickandmorty.domain.episodes.model.Episodes
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRepositoryImpl(
@@ -80,6 +81,28 @@ class CharactersRepositoryImpl(
         } else {
             return null
         }
+    }
+
+    override suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>? {
+        var idsString: String? = null
+        var listOfCharactersResponse: MutableList<Characters> = mutableListOf()
+        if (ids.size == 1) {
+            val responseDto = api.getCharacter(ids[0]).body()
+            val characterEntity = characterConverter.dtoToEntity(responseDto!!)
+            val character = characterConverter.map(responseDto)
+            appDatabase.charactersDao().saveById(characterEntity)
+            listOfCharactersResponse.add(character)
+        } else {
+            idsString = ids.joinToString(",")
+            val responseDtoList = api.getMultipleCharacters(idsString)
+            responseDtoList.forEach { dto ->
+                val characterEntity = characterConverter.dtoToEntity(dto)
+                appDatabase.charactersDao().saveById(characterEntity)
+                val character = characterConverter.map(dto)
+                listOfCharactersResponse.add(character)
+            }
+        }
+        return listOfCharactersResponse
     }
 
 

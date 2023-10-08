@@ -3,6 +3,7 @@ package com.example.rickandmorty.domain.characters
 import androidx.paging.Pager
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
 import com.example.rickandmorty.domain.characters.model.Characters
+import com.example.rickandmorty.domain.episodes.model.Episodes
 
 
 interface CharacterRepository {
@@ -14,5 +15,7 @@ interface CharacterRepository {
 
 
     suspend fun getCharacterByIdFromApi(id:Int) : Characters?
+
+    suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>?
 
 }

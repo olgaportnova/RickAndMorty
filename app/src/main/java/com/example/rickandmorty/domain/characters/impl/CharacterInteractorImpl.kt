@@ -8,6 +8,7 @@ import com.example.rickandmorty.domain.characters.CharacterRepository
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
+import com.example.rickandmorty.domain.episodes.model.Episodes
 
 class CharacterInteractorImpl(
     private val repository: CharacterRepository
@@ -28,5 +29,9 @@ class CharacterInteractorImpl(
         var a = repository.getCharacterByIdFromApi(id)
        return repository.getCharacterByIdFromApi(id)
         Log.d("TAG123", " getCharacterById = $a")
+    }
+
+    override suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>?{
+        return repository.getMultipleCharacters(ids)
     }
 }

@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.rickandmorty.data.characters.utils.EpisodesConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
+import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.episodes.utils.EpisodeState
@@ -78,6 +79,12 @@ class EpisodeViewModel (
     fun clearTextSearchField() {
         _nameForSearch.value = ""
         _episodeForSearch.value = ""
+    }
+
+    suspend fun getEpisode(id: Int) : Episodes? {
+        return withContext(Dispatchers.IO) {
+            episodeInteractor.getEpisodeById(id)
+        }
     }
 
 

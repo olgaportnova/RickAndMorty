@@ -63,7 +63,7 @@ class EpisodesListFragment : Fragment() {
 
      episodeAdapter.onItemClickListener = { episode ->
 
-            val action = EpisodesListFragmentDirections.actionEpisodesListFragmentToEpisodesDetailsFragment(episode)
+            val action = EpisodesListFragmentDirections.actionEpisodesListFragmentToEpisodesDetailsFragment(episode.id)
             findNavController().navigate(action)
 
 

@@ -23,6 +23,10 @@ interface RickAndMortyApi {
     suspend fun getCharacter(@Path("id") id: Int): Response<ApiResponseCharacters.CharacterDto>
 
 
+    @GET("/api/character/{ids}")
+    suspend fun getMultipleCharacters(@Path("ids") ids: String): List<ApiResponseCharacters.CharacterDto>
+
+
     @GET("api/episode")
     suspend fun getEpisodes(
         @Query("name") name: String?,

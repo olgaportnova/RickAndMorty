@@ -44,7 +44,6 @@ class CharactersDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         lifecycleScope.launch {
             character = viewModelCharacter.getCharacter(characterId!!)
             character?.let {
@@ -63,7 +62,7 @@ class CharactersDetailsFragment : Fragment() {
                 override fun onClick(episode: Episodes) {
                     val action =
                         CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToEpisodesDetailsFragment(
-                            episode
+                            episode.id
                         )
                     findNavController().navigate(action)
                 }

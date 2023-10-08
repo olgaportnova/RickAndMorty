@@ -14,7 +14,7 @@
             android:id="@+id/action_to_charactersDetailsFragment"
             app:destination="@id/charactersDetailsFragment">
             <argument
-                android:name="character"
+                android:name="characterId"
                 app:argType="integer" />
         </action>
 
@@ -29,10 +29,8 @@
             android:id="@+id/action_charactersDetailsFragment_to_episodesDetailsFragment"
             app:destination="@id/episodesDetailsFragment" >
         <argument
-            android:name="episode"
-            app:argType="com.example.rickandmorty.domain.episodes.model.Episodes"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="episodeId"
+            app:argType="integer" />
         </action>
     </fragment>
     <fragment
@@ -43,10 +41,8 @@
             android:id="@+id/action_episodesListFragment_to_episodesDetailsFragment"
             app:destination="@id/episodesDetailsFragment" >
         <argument
-            android:name="episode"
-            app:argType="com.example.rickandmorty.domain.episodes.model.Episodes"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="episodeId"
+            app:argType="integer"/>
         </action>
     </fragment>
     <fragment
@@ -56,7 +52,9 @@
         <action
             android:id="@+id/action_episodesDetailsFragment_to_charactersDetailsFragment"
             app:destination="@id/charactersDetailsFragment">
-
+            <argument
+                android:name="characterId"
+                app:argType="integer" />
         </action>
     </fragment>
 
