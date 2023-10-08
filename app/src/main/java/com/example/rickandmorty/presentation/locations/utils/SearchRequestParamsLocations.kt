@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.locations.view
+package com.example.rickandmorty.presentation.locations.utils
 
 
 data class SearchRequestParamsLocations(

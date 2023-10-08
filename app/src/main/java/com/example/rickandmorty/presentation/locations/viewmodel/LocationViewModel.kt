@@ -11,7 +11,7 @@ import com.example.rickandmorty.domain.locations.LocationInteractor
 import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.locations.utils.LocationState
 import com.example.rickandmorty.presentation.locations.utils.SearchCategoriesLocations
-import com.example.rickandmorty.presentation.locations.view.SearchRequestParamsLocations
+import com.example.rickandmorty.presentation.locations.utils.SearchRequestParamsLocations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

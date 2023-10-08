@@ -22,6 +22,9 @@ import com.example.rickandmorty.presentation.locations.viewmodel.LocationViewMod
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class LocationsDetailsFragment : Fragment() {
@@ -102,7 +105,7 @@ class LocationsDetailsFragment : Fragment() {
         binding.apply {
 
             name.text = location?.name
-            created.text = location?.created
+            created.text = parseISO8601Date(location?.created).toString()
             type.text = location?.type
             dimension.text = location?.dimension
 
@@ -111,6 +114,14 @@ class LocationsDetailsFragment : Fragment() {
             setVisibility(dimension)
         }
     }
+
+
+
+    private fun parseISO8601Date(iso8601Date: String?): Date {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        return format.parse(iso8601Date) ?: Date()
+    }
+
 
     private fun setVisibility(view: View) {
         view.visibility = if ((view as? TextView)?.text.isNullOrEmpty()) View.GONE else View.VISIBLE

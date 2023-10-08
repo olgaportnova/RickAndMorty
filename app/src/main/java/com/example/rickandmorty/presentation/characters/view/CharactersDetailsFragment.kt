@@ -88,8 +88,11 @@ class CharactersDetailsFragment : Fragment() {
 
         binding.back.setOnClickListener {
             requireActivity().onBackPressed()
-
         }
+
+//        binding.location.setOnClickListener {
+//            loca
+//        }
     }
 
 
