@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityRootBinding
+import com.example.rickandmorty.presentation.episodes.view.EpisodesListFragment
 
 class RootActivity : AppCompatActivity() {
 
@@ -23,7 +26,9 @@ class RootActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
+
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -37,4 +42,6 @@ class RootActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 }

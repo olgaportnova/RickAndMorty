@@ -32,6 +32,13 @@
             android:name="episodeId"
             app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_charactersDetailsFragment_to_locationsDetailsFragment"
+            app:destination="@id/locationsDetailsFragment" >
+            <argument
+                android:name="locationId"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/episodesListFragment"
@@ -52,6 +59,30 @@
         <action
             android:id="@+id/action_episodesDetailsFragment_to_charactersDetailsFragment"
             app:destination="@id/charactersDetailsFragment">
+            <argument
+                android:name="characterId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/locationsListFragment"
+        android:name="com.example.rickandmorty.presentation.locations.view.LocationsListFragment"
+        android:label="LocationsListFragment" >
+        <action
+            android:id="@+id/action_locationsListFragment2_to_locationsDetailsFragment"
+            app:destination="@id/locationsDetailsFragment" >
+            <argument
+                android:name="locationId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/locationsDetailsFragment"
+        android:name="com.example.rickandmorty.presentation.locations.view.LocationsDetailsFragment"
+        android:label="LocationsDetailsFragment" >
+        <action
+            android:id="@+id/action_locationsDetailsFragment_to_charactersDetailsFragment"
+            app:destination="@id/charactersDetailsFragment" >
             <argument
                 android:name="characterId"
                 app:argType="integer" />

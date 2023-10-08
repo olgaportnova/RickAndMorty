@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light_blue"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light_blue">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:contentDescription="Назад"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="24dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:maxLines="1"
+            android:text="Pilot vvkvkkvkvkvkkvkvkvkkvkvkvkkvkvkv"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/basic_info"
+            android:text="Basic info"
+            android:fontFamily="@font/wubbalubbadubdub"
+            app:layout_constraintStart_toStartOf="@id/details_part"
+            app:layout_constraintTop_toBottomOf="@+id/details_part"
+            style="@style/flexbox_discription" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/details_part"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            style="@style/flexbox_details">
+
+            <TextView
+                android:id="@+id/type"
+                style="@style/details_screen_detail"
+                tools:text="December 2, 2013" />
+            <TextView
+                android:id="@+id/dimension"
+                style="@style/details_screen_detail"
+                tools:text="S0130f0f" />
+            <TextView
+                android:id="@+id/created"
+                style="@style/details_screen_detail"
+                tools:text="December 2, 2013" />
+
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_characters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basic_info"
+            android:layout_margin="12dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="50dp"
+            android:padding="12dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@drawable/flexbox_stroke_layout"
+            />
+
+        <TextView
+            android:id="@+id/episodes_info"
+            android:text="Characters"
+            android:fontFamily="@font/wubbalubbadubdub"
+            app:layout_constraintEnd_toEndOf="@id/rv_characters"
+            app:layout_constraintBottom_toTopOf="@id/rv_characters"
+            android:layout_marginEnd="18dp"
+            style="@style/flexbox_discription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+</LinearLayout>

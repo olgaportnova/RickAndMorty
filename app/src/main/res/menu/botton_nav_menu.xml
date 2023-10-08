@@ -13,6 +13,7 @@
     <item
         android:iconTint="@color/buttom_navigation_icon_color"
         android:id="@+id/locationsListFragment"
+        android:enabled="true"
         android:icon="@drawable/ic_locations"
         android:title="@string/locations"/>
 

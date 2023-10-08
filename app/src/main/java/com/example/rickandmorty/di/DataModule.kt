@@ -7,7 +7,8 @@ import androidx.room.Room
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.data.characters.utils.EpisodesConverter
 import com.example.rickandmorty.data.db.AppDatabase
-import com.example.rickandmorty.data.db.AppDatabase.Companion.MIGRATION_1_2
+import com.example.rickandmorty.data.db.AppDatabase.Companion.MIGRATION_2_3
+import com.example.rickandmorty.data.locations.utils.LocationsConverter
 import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.google.gson.Gson
@@ -44,16 +45,18 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "rick_and_morty_db")
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build()
     }
     single { get<AppDatabase>().charactersDao() }
     single { get<AppDatabase>().episodeDao() }
+    single { get<AppDatabase>().locationDao() }
 
     factory { Gson() }
 
     factory { CharacterConverter() }
     factory { EpisodesConverter() }
+    factory { LocationsConverter() }
 
 
 //
