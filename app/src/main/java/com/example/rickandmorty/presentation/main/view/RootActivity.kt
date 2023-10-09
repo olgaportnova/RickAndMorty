@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.main
+package com.example.rickandmorty.presentation.main.view
 
 import android.app.AppOpsManager
 import android.content.Context

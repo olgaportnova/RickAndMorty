@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.main
+package com.example.rickandmorty.presentation.main.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,6 +14,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,15 +22,17 @@ import androidx.viewbinding.ViewBinding
 import com.example.rickandmorty.R
 import com.example.rickandmorty.utils.SearchCategories
 import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-
-abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
+abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
-): Fragment() {
+) : Fragment() {
 
     lateinit var binding: VB
-
-
     protected abstract val viewModel: VM
 
     override fun onCreateView(
@@ -53,7 +56,6 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
             this.adapter = adapter
         }
 
-
     }
 
     protected fun <T> initSpinnerItemSelectedListener(
@@ -63,15 +65,25 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
     ) {
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 onItemSelected(position)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
     }
 
-    protected fun initSearchButton(btSearch: ImageButton, searchCategories: SearchCategories, inputText: EditText) {
+    protected fun initSearchButton(
+        btSearch: ImageButton,
+        searchCategories: SearchCategories,
+        inputText: EditText
+    ) {
         btSearch.setOnClickListener {
             val searchText = inputText.text.toString().toLowerCase()
             if (searchText.isEmpty()) {
@@ -81,6 +93,7 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
             }
         }
     }
+
     @SuppressLint("ClickableViewAccessibility")
     protected fun initClearButton(inputText: EditText) {
         inputText.setOnTouchListener { _, event ->
@@ -120,7 +133,7 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
-                showToast("Wooops ${it.error}")
+                showToast("${it.error}")
             }
         }
     }
@@ -129,6 +142,21 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    protected abstract fun updateListWithSearch(searchText: String, searchCategories: SearchCategories)
+    protected fun <T : Any> observeAndSubmitData(
+        flow: Flow<PagingData<T>>,
+        adapter: PagingDataAdapter<T, *>
+    ) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            flow.collectLatest {
+                adapter.submitData(it)
+            }
+        }
+    }
+
+    protected abstract fun updateListWithSearch(
+        searchText: String,
+        searchCategories: SearchCategories
+    )
+
     protected abstract fun clearTextSearchField()
 }

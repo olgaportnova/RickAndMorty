@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ItemViewRecycleCharacterBinding
 import com.example.rickandmorty.domain.characters.model.Characters
-import com.example.rickandmorty.presentation.main.BaseAdapter
+import com.example.rickandmorty.presentation.main.adapters.BaseAdapter
 
 
 class CharacterAdapter : BaseAdapter<Characters, CharacterAdapter.ViewHolder>(

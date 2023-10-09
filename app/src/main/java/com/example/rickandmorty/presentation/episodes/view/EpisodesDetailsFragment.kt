@@ -15,7 +15,7 @@ import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.episodes.adapters.CharacterAdapterDetailsScreen
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
-import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
+import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 

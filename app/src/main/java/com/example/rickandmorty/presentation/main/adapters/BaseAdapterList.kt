@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.main
+package com.example.rickandmorty.presentation.main.adapters
 
 import android.annotation.SuppressLint
 import androidx.paging.PagingDataAdapter

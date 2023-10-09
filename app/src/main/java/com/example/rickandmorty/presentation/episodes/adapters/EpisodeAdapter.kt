@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeBinding
 import com.example.rickandmorty.domain.episodes.model.Episodes
-import com.example.rickandmorty.presentation.main.BaseAdapter
+import com.example.rickandmorty.presentation.main.adapters.BaseAdapter
 
 
 class EpisodeAdapter : BaseAdapter<Episodes, EpisodeAdapter.ViewHolder>(

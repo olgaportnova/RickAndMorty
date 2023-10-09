@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.recycleviewList
+package com.example.rickandmorty.presentation.main.adapters
 
 import android.graphics.Rect
 import android.view.View

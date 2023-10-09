@@ -12,14 +12,12 @@ import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
-import com.example.rickandmorty.presentation.main.BaseFragmentList
-import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
+import com.example.rickandmorty.presentation.main.view.BaseFragmentList
+import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.utils.SearchCategoriesLocations
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, CharactersViewModel>(
@@ -45,7 +43,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
     }
     private fun initUI() {
         binding.placeholder.visibility = View.GONE
-        initAdapter(binding.recyclerViewItems, characterAdapter,2,GridItemDecorator(2, 10, 10))
+        initAdapter(binding.recyclerViewItems, characterAdapter,2, GridItemDecorator(2, 10, 10))
         initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
             searchCategory = SearchCategoriesCharacters.values()[position]
         }
@@ -122,7 +120,6 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
     }
     private fun observeData() {
-
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { characterState ->
                 if (characterState.isFilter) {
@@ -137,14 +134,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             handleLoadState(loadState, binding.recyclerViewItems, binding.placeholder, binding.progressBar)
         }
 
-
-
-
-        lifecycleScope.launch {
-            viewModel.getListData().collectLatest {
-                characterAdapter.submitData(it)
-            }
-        }
+        observeAndSubmitData(viewModel.getListData(), characterAdapter)
     }
     private fun restorePreviousState() {
         updateRadioGroupStatusThatLastData(statusState)
