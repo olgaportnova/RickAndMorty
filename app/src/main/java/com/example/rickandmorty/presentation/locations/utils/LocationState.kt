@@ -3,7 +3,7 @@ package com.example.rickandmorty.presentation.locations.utils
 import androidx.paging.PagingData
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.domain.locations.model.Locations
-import com.example.rickandmorty.presentation.episodes.utils.SearchCategoriesEpisodes
+import com.example.rickandmorty.utils.SearchCategoriesLocations
 
 
 data class LocationState(

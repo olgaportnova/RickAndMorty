@@ -11,8 +11,9 @@ import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.episodes.utils.EpisodeState
-import com.example.rickandmorty.presentation.episodes.utils.SearchCategoriesEpisodes
 import com.example.rickandmorty.presentation.episodes.utils.SearchRequestParamsEpisode
+import com.example.rickandmorty.utils.SearchCategories
+import com.example.rickandmorty.utils.SearchCategoriesEpisodes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +70,7 @@ class EpisodeViewModel (
         }
     }
 
-    fun updateCharactersListWithSearch(selectedCategory: SearchCategoriesEpisodes, searchText: String) {
+    fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategoriesEpisodes.NAME->_nameForSearch.value = searchText
             SearchCategoriesEpisodes.EPISODE->_episodeForSearch.value = searchText

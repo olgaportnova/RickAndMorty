@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
+import com.example.rickandmorty.utils.SearchCategoriesCharacters
 
 data class CharacterState(
     val characters: PagingData<Characters>? = PagingData.empty(),

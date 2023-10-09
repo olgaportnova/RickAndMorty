@@ -10,8 +10,9 @@ import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.locations.LocationInteractor
 import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.locations.utils.LocationState
-import com.example.rickandmorty.presentation.locations.utils.SearchCategoriesLocations
 import com.example.rickandmorty.presentation.locations.utils.SearchRequestParamsLocations
+import com.example.rickandmorty.utils.SearchCategories
+import com.example.rickandmorty.utils.SearchCategoriesLocations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,7 +72,7 @@ class LocationViewModel (
         }
     }
 
-    fun updateCharactersListWithSearch(selectedCategory: SearchCategoriesLocations, searchText: String) {
+    fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategoriesLocations.NAME->_nameForSearch.value = searchText
             SearchCategoriesLocations.TYPE->_typeForSearch.value = searchText

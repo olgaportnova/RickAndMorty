@@ -2,10 +2,8 @@ package com.example.rickandmorty.presentation.characters.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
@@ -18,10 +16,11 @@ import com.example.rickandmorty.databinding.FragmentCharactersListBinding
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
-import com.example.rickandmorty.presentation.characters.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.main.BaseFragmentList
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
+import com.example.rickandmorty.utils.SearchCategories
+import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,6 +54,9 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         initBottomSheet()
     }
 
+    override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {
+        viewModel.updateListWithSearch(searchCategories, searchText)
+    }
     private fun initBottomSheet() {
         val bottomSheetContainer = binding.standardBottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
@@ -67,8 +69,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
         characterAdapter.onItemClickListener = { character ->
             val bundle = Bundle().apply {
-                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id)
-            }
+                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id) }
             findNavController().navigate(R.id.charactersDetailsFragment, bundle)
         }
 
@@ -85,14 +86,9 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
         }
 
-        binding.btSearch.setOnClickListener {
-            val searchText = binding.inputTextSearch.text.toString().toLowerCase()
-            if (searchText.isEmpty()) {
-                Toast.makeText(context, "Type search request",Toast.LENGTH_SHORT). show()
-            } else {
-                viewModel.updateCharactersListWithSearch(searchCategory, searchText)
-            }
-        }
+        initSearchButton(binding.btSearch,searchCategory,binding.inputTextSearch)
+
+
 
         binding.inputTextSearch.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {

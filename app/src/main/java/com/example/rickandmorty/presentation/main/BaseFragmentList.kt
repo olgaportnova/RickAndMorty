@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.rickandmorty.R
+import com.example.rickandmorty.utils.SearchCategories
 
 abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -43,6 +47,8 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
             addItemDecoration(itemDecorator)
             this.adapter = adapter
         }
+
+
     }
 
     protected fun initSpinner(spinner: Spinner, adapter: ArrayAdapter<*>?) {
@@ -50,4 +56,16 @@ abstract class BaseFragmentList<VB: ViewBinding, VM: ViewModel>(
         spinner.adapter = adapter
     }
 
+    protected fun initSearchButton(btSearch: ImageButton, searchCategories: SearchCategories, inputText: EditText) {
+        btSearch.setOnClickListener {
+            val searchText = inputText.text.toString().toLowerCase()
+            if (searchText.isEmpty()) {
+                Toast.makeText(context, "Type search request", Toast.LENGTH_SHORT).show()
+            } else {
+                updateListWithSearch(searchText, searchCategories)
+            }
+        }
+    }
+
+    protected abstract fun updateListWithSearch(searchText: String, searchCategories: SearchCategories)
 }

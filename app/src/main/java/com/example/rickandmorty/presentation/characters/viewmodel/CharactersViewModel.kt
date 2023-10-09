@@ -1,6 +1,5 @@
 package com.example.rickandmorty.presentation.characters.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -12,13 +11,11 @@ import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
-import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
-import com.example.rickandmorty.presentation.characters.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
+import com.example.rickandmorty.utils.SearchCategories
+import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -90,7 +87,7 @@ class CharactersViewModel (
         _genderStateFlow.value = gender
         _state.value = _state.value.copy(isFilter = gender != Gender.NONE)
     }
-    fun updateCharactersListWithSearch(selectedCategory: SearchCategoriesCharacters, searchText: String) {
+    fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategoriesCharacters.NAME->_nameForSearch.value = searchText
             SearchCategoriesCharacters.SPECIES->_speciesForSearch.value = searchText
