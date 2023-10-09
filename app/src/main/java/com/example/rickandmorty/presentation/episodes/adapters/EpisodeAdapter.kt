@@ -1,31 +1,25 @@
 package com.example.rickandmorty.presentation.episodes.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeBinding
 import com.example.rickandmorty.domain.episodes.model.Episodes
+import com.example.rickandmorty.presentation.main.BaseAdapter
 
 
-class EpisodeAdapter:  PagingDataAdapter<Episodes, EpisodeAdapter.ViewHolder>(differCallback) {
-
-    private lateinit var binding: ItemViewRecycleEpisodeBinding
-    private lateinit var context: Context
-
-    var onItemClickListener: ((Episodes) -> Unit)? = null
+class EpisodeAdapter : BaseAdapter<Episodes, EpisodeAdapter.ViewHolder>(
+    createDefaultDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = ItemViewRecycleEpisodeBinding.inflate(inflater, parent, false)
-        context = parent.context
+        val binding = ItemViewRecycleEpisodeBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+    override fun bindViewHolder(holder: ViewHolder, item: Episodes) {
+        holder.bind(item)
     }
 
     inner class ViewHolder(private val binding: ItemViewRecycleEpisodeBinding) :
@@ -36,28 +30,13 @@ class EpisodeAdapter:  PagingDataAdapter<Episodes, EpisodeAdapter.ViewHolder>(di
                 episodeName.text = item.name
                 episodeCode.text = "Episode # - ${item.episode} -"
                 episodeAirDate.text = "Air date - ${item.air_date} -"
-
-
             }
-
             binding.root.setOnClickListener {
-                onItemClickListener?.invoke(item)
+                onItemClick(item)
             }
         }
 
     }
-
-    companion object {
-        val differCallback = object : DiffUtil.ItemCallback<Episodes>() {
-            override fun areItemsTheSame(oldItem: Episodes, newItem: Episodes): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Episodes, newItem: Episodes): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
-
 }
+
 

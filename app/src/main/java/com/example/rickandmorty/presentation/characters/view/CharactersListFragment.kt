@@ -1,16 +1,11 @@
 package com.example.rickandmorty.presentation.characters.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
 import com.example.rickandmorty.domain.characters.model.utils.Gender
@@ -21,6 +16,7 @@ import com.example.rickandmorty.presentation.main.BaseFragmentList
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
+import com.example.rickandmorty.utils.SearchCategoriesLocations
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -50,13 +46,19 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
     private fun initUI() {
         binding.placeholder.visibility = View.GONE
         initAdapter(binding.recyclerViewItems, characterAdapter,2,GridItemDecorator(2, 10, 10))
-        initSpinner(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesCharacters.values()))
+        initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
+            searchCategory = SearchCategoriesCharacters.values()[position]
+        }
         initBottomSheet()
     }
 
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {
         viewModel.updateListWithSearch(searchCategories, searchText)
     }
+    override fun clearTextSearchField() {
+        viewModel.clearTextSearchField()
+    }
+
     private fun initBottomSheet() {
         val bottomSheetContainer = binding.standardBottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
@@ -64,8 +66,11 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     private fun initClickListeners() {
+
+        initSearchButton(binding.btSearch,searchCategory,binding.inputTextSearch)
+        initClearButton(binding.inputTextSearch)
 
         characterAdapter.onItemClickListener = { character ->
             val bundle = Bundle().apply {
@@ -83,30 +88,6 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             viewModel.setGenderState(genderState)
             viewModel.setStatusState(statusState)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-        }
-
-        initSearchButton(binding.btSearch,searchCategory,binding.inputTextSearch)
-
-
-
-        binding.inputTextSearch.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                val drawableEnd = binding.inputTextSearch.compoundDrawablesRelative[2]
-                if (drawableEnd != null && event.rawX >= binding.inputTextSearch.right - drawableEnd.bounds.width()) {
-                    binding.inputTextSearch.text?.clear()
-                    viewModel.сlearTextSearchField()
-                }
-            }
-            false
-        }
-
-        binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                searchCategory = SearchCategoriesCharacters.values()[position]
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
         }
 
         binding.rgGender.setOnCheckedChangeListener { radioGroup, idThatSelected ->
@@ -153,33 +134,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         }
 
         characterAdapter.addLoadStateListener { loadState ->
-            if (loadState.refresh is LoadState.Loading) {
-                binding.placeholder.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-
-                if (characterAdapter.itemCount == 0 && loadState.refresh is LoadState.NotLoading) {
-                    binding.recyclerViewItems.visibility = View.GONE
-                    binding.placeholder.visibility = View.VISIBLE
-                } else {
-                    binding.recyclerViewItems.visibility = View.VISIBLE
-                    binding.placeholder.visibility = View.GONE
-                }
-
-                // Обработка ошибок загрузки
-                val errorState = loadState.refresh as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
-                    Toast.makeText(
-                        context,
-                        "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
+            handleLoadState(loadState, binding.recyclerViewItems, binding.placeholder, binding.progressBar)
         }
 
 
@@ -196,7 +151,6 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         updateRadioGroupGenderThatLastData(genderState)
     }
     private fun updateRadioGroupGenderThatLastData(genderState: Gender) {
-
         binding.rgGender.check(
             when (genderState) {
                 Gender.MALE -> binding.rbMale.id
@@ -206,12 +160,8 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
                 else -> -1
             }
         )
-
-
-
     }
     private fun updateRadioGroupStatusThatLastData(statusState: Status) {
-
         binding.rgStatus.check(
             when (statusState) {
                 Status.ALIVE -> binding.rbAlive.id
@@ -220,8 +170,6 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
                 else -> -1
             }
         )
-
-
     }
 
 }

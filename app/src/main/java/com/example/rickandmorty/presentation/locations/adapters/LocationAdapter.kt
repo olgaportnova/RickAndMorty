@@ -1,32 +1,25 @@
 package com.example.rickandmorty.presentation.locations.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeBinding
 import com.example.rickandmorty.databinding.ItemViewRecycleLocationBinding
 import com.example.rickandmorty.domain.locations.model.Locations
+import com.example.rickandmorty.presentation.main.BaseAdapter
 
 
-class LocationAdapter:  PagingDataAdapter<Locations, LocationAdapter.ViewHolder>(differCallback) {
-
-    private lateinit var binding: ItemViewRecycleLocationBinding
-    private lateinit var context: Context
-
-    var onItemClickListener: ((Locations) -> Unit)? = null
+class LocationAdapter : BaseAdapter<Locations, LocationAdapter.ViewHolder>(
+    createDefaultDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = ItemViewRecycleLocationBinding.inflate(inflater, parent, false)
-        context = parent.context
+        val binding = ItemViewRecycleLocationBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+    override fun bindViewHolder(holder: ViewHolder, item: Locations) {
+        holder.bind(item)
     }
 
     inner class ViewHolder(private val binding: ItemViewRecycleLocationBinding) :
@@ -37,28 +30,12 @@ class LocationAdapter:  PagingDataAdapter<Locations, LocationAdapter.ViewHolder>
                 locationName.text = item.name
                 locationType.text = "Type - ${item.type}"
                 locationDimension.text = "Dimension - ${item.dimension}"
-
-
             }
-
             binding.root.setOnClickListener {
-                onItemClickListener?.invoke(item)
-            }
-        }
-
-    }
-
-    companion object {
-        val differCallback = object : DiffUtil.ItemCallback<Locations>() {
-            override fun areItemsTheSame(oldItem: Locations, newItem: Locations): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Locations, newItem: Locations): Boolean {
-                return oldItem == newItem
+                onItemClick(item)
             }
         }
     }
-
 }
+
 

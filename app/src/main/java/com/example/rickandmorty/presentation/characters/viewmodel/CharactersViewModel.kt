@@ -95,29 +95,11 @@ class CharactersViewModel (
             else -> {}
         }
     }
-    fun сlearTextSearchField() {
+    fun clearTextSearchField() {
        _nameForSearch.value = ""
        _speciesForSearch.value = ""
         _typeForSearch.value = ""
     }
-
-//    suspend fun getCharacters(listOfId: List<Int>) : List<Characters> {
-//        return withContext(Dispatchers.Default) {
-//            val deferredList = listOfId.map { id ->
-//                async {
-//                    characterInteractor.getCharacterById(id)
-//                }
-//            }
-//            Log.d("TAG123", "deferredList $deferredList")
-//            val resultList = deferredList.awaitAll()
-//            Log.d("TAG123", "resultList - $resultList")
-//
-//            val filteredList = resultList.filterNotNull()
-//            Log.d("TAG123", "filteredList - $filteredList")
-//
-//            filteredList
-//        }
-//    }
 
     suspend fun getCharacter(id: Int) : Characters? {
         return withContext(Dispatchers.IO) {
