@@ -8,11 +8,13 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityRootBinding
 import com.example.rickandmorty.presentation.episodes.view.EpisodesListFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RootActivity : AppCompatActivity() {
 
@@ -27,7 +29,28 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView) // или используйте findViewById для фрагмента
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.charactersListFragment -> {
+                    navController.navigate(R.id.charactersListFragment)
+                    true
+                }
+                R.id.locationsListFragment -> {
+                    navController.navigate(R.id.locationsListFragment)
+                    true
+                }
+                R.id.episodesListFragment -> {
+                    navController.navigate(R.id.episodesListFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+
     }
+
 
 
     override fun onResume() {
@@ -42,6 +65,8 @@ class RootActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 
 
 }
