@@ -25,28 +25,18 @@ import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
 import com.example.rickandmorty.presentation.locations.adapters.LocationAdapter
 import com.example.rickandmorty.presentation.locations.utils.SearchCategoriesLocations
 import com.example.rickandmorty.presentation.locations.viewmodel.LocationViewModel
+import com.example.rickandmorty.presentation.main.BaseFragmentList
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class LocationsListFragment : Fragment() {
-
-    private lateinit var binding: FragmentLocationsListBinding
-    private lateinit var locationsAdapter: LocationAdapter
-    private val viewModel: LocationViewModel by activityViewModel()
+class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, LocationViewModel>(
+    FragmentLocationsListBinding::inflate
+) {
+    private var locationsAdapter = LocationAdapter()
+    override val viewModel: LocationViewModel by activityViewModel()
     private var searchCategory: SearchCategoriesLocations = SearchCategoriesLocations.NAME
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentLocationsListBinding.inflate(layoutInflater, container, false)
-        binding.placeholder.visibility = View.GONE
-        return binding.root
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,38 +47,18 @@ class LocationsListFragment : Fragment() {
 
     }
     private fun initUI() {
-        initAdapter()
-        initSpinner()
-    }
-    private fun initAdapter() {
-        locationsAdapter = LocationAdapter()
-
-        locationsAdapter.onItemClickListener = { episode ->
-
-            val action = LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(episode.id)
-            findNavController().navigate(action)
-
-        }
-        binding.recyclerViewItems.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecorator(2, 10, 10))
-            adapter =
-                locationsAdapter.withLoadStateFooter(LoadMoreAdapter {  locationsAdapter.retry() })
-
-
-
-        }
+        binding.placeholder.visibility = View.GONE
+        initAdapter(binding.recyclerViewItems, locationsAdapter,2,GridItemDecorator(2, 10, 10))
+        initSpinner(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values()))
     }
 
-    private fun initSpinner() {
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())
-        spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
-        binding.spinnerCategory.adapter = spinnerAdapter
-    }
     @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() {
 
-
+        locationsAdapter.onItemClickListener = { episode ->
+            val action = LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(episode.id)
+            findNavController().navigate(action)
+        }
 
         binding.btSearch.setOnClickListener {
             val searchText = binding.inputTextSearch.text.toString().toLowerCase()
@@ -123,7 +93,6 @@ class LocationsListFragment : Fragment() {
     }
     private fun observeData() {
 
-
         locationsAdapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Loading) {
                 binding.placeholder.visibility = View.GONE
@@ -155,18 +124,12 @@ class LocationsListFragment : Fragment() {
         }
 
 
-
-
         lifecycleScope.launch {
             viewModel.getListData().collectLatest {
                 locationsAdapter.submitData(it)
             }
         }
     }
-
-
-
-
 
 }
 

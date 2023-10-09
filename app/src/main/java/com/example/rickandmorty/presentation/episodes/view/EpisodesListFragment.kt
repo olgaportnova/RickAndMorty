@@ -16,33 +16,27 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentEpisodesListBinding
+import com.example.rickandmorty.databinding.FragmentLocationsListBinding
 import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
 import com.example.rickandmorty.presentation.episodes.adapters.EpisodeAdapter
 import com.example.rickandmorty.presentation.episodes.utils.SearchCategoriesEpisodes
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
+import com.example.rickandmorty.presentation.locations.utils.SearchCategoriesLocations
+import com.example.rickandmorty.presentation.locations.viewmodel.LocationViewModel
+import com.example.rickandmorty.presentation.main.BaseFragmentList
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
+    class EpisodesListFragment : BaseFragmentList<FragmentEpisodesListBinding, EpisodeViewModel>(
+        FragmentEpisodesListBinding::inflate
+    ) {
 
-class EpisodesListFragment : Fragment() {
-
-    private lateinit var binding: FragmentEpisodesListBinding
-    private lateinit var episodeAdapter: EpisodeAdapter
-    private val viewModel: EpisodeViewModel by activityViewModel()
+    private val episodeAdapter = EpisodeAdapter()
+    override val viewModel: EpisodeViewModel by activityViewModel()
     private var searchCategory: SearchCategoriesEpisodes = SearchCategoriesEpisodes.NAME
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentEpisodesListBinding.inflate(layoutInflater, container, false)
-        binding.placeholder.visibility = View.GONE
-        return binding.root
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,41 +47,18 @@ class EpisodesListFragment : Fragment() {
 
     }
     private fun initUI() {
-        initAdapter()
-        initSpinner()
-    }
-    private fun initAdapter() {
-        episodeAdapter = EpisodeAdapter()
-
-
-
-     episodeAdapter.onItemClickListener = { episode ->
-
-            val action = EpisodesListFragmentDirections.actionEpisodesListFragmentToEpisodesDetailsFragment(episode.id)
-            findNavController().navigate(action)
-
-
-
-        }
-        binding.recyclerViewItems.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecorator(2, 10, 10))
-            adapter =
-                episodeAdapter.withLoadStateFooter(LoadMoreAdapter { episodeAdapter.retry() })
-
-
-
-        }
+        binding.placeholder.visibility = View.GONE
+        initAdapter(binding.recyclerViewItems, episodeAdapter,2,GridItemDecorator(2, 10, 10))
+        initSpinner(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesEpisodes.values()))
     }
 
-    private fun initSpinner() {
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesEpisodes.values())
-        spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
-        binding.spinnerCategory.adapter = spinnerAdapter
-    }
     @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() {
 
+        episodeAdapter.onItemClickListener = { episode ->
+            val action = EpisodesListFragmentDirections.actionEpisodesListFragmentToEpisodesDetailsFragment(episode.id)
+            findNavController().navigate(action)
+        }
 
 
         binding.btSearch.setOnClickListener {

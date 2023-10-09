@@ -1,7 +1,7 @@
 package com.example.rickandmorty.presentation.characters.utils
 
 
-enum class SearchCategories(val title: String) {
+enum class SearchCategoriesCharacters(val title: String) {
     NAME("Name"),
     SPECIES("Species"),
     TYPE("Unknown")

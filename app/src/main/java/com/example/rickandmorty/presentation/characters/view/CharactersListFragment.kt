@@ -10,46 +10,34 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentCharactersListBinding
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
-import com.example.rickandmorty.presentation.characters.adapters.LoadMoreAdapter
+import com.example.rickandmorty.presentation.characters.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
+import com.example.rickandmorty.presentation.main.BaseFragmentList
 import com.example.rickandmorty.presentation.recycleviewList.GridItemDecorator
-import com.example.rickandmorty.presentation.characters.utils.SearchCategories
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class CharactersListFragment : Fragment() {
+class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, CharactersViewModel>(
+        FragmentCharactersListBinding::inflate
+    ) {
 
-    private lateinit var binding: FragmentCharactersListBinding
-    private lateinit var characterAdapter: CharacterAdapter
-    private val viewModel: CharactersViewModel by activityViewModel()
+    private var characterAdapter = CharacterAdapter()
+    override val viewModel: CharactersViewModel by activityViewModel()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var genderState : Gender = Gender.NONE
     private var statusState : Status = Status.NONE
-    private var searchCategory: SearchCategories = SearchCategories.NAME
+    private var searchCategory: SearchCategoriesCharacters = SearchCategoriesCharacters.NAME
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCharactersListBinding.inflate(layoutInflater, container, false)
-        binding.placeholder.visibility = View.GONE
-        return binding.root
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,48 +49,28 @@ class CharactersListFragment : Fragment() {
 
     }
     private fun initUI() {
-        initAdapter()
+        binding.placeholder.visibility = View.GONE
+        initAdapter(binding.recyclerViewItems, characterAdapter,2,GridItemDecorator(2, 10, 10))
+        initSpinner(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesCharacters.values()))
         initBottomSheet()
-        initSpinner()
     }
-    private fun initAdapter() {
-        characterAdapter = CharacterAdapter()
 
-
-
-        characterAdapter.onItemClickListener = { character ->
-
-            val bundle = Bundle().apply {
-                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id)
-            }
-            findNavController().navigate(R.id.charactersDetailsFragment, bundle)
-
-
-
-
-        }
-        binding.recyclerViewItems.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecorator(2, 10, 10))
-            adapter =
-                characterAdapter.withLoadStateFooter(LoadMoreAdapter { characterAdapter.retry() })
-
-
-        }
-    }
     private fun initBottomSheet() {
         val bottomSheetContainer = binding.standardBottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
     }
-    private fun initSpinner() {
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategories.values())
-        spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
-        binding.spinnerCategory.adapter = spinnerAdapter
-    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun initClickListeners() {
+
+        characterAdapter.onItemClickListener = { character ->
+            val bundle = Bundle().apply {
+                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id)
+            }
+            findNavController().navigate(R.id.charactersDetailsFragment, bundle)
+        }
 
         binding.btFilter.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -139,7 +107,7 @@ class CharactersListFragment : Fragment() {
 
         binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                searchCategory = SearchCategories.values()[position]
+                searchCategory = SearchCategoriesCharacters.values()[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }

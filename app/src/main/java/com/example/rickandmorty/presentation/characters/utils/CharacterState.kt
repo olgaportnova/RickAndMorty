@@ -10,7 +10,7 @@ data class CharacterState(
     val statusState: Status = Status.NONE,
     var genderState: Gender = Gender.NONE,
     val querySearch: String = "",
-    val queryCategory: SearchCategories = SearchCategories.NAME,
+    val queryCategory: SearchCategoriesCharacters = SearchCategoriesCharacters.NAME,
     val isFilter: Boolean = false,
     val toastMessage: String = "",
 

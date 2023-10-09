@@ -14,7 +14,7 @@ import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
-import com.example.rickandmorty.presentation.characters.utils.SearchCategories
+import com.example.rickandmorty.presentation.characters.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -90,11 +90,11 @@ class CharactersViewModel (
         _genderStateFlow.value = gender
         _state.value = _state.value.copy(isFilter = gender != Gender.NONE)
     }
-    fun updateCharactersListWithSearch(selectedCategory: SearchCategories, searchText: String) {
+    fun updateCharactersListWithSearch(selectedCategory: SearchCategoriesCharacters, searchText: String) {
         when(selectedCategory) {
-            SearchCategories.NAME->_nameForSearch.value = searchText
-            SearchCategories.SPECIES->_speciesForSearch.value = searchText
-            SearchCategories.TYPE->_typeForSearch.value = searchText
+            SearchCategoriesCharacters.NAME->_nameForSearch.value = searchText
+            SearchCategoriesCharacters.SPECIES->_speciesForSearch.value = searchText
+            SearchCategoriesCharacters.TYPE->_typeForSearch.value = searchText
             else -> {}
         }
     }
