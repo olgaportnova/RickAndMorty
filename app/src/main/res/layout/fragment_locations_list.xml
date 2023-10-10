@@ -65,21 +65,28 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/recycler_view_items"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:foregroundGravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_layout" >
+        app:layout_constraintTop_toBottomOf="@id/search_layout">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recycler_view_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center_horizontal">
 
     </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

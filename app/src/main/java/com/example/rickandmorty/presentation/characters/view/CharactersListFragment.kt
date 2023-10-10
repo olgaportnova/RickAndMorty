@@ -48,6 +48,9 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             searchCategory = SearchCategoriesCharacters.values()[position]
         }
         initBottomSheet()
+        setupSwipeToRefresh(binding.swipeRefreshLayout) {
+            observeData()
+        }
     }
 
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {

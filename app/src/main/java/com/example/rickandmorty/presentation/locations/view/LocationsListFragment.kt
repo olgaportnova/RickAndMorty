@@ -33,6 +33,9 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
         initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
             searchCategory = SearchCategoriesLocations.values()[position]
         }
+        setupSwipeToRefresh(binding.swipeRefreshLayout) {
+            observeData()
+        }
     }
 
     private fun initClickListeners() {

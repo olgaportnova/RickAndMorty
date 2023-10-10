@@ -24,6 +24,7 @@ import com.example.rickandmorty.utils.SearchCategories
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -77,6 +78,14 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+    }
+
+    protected fun setupSwipeToRefresh(swipeRefreshLayout: SwipeRefreshLayout, action: () -> Unit) {
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = true
+            action.invoke()
+           swipeRefreshLayout.isRefreshing = false
         }
     }
 

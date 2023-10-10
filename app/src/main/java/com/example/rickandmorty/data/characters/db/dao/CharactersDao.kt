@@ -6,8 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
-import com.example.rickandmorty.data.episodes.db.entity.EpisodeEntity
-import com.example.rickandmorty.domain.characters.model.Characters
 
 @Dao
 interface CharactersDao {
@@ -30,7 +28,6 @@ interface CharactersDao {
         species: String?,
         type: String?
     ): PagingSource<Int, CharactersEntity>
-
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -108,12 +108,12 @@
 
         <TextView
             android:id="@+id/episodes_info"
-            android:text="Characters"
-            android:fontFamily="@font/wubbalubbadubdub"
-            app:layout_constraintEnd_toEndOf="@id/rv_characters"
-            app:layout_constraintBottom_toTopOf="@id/rv_characters"
+            style="@style/flexbox_discription"
             android:layout_marginEnd="18dp"
-            style="@style/flexbox_discription" />
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:text="@string/residents"
+            app:layout_constraintBottom_toTopOf="@id/rv_characters"
+            app:layout_constraintEnd_toEndOf="@id/rv_characters" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
