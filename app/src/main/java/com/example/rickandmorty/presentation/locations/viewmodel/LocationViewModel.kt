@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.rickandmorty.data.locations.utils.LocationsConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
+import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.domain.locations.LocationInteractor
 import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.locations.utils.LocationState
@@ -26,7 +27,6 @@ import kotlinx.coroutines.withContext
 
 class LocationViewModel (
     private val locationConverter: LocationsConverter,
-    private val characterInteractor: CharacterInteractor,
     private val locationInteractor: LocationInteractor
 ): ViewModel() {
 
@@ -60,7 +60,7 @@ class LocationViewModel (
     }
 
 
-
+    // requests to API
     fun getListData(): Flow<PagingData<Locations>> {
         return combine(nameForSearch, typeForSearch, dimensionForSearch) {name, type, dimension ->
             SearchRequestParamsLocations(name = name, type=type, dimension= dimension)
@@ -71,7 +71,20 @@ class LocationViewModel (
                 .cachedIn(viewModelScope)
         }
     }
+    suspend fun getLocation(id: Int) : Locations? {
+        return withContext(Dispatchers.IO) {
+            locationInteractor.getLocationById(id)
+        }
+    }
 
+    // requests to local DB
+    suspend fun getLocationFromDb(id: Int) : Locations? {
+        return withContext(Dispatchers.IO) {
+            locationInteractor.getLocationByIdFromDb(id)
+        }
+    }
+
+    // search support functions
     fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategoriesLocations.NAME->_nameForSearch.value = searchText
@@ -84,12 +97,6 @@ class LocationViewModel (
         _nameForSearch.value = ""
         _typeForSearch.value = ""
         _dimensionForSearch.value = ""
-    }
-
-    suspend fun getLocation(id: Int) : Locations? {
-        return withContext(Dispatchers.IO) {
-            locationInteractor.getLocationById(id)
-        }
     }
 
 

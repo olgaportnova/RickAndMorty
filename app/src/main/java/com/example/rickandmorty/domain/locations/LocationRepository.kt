@@ -17,5 +17,5 @@ interface LocationRepository {
     suspend fun getLocationByIdFromApi(id: Int): Locations?
 
 
-
+    suspend fun getLocationByIdFromDb(id: Int): Locations?
 }

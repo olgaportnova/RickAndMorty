@@ -150,6 +150,20 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="placeholder_no_internet_details">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/peach</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="android:layout_marginStart">18dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
     <style name="flexbox_details">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

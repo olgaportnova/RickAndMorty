@@ -18,7 +18,6 @@ import com.example.rickandmorty.data.locations.db.entity.LocationEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun charactersDao(): CharactersDao
     abstract fun episodeDao(): EpisodesDao
-
     abstract fun locationDao(): LocationsDao
 
 

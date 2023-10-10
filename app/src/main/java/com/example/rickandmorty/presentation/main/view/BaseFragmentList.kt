@@ -64,6 +64,7 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
         onItemSelected: (position: Int) -> Unit
     ) {
         spinner.adapter = adapter
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -133,13 +134,13 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
-                showToast("${it.error}")
+                showToast(getString(R.string.search_error))
             }
         }
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     protected fun <T : Any> observeAndSubmitData(

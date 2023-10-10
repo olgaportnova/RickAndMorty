@@ -17,4 +17,5 @@ interface LocationInteractor {
 
     suspend fun getLocationById(id: Int): Locations?
 
+    suspend fun getLocationByIdFromDb(id: Int): Locations?
 }

@@ -22,5 +22,14 @@ class EpisodeInteractorImpl(
         return episodeRepository.getMultipleEpisodes(ids)
     }
 
+    override suspend fun getEpisodeByIdFromDb(id: Int): Episodes? {
+        return episodeRepository.getEpisodeByIdFromDb(id)
+    }
+
+    override suspend fun getMultipleEpisodesFromDb(ids: List<Int>): List<Episodes>? {
+        return episodeRepository.getMultipleEpisodesFromDb(ids)
+    }
+
+
 
 }

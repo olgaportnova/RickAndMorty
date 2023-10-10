@@ -28,8 +28,7 @@ import kotlinx.coroutines.withContext
 
 class CharactersViewModel (
     private val characterConverter: CharacterConverter,
-    private val characterInteractor: CharacterInteractor,
-    private val episodeInteractor: EpisodeInteractor
+    private val characterInteractor: CharacterInteractor
 ): ViewModel() {
 
     private val _state = MutableStateFlow(CharacterState())
@@ -53,10 +52,6 @@ class CharactersViewModel (
     private val _charactersSearchResult = MutableStateFlow<List<Characters>>(emptyList())
     val charactersSearchResult: StateFlow<List<Characters>> get() = _charactersSearchResult
 
-
-
-
-
     init {
         viewModelScope.launch {
             getListData().collect { it ->
@@ -67,8 +62,7 @@ class CharactersViewModel (
         }
     }
 
-
-
+    // requests to API
     fun getListData(): Flow<PagingData<Characters>> {
         return combine(genderStateFlow, statusStateFlow, nameForSearch, speciesForSearch, typeForSearch) { gender, status, name, species, type  ->
             SearchRequestParams(gender = gender, status = status, name = name, species = species, type = type)
@@ -79,6 +73,41 @@ class CharactersViewModel (
                 .cachedIn(viewModelScope)
         }
     }
+    suspend fun getCharacter(id: Int) : Characters? {
+        return withContext(Dispatchers.IO) {
+            characterInteractor.getCharacterByIdFromApi(id)
+        }
+    }
+    suspend fun getMultipleCharacters(listOfId: List<Int>) {
+        withContext(Dispatchers.IO) {
+            val result = characterInteractor.getMultipleCharactersFromApi(listOfId)
+
+            if (result != null) {
+                _charactersSearchResult.value= result
+            } else {
+                _charactersSearchResult.value= emptyList()
+            }
+        }
+    }
+
+    // requests to local DB
+    suspend fun getMultipleCharactersFromDb(listOfId: List<Int>) {
+        withContext(Dispatchers.IO) {
+            val result = characterInteractor.getMultipleCharactersFromDb(listOfId)
+            if (result != null) {
+                _charactersSearchResult.value= result
+            } else {
+                _charactersSearchResult.value= emptyList()
+            }
+        }
+    }
+    suspend fun getCharacterFromDb(id: Int) : Characters? {
+        return withContext(Dispatchers.IO) {
+            characterInteractor.getCharacterByIdFromDb(id)
+        }
+    }
+
+    // search support functions
     fun setStatusState(status: Status) {
         _statusStateFlow.value = status
         _state.value = _state.value.copy(isFilter = status != Status.NONE)
@@ -100,27 +129,6 @@ class CharactersViewModel (
        _speciesForSearch.value = ""
         _typeForSearch.value = ""
     }
-
-    suspend fun getCharacter(id: Int) : Characters? {
-        return withContext(Dispatchers.IO) {
-            characterInteractor.getCharacterById(id)
-                }
-        }
-
-
-    suspend fun getMultipleCharacters(listOfId: List<Int>) {
-        withContext(Dispatchers.IO) {
-            val result = characterInteractor.getMultipleCharacters(listOfId)
-
-            if (result != null) {
-                _charactersSearchResult.value= result
-            } else {
-                _charactersSearchResult.value= emptyList()
-            }
-        }
-    }
-
-
 
     }
 

@@ -16,6 +16,7 @@ import com.example.rickandmorty.presentation.characters.viewmodel.CharactersView
 import com.example.rickandmorty.presentation.episodes.adapters.CharacterAdapterDetailsScreen
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
 import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
+import com.example.rickandmorty.utils.NetworkUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -41,19 +42,33 @@ class EpisodesDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        lifecycleScope.launch {
-            episode = viewModelEpisode.getEpisode(episodeId!!)
-            episode?.let {
-                val listOfCharactersId = it.characters.mapNotNull { url ->
-                    url.split("/").last().toIntOrNull()
+        
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            binding.placeholderNoInternet.visibility = View.GONE
+            lifecycleScope.launch {
+                episode = viewModelEpisode.getEpisode(episodeId!!)
+                episode?.let {
+                    val listOfCharactersId = it.characters.mapNotNull { url ->
+                        url.split("/").last().toIntOrNull()
+                    }
+                    viewModelCharacters.getMultipleCharacters(listOfCharactersId)
                 }
-                viewModelCharacters.getMultipleCharacters(listOfCharactersId)
-
-                // После получения данных вызываем initUI
                 initUI(episode)
+            }} else {
+            lifecycleScope.launch {
+                binding.placeholderNoInternet.visibility = View.VISIBLE
+                episode = viewModelEpisode.getEpisodeFromDb(episodeId!!)
+                initUI(episode)
+                episode?.let {
+                    val listOfCharactersId = it.characters.mapNotNull { url ->
+                        url.split("/").last().toIntOrNull()
+                    }
+                    viewModelCharacters.getMultipleCharactersFromDb(listOfCharactersId)
+                }
+
+
             }
+
         }
 
         adapter =

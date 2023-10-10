@@ -80,16 +80,27 @@
 
         </com.google.android.flexbox.FlexboxLayout>
 
+        <TextView
+            android:id="@+id/placeholder_no_internet"
+            android:text="@string/no_internet_characters_episode"
+            app:layout_constraintStart_toStartOf="@id/rv_characters"
+            app:layout_constraintEnd_toEndOf="@id/rv_characters"
+            app:layout_constraintTop_toBottomOf="@id/basic_info"
+            android:background = "@drawable/circle_no_internet_details_screen"
+            android:fontFamily="@font/wubbalubbadubdub"
+            style="@style/placeholder_no_internet_details" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_characters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/basic_info"
-            android:layout_margin="12dp"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:padding="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:background="@drawable/flexbox_stroke_layout"

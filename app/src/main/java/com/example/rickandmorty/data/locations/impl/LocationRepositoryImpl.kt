@@ -70,6 +70,15 @@ class LocationRepositoryImpl (
         }
     }
 
+    override suspend fun getLocationByIdFromDb(id: Int): Locations? {
+        val locationEntity = appDatabase.locationDao().getLocationById(id)
+        return if (locationEntity == null) {
+            null
+        } else {
+            locationConverter.map(appDatabase.locationDao().getLocationById(id)!!)
+        }
+    }
+
 
 
 }

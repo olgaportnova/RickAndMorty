@@ -83,7 +83,7 @@ class CharactersRepositoryImpl(
         }
     }
 
-    override suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>? {
+    override suspend fun getMultipleCharactersFromApi(ids: List<Int>): List<Characters>? {
         var idsString: String? = null
         var listOfCharactersResponse: MutableList<Characters> = mutableListOf()
         if (ids.size == 1) {
@@ -106,5 +106,27 @@ class CharactersRepositoryImpl(
     }
 
 
+    override suspend fun getCharacterByIdFromDb(id: Int) : Characters? {
+        val characterEntity = appDatabase.charactersDao().getCharacterById(id)
+        return if (characterEntity == null) {
+            null
+        } else {
+            characterConverter.map(appDatabase.charactersDao().getCharacterById(id)!!)
+        }
+    }
+
+    override suspend fun getMultipleCharactersFromDb(ids: List<Int>): List<Characters>? {
+        var listOfCharactersResponse: MutableList<Characters> = mutableListOf()
+        val responseEntityList = appDatabase.charactersDao().getCharactersByIds(ids)
+        responseEntityList.forEach { entity ->
+            val character = characterConverter.map(entity)
+            listOfCharactersResponse.add(character)
+        }
+        return if (listOfCharactersResponse == null) {
+            null
+        } else {
+            listOfCharactersResponse
+        }
+    }
 
 }

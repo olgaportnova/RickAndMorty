@@ -84,6 +84,32 @@ class EpisodeRepositoryImpl(
         return listOfEpisodesResponse
     }
 
+    override suspend fun getEpisodeByIdFromDb(id: Int): Episodes? {
+        val episodeEntity = appDatabase.episodeDao().getEpisodeById(id)
+        return if (episodeEntity == null) {
+            null
+        } else {
+            episodeConverter.map(appDatabase.episodeDao().getEpisodeById(id)!!)
+        }
+    }
+
+
+    override suspend fun getMultipleEpisodesFromDb(ids: List<Int>): List<Episodes>? {
+        var listOfEpisodesResponse: MutableList<Episodes> = mutableListOf()
+        val responseEntityList = appDatabase.episodeDao().getEpisodesByIds(ids)
+        responseEntityList.forEach { entity ->
+            val episode = episodeConverter.map(entity)
+            listOfEpisodesResponse.add(episode)
+        }
+        return if (listOfEpisodesResponse == null) {
+            null
+        } else {
+            listOfEpisodesResponse
+        }
+    }
+
+
+
 }
 
 

@@ -37,5 +37,10 @@ interface EpisodesDao {
     fun getEpisodeById(episodeId: Int): EpisodeEntity
 
 
+    @Query("SELECT * FROM episodes WHERE id IN (:episodeIds)")
+    fun getEpisodesByIds(episodeIds: List<Int>): List<EpisodeEntity>
+
+
+
 }
 

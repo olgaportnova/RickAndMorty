@@ -36,8 +36,8 @@ interface LocationsDao {
 
 
 
-    @Query("SELECT * FROM locations WHERE id = :locationsId")
-    fun getLocationsById(locationsId: Int): LocationEntity
+    @Query("SELECT * FROM locations WHERE id = :locationId")
+    fun getLocationById(locationId: Int): LocationEntity
 
 
 }

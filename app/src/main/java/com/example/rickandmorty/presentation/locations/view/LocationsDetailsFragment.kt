@@ -16,6 +16,7 @@ import com.example.rickandmorty.presentation.characters.viewmodel.CharactersView
 import com.example.rickandmorty.presentation.episodes.adapters.CharacterAdapterDetailsScreen
 import com.example.rickandmorty.presentation.locations.viewmodel.LocationViewModel
 import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
+import com.example.rickandmorty.utils.NetworkUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.text.SimpleDateFormat
@@ -45,19 +46,32 @@ class LocationsDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        lifecycleScope.launch {
-            location = viewModelLocations.getLocation(locationId!!)
-            location?.let {
-                val listOfCharactersId = it.residents.mapNotNull { url ->
-                    url.split("/").last().toIntOrNull()
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            binding.placeholderNoInternet.visibility = View.GONE
+            lifecycleScope.launch {
+                location = viewModelLocations.getLocation(locationId!!)
+                location?.let {
+                    val listOfCharactersId = it.residents.mapNotNull { url ->
+                        url.split("/").last().toIntOrNull()
+                    }
+                    viewModelCharacters.getMultipleCharacters(listOfCharactersId)
+                    initUI(location)
                 }
-                viewModelCharacters.getMultipleCharacters(listOfCharactersId)
-
-                // После получения данных вызываем initUI
-                initUI(location)
             }
         }
+        else {
+                lifecycleScope.launch {
+                    binding.placeholderNoInternet.visibility = View.VISIBLE
+                    location = viewModelLocations.getLocationFromDb(locationId!!)
+                    initUI(location)
+                    location?.let {
+                        val listOfCharactersId = it.residents.mapNotNull { url ->
+                            url.split("/").last().toIntOrNull()
+                        }
+                        viewModelCharacters.getMultipleCharactersFromDb(listOfCharactersId)
+                    }
+                }
+            }
 
         adapter =
             CharacterAdapterDetailsScreen(listener = object : CharacterAdapterDetailsScreen.Listener {

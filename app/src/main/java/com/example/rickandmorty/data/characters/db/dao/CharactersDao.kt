@@ -41,8 +41,10 @@ interface CharactersDao {
 
 
     @Query("SELECT * FROM characters WHERE id = :characterId")
-    fun getCharacterById(characterId: Int): CharactersEntity
+    fun getCharacterById(characterId: Int): CharactersEntity?
 
+    @Query("SELECT * FROM characters WHERE id IN (:characterIds)")
+    fun getCharactersByIds(characterIds: List<Int>): List<CharactersEntity>
 
 }
 

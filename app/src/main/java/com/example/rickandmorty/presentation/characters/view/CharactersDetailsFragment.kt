@@ -19,6 +19,7 @@ import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.adapters.EpisodeAdapterDetailsScreen
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
+import com.example.rickandmorty.utils.NetworkUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -39,13 +40,16 @@ class CharactersDetailsFragment : Fragment() {
     ): View {
         binding = FragmentCharactersDetailsBinding.inflate(inflater, container, false)
         characterId = arguments?.getInt(ARG_CHARACTER_ID)
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            binding.placeholderNoInternet.visibility = View.GONE
         lifecycleScope.launch {
             character = viewModelCharacter.getCharacter(characterId!!)
             character?.let {
@@ -53,10 +57,23 @@ class CharactersDetailsFragment : Fragment() {
                     url.split("/").last().toIntOrNull()
                 }
                 viewModelEpisode.getMultipleEpisodes(listOfEpisodesId)
-
-                // После получения данных вызываем initUI
-                initUI(character)
             }
+            initUI(character)
+        }} else {
+            lifecycleScope.launch {
+                binding.placeholderNoInternet.visibility = View.VISIBLE
+                character = viewModelCharacter.getCharacterFromDb(characterId!!)
+                initUI(character)
+                character?.let {
+                    val listOfEpisodesId = it.episode.mapNotNull { url ->
+                        url.split("/").last().toIntOrNull()
+                    }
+                    viewModelEpisode.getMultipleEpisodesFromDb(listOfEpisodesId)
+                }
+
+
+            }
+
         }
 
         adapter =

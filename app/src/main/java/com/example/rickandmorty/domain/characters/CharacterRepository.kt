@@ -16,6 +16,9 @@ interface CharacterRepository {
 
     suspend fun getCharacterByIdFromApi(id:Int) : Characters?
 
-    suspend fun getMultipleCharacters(ids: List<Int>): List<Characters>?
+    suspend fun getMultipleCharactersFromApi(ids: List<Int>): List<Characters>?
 
+    suspend fun getCharacterByIdFromDb(id: Int) : Characters?
+
+    suspend fun getMultipleCharactersFromDb(ids: List<Int>): List<Characters>?
 }

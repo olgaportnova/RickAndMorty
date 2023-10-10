@@ -27,7 +27,6 @@ import kotlinx.coroutines.withContext
 
 class EpisodeViewModel (
     private val episodeConverter: EpisodesConverter,
-    private val characterInteractor: CharacterInteractor,
     private val episodeInteractor: EpisodeInteractor
 ): ViewModel() {
 
@@ -44,9 +43,6 @@ class EpisodeViewModel (
     private val _episodeSearchResult = MutableStateFlow<List<Episodes>>(emptyList())
     val episodeSearchResult: StateFlow<List<Episodes>> get() = _episodeSearchResult
 
-
-
-
     init {
         viewModelScope.launch {
             getListData().collect { it ->
@@ -57,8 +53,22 @@ class EpisodeViewModel (
         }
     }
 
-
-
+    // requests to API
+    suspend fun getEpisode(id: Int) : Episodes? {
+        return withContext(Dispatchers.IO) {
+            episodeInteractor.getEpisodeById(id)
+        }
+    }
+    suspend fun getMultipleEpisodes(listOfId: List<Int>) {
+        withContext(Dispatchers.IO) {
+            val result = episodeInteractor.getMultipleEpisodes(listOfId)
+            if (result != null) {
+                _episodeSearchResult.value= result
+            } else {
+                _episodeSearchResult.value= emptyList()
+            }
+        }
+    }
     fun getListData(): Flow<PagingData<Episodes>> {
         return combine(nameForSearch, episodeForSearch) {name, episode  ->
             SearchRequestParamsEpisode(name = name, episode=episode)
@@ -70,6 +80,25 @@ class EpisodeViewModel (
         }
     }
 
+    // requests to local DB
+    suspend fun getMultipleEpisodesFromDb(listOfId: List<Int>) {
+        withContext(Dispatchers.IO) {
+            val result = episodeInteractor.getMultipleEpisodesFromDb(listOfId)
+            if (result != null) {
+                _episodeSearchResult.value= result
+            } else {
+                _episodeSearchResult.value= emptyList()
+            }
+        }
+    }
+    suspend fun getEpisodeFromDb(id: Int) : Episodes? {
+        return withContext(Dispatchers.IO) {
+            episodeInteractor.getEpisodeByIdFromDb(id)
+        }
+    }
+
+
+    // search support functions
     fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when(selectedCategory) {
             SearchCategoriesEpisodes.NAME->_nameForSearch.value = searchText
@@ -82,24 +111,5 @@ class EpisodeViewModel (
         _episodeForSearch.value = ""
     }
 
-    suspend fun getEpisode(id: Int) : Episodes? {
-        return withContext(Dispatchers.IO) {
-            episodeInteractor.getEpisodeById(id)
-        }
-    }
-
-
-
-    suspend fun getMultipleEpisodes(listOfId: List<Int>) {
-        withContext(Dispatchers.IO) {
-            val result = episodeInteractor.getMultipleEpisodes(listOfId)
-
-            if (result != null) {
-                _episodeSearchResult.value= result
-            } else {
-                _episodeSearchResult.value= emptyList()
-            }
-        }
-    }
 
 }
