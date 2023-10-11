@@ -1,18 +1,25 @@
 package com.example.rickandmorty.presentation.characters.viewmodel
 
+import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
+import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
+import com.example.rickandmorty.utils.Event
+import com.example.rickandmorty.utils.NetworkUtils
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +35,8 @@ import kotlinx.coroutines.withContext
 
 class CharactersViewModel (
     private val characterConverter: CharacterConverter,
-    private val characterInteractor: CharacterInteractor
+    private val characterInteractor: CharacterInteractor,
+    private val episodeInteractor: EpisodeInteractor
 ): ViewModel() {
 
     private val _state = MutableStateFlow(CharacterState())
@@ -51,6 +59,28 @@ class CharactersViewModel (
 
     private val _charactersSearchResult = MutableStateFlow<List<Characters>>(emptyList())
     val charactersSearchResult: StateFlow<List<Characters>> get() = _charactersSearchResult
+
+    private val _character = MutableLiveData<Characters?>(null)
+    val character: LiveData<Characters?> get() = _character
+
+    private val _episodeIds = MutableLiveData<List<Int>>(emptyList())
+    val episodeIds: LiveData<List<Int>> get() = _episodeIds
+
+    private val _episodeSearchResult = MutableStateFlow<List<Episodes>>(emptyList())
+    val episodeSearchResult: StateFlow<List<Episodes>> get() = _episodeSearchResult
+
+
+    private val _isNetworkAvailable = MutableLiveData<Boolean>(false)
+    val isNetworkAvailable: LiveData<Boolean>  = _isNetworkAvailable
+
+    private val _navigateToDetails = MutableLiveData<Event<Int>>()
+    val navigateToDetails: LiveData<Event<Int>> get() = _navigateToDetails
+
+    private val _showToast = MutableLiveData<Event<Int>>()
+    val showToast: LiveData<Event<Int>> get() = _showToast
+
+
+
 
     init {
         viewModelScope.launch {
@@ -130,7 +160,84 @@ class CharactersViewModel (
         _typeForSearch.value = ""
     }
 
+
+
+
+    fun checkNetworkAvailability(context: Context) {
+        viewModelScope.launch {
+            _isNetworkAvailable.value = NetworkUtils.isNetworkAvailable(context)
+        }
     }
+
+    fun loadCharacter(characterId: Int?) {
+        viewModelScope.launch {
+            _character.value = if (_isNetworkAvailable.value == true) {
+               getCharacter(characterId!!)
+            } else {
+              getCharacterFromDb(characterId!!)
+            }
+
+            _character.value?.let {
+                extractEpisodeIdsFromCharacter(it)
+                if (episodeIds.value.isNullOrEmpty()) {
+                    _episodeSearchResult.value= emptyList()
+                } else {
+                    loadEpisodes(episodeIds.value!!)
+                }
+            }
+        }
+    }
+
+    private fun extractEpisodeIdsFromCharacter(character: Characters) {
+        _episodeIds.value = character.episode.mapNotNull { url ->
+            url.split("/").lastOrNull()?.toIntOrNull()
+        }
+    }
+
+
+    private fun loadEpisodes(episodeIds: List<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isNetworkAvailable.value == true) {
+                val result = episodeInteractor.getMultipleEpisodes(episodeIds)
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        _episodeSearchResult.value = result
+                    } else {
+                        _episodeSearchResult.value = emptyList()
+                    }
+                }
+            } else {
+                val result = episodeInteractor.getMultipleEpisodesFromDb(episodeIds)
+                withContext(Dispatchers.Main) {
+                    if (result != null) {
+                        _episodeSearchResult.value = result
+                    } else {
+                        _episodeSearchResult.value = emptyList()
+                    }
+                }
+            }
+        }
+    }
+
+    fun navigateToDetails(type: Int) {
+        var url: String? = if(type ==1) {
+            character.value?.location?.url.toString()
+        } else {
+            character.value?.origin?.url.toString()
+        }
+        val id = url?.split("/")?.lastOrNull()?.toIntOrNull()
+        if (id != null && id != 0) {
+            _navigateToDetails.value = Event(id)
+        } else {
+            _showToast.value = Event(R.string.no_location)
+        }
+    }
+
+
+
+
+
+}
 
 
 

@@ -1,13 +1,8 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,63 +13,25 @@ import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.adapters.EpisodeAdapterDetailsScreen
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
-import com.example.rickandmorty.presentation.episodes.viewmodel.EpisodeViewModel
-import com.example.rickandmorty.utils.NetworkUtils
+import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails
+import com.example.rickandmorty.utils.EventObserver
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class CharactersDetailsFragment : Fragment() {
-
-    private lateinit var binding: FragmentCharactersDetailsBinding
-    private val viewModelCharacter: CharactersViewModel by activityViewModel()
-    private val viewModelEpisode: EpisodeViewModel by activityViewModel()
-
+class CharactersDetailsFragment :
+    BaseFragmentDetails<FragmentCharactersDetailsBinding, CharactersViewModel>(
+        FragmentCharactersDetailsBinding::inflate
+    ) {
+    override val viewModel: CharactersViewModel by activityViewModel()
     private lateinit var adapter: EpisodeAdapterDetailsScreen
     private var characterId: Int? = null
-    private var character: Characters? = null
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCharactersDetailsBinding.inflate(inflater, container, false)
-        characterId = arguments?.getInt(ARG_CHARACTER_ID)
-
-
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        characterId = arguments?.getInt(ARG_CHARACTER_ID)
 
-        if (NetworkUtils.isNetworkAvailable(requireContext())) {
-            binding.placeholderNoInternet.visibility = View.GONE
-        lifecycleScope.launch {
-            character = viewModelCharacter.getCharacter(characterId!!)
-            character?.let {
-                val listOfEpisodesId = it.episode.mapNotNull { url ->
-                    url.split("/").last().toIntOrNull()
-                }
-                viewModelEpisode.getMultipleEpisodes(listOfEpisodesId)
-            }
-            initUI(character)
-        }} else {
-            lifecycleScope.launch {
-                binding.placeholderNoInternet.visibility = View.VISIBLE
-                character = viewModelCharacter.getCharacterFromDb(characterId!!)
-                initUI(character)
-                character?.let {
-                    val listOfEpisodesId = it.episode.mapNotNull { url ->
-                        url.split("/").last().toIntOrNull()
-                    }
-                    viewModelEpisode.getMultipleEpisodesFromDb(listOfEpisodesId)
-                }
-
-
-            }
-
-        }
+        viewModel.checkNetworkAvailability(requireContext())
+        viewModel.loadCharacter(characterId)
 
         adapter =
             EpisodeAdapterDetailsScreen(listener = object : EpisodeAdapterDetailsScreen.Listener {
@@ -89,58 +46,63 @@ class CharactersDetailsFragment : Fragment() {
         binding.rvEpisodes.layoutManager = LinearLayoutManager(context)
         binding.rvEpisodes.adapter = adapter
 
-
         setupOnClickListeners()
         setupObservers()
     }
-
-
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModelEpisode.episodeSearchResult.collect { episodesList ->
-                adapter.submitList(episodesList)
+        lifecycleScope.launch {
+            viewModel.episodeSearchResult.collect { episodesList ->
+                if (episodesList.isNullOrEmpty()) {
+                    binding.placeholderNoEpisodes.visibility = View.VISIBLE
+                    binding.rvEpisodes.visibility = View.GONE
+                } else {
+                    adapter.submitList(episodesList)
+                    binding.placeholderNoEpisodes.visibility = View.GONE
+                    binding.rvEpisodes.visibility = View.VISIBLE
+                }
             }
         }
-    }
-
-    private fun setupOnClickListeners() {
-
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressed()
+        viewModel.isNetworkAvailable.observe(viewLifecycleOwner) { isNetworkAvailable ->
+            handleNetworkVisibility(isNetworkAvailable)
         }
+        viewModel.character.observe(viewLifecycleOwner) { character ->
+            character?.let {
+                initUI(it)
+            }
+        }
+        viewModel.navigateToDetails.observe(viewLifecycleOwner, EventObserver {
+            val action = CharactersDetailsFragmentDirections
+                .actionCharactersDetailsFragmentToLocationsDetailsFragment(it)
+            findNavController().navigate(action)
+        })
+        viewModel.showToast.observe(viewLifecycleOwner, EventObserver {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        })
+    }
+    private fun handleNetworkVisibility(isNetworkAvailable: Boolean) {
+        binding.placeholderNoInternet.visibility =
+            if (isNetworkAvailable) View.GONE else View.VISIBLE
+    }
+    private fun setupOnClickListeners() {
+        setBackButtonClickListener(binding.back)
 
         binding.location.setOnClickListener {
-            var locationUrl = character?.location?.url?.split("/")?.last()?.toIntOrNull() ?: 0
-            if (locationUrl == 0 || locationUrl == null) {
-                Toast.makeText(requireContext(), R.string.no_location, Toast.LENGTH_SHORT).show()
-            } else {
-                val action =
-                    CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToLocationsDetailsFragment(
-                        locationUrl
-                    )
-                findNavController().navigate(action)
-            }
+            setOnClickListenerWithNavigation(binding.location, LOCATION)
         }
-
         binding.origin.setOnClickListener {
-            var originUrl = character?.origin?.url?.split("/")?.last()?.toIntOrNull() ?: 0
-            if (originUrl == 0 || originUrl == null) {
-                Toast.makeText(requireContext(), R.string.no_origin, Toast.LENGTH_SHORT).show()
-            } else {
-                val action =
-                    CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToLocationsDetailsFragment(
-                        originUrl
-                    )
-                findNavController().navigate(action)
-            }
+            setOnClickListenerWithNavigation(binding.location, ORIGIN)
         }
     }
-
-
+    private fun setOnClickListenerWithNavigation(view: View, type: Int) {
+        view.setOnClickListener {
+            viewModel.navigateToDetails(type)
+        }
+    }
     private fun initUI(character: Characters?) {
         binding.apply {
             Glide.with(this@CharactersDetailsFragment)
                 .load(character?.image)
+                .placeholder(R.drawable._no_photo)
                 .centerCrop()
                 .into(imageView)
 
@@ -152,32 +114,9 @@ class CharactersDetailsFragment : Fragment() {
             origin.text = character?.origin?.name
             location.text = character?.location?.name
 
-            setVisibility(name)
-            setVisibility(status)
-            setVisibility(species)
-            setVisibility(type)
-            setVisibility(gender)
-            setVisibility(origin)
-            setVisibility(location)
+            setVisibility(name, status, species, type, gender, origin, location)
         }
     }
-
-    private fun setVisibility(view: View) {
-        view.visibility = if ((view as? TextView)?.text.isNullOrEmpty()) View.GONE else View.VISIBLE
-    }
-
-    companion object {
-        const val ARG_CHARACTER_ID = "characterId"
-
-        fun newInstance(characterId: Int): CharactersDetailsFragment {
-            return CharactersDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_CHARACTER_ID, characterId)
-                }
-            }
-        }
-    }
-
 
 }
 

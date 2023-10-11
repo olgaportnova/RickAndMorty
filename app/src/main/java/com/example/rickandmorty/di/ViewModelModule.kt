@@ -12,15 +12,15 @@ val viewModelModule = module {
 
 
     viewModel {
-        CharactersViewModel(get(), get())
+        CharactersViewModel(get(), get(), get())
     }
 
     viewModel {
-        EpisodeViewModel(get(), get())
+        EpisodeViewModel(get(), get(), get())
     }
 
     viewModel {
-        LocationViewModel(get(), get())
+        LocationViewModel(get(), get(), get())
     }
 
 }

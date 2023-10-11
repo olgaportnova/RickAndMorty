@@ -21,4 +21,7 @@
     // Details helpers
     <string name="no_origin">Origin is unknown</string>
     <string name="no_location">Location is unknown</string>
+    <string name="no_residents_episode">No residents for current episode</string>
+    <string name="no_resident_location">No resident for current location</string>
+    <string name="no_episodes_character">No episodes for current character</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.rickandmorty.domain.characters.model
 
 import android.os.Parcelable
+import android.widget.TextView
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -29,4 +30,5 @@ data class Location(
     val name: String,
     val url: String
 ): Parcelable
+
 

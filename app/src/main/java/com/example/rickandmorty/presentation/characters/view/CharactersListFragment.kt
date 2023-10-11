@@ -14,6 +14,7 @@ import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapte
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.main.view.BaseFragmentList
 import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
+import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails.Companion.ARG_CHARACTER_ID
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.utils.SearchCategoriesLocations
@@ -75,7 +76,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
         characterAdapter.onItemClickListener = { character ->
             val bundle = Bundle().apply {
-                putInt(CharactersDetailsFragment.ARG_CHARACTER_ID, character.id) }
+                putInt(ARG_CHARACTER_ID, character.id) }
             findNavController().navigate(R.id.charactersDetailsFragment, bundle)
         }
 

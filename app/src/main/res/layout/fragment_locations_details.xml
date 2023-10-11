@@ -111,6 +111,27 @@
             />
 
         <TextView
+            android:id="@+id/placeholder_no_residents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:fontFamily="@font/wubbalubbadubdub"
+            android:text="@string/no_resident_location"
+            android:background="@drawable/flexbox_stroke_layout"
+            />
+
+        <TextView
             android:id="@+id/episodes_info"
             style="@style/flexbox_discription"
             android:layout_marginEnd="18dp"
