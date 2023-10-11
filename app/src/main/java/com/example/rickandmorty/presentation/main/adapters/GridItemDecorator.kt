@@ -26,5 +26,12 @@ class GridItemDecorator(
         if (position >= spanCount) {
             outRect.top = verticalSpacing
         }
+
+        val totalItemCount = parent.adapter?.itemCount ?: 0
+        val lastRowStartIndex = totalItemCount - spanCount
+        if (position >= lastRowStartIndex) {
+            outRect.bottom = verticalSpacing
+        }
     }
 }
+
