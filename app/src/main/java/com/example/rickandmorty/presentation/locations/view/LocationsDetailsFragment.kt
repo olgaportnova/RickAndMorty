@@ -57,9 +57,11 @@ class LocationsDetailsFragment :
             viewModel.charactersSearchResult.collect { charactersList ->
                 if (charactersList.isNullOrEmpty()) {
                     binding.rvCharacters.visibility = View.GONE
+                    binding.residentsInfo.visibility = View.GONE
                     binding.placeholderNoResidents.visibility = View.VISIBLE
                 } else {
                     binding.rvCharacters.visibility = View.VISIBLE
+                    binding.residentsInfo.visibility = View.VISIBLE
                     binding.placeholderNoResidents.visibility = View.GONE
                     adapter.submitList(charactersList)
                 }

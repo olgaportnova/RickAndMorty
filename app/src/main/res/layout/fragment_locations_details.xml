@@ -132,7 +132,7 @@
             />
 
         <TextView
-            android:id="@+id/episodes_info"
+            android:id="@+id/residents_info"
             style="@style/flexbox_discription"
             android:layout_marginEnd="18dp"
             android:fontFamily="@font/wubbalubbadubdub"

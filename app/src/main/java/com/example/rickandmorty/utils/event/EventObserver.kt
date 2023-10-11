@@ -1,4 +1,4 @@
-package com.example.rickandmorty.utils
+package com.example.rickandmorty.utils.event
 
 import androidx.lifecycle.Observer
 

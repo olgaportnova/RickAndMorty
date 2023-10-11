@@ -14,7 +14,7 @@ import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.adapters.EpisodeAdapterDetailsScreen
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
 import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails
-import com.example.rickandmorty.utils.EventObserver
+import com.example.rickandmorty.utils.event.EventObserver
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 

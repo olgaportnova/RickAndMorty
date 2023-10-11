@@ -1,6 +1,4 @@
-package com.example.rickandmorty.utils
-
-import androidx.lifecycle.Observer
+package com.example.rickandmorty.utils.event
 
 open class Event<out T>(private val content: T) {
 

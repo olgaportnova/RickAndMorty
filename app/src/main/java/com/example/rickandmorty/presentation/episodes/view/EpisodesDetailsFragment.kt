@@ -53,9 +53,11 @@ class EpisodesDetailsFragment :
             viewModel.charactersSearchResult.collect { charactersList ->
                 if (charactersList.isNullOrEmpty()) {
                     binding.rvCharacters.visibility = View.GONE
+                    binding.episodesInfo.visibility = View.GONE
                     binding.placeholderNoResidents.visibility = View.VISIBLE
                 } else {
                     binding.rvCharacters.visibility = View.VISIBLE
+                    binding.episodesInfo.visibility = View.VISIBLE
                     binding.placeholderNoResidents.visibility = View.GONE
                     adapter.submitList(charactersList)
                 }
