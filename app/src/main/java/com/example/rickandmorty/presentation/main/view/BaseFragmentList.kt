@@ -130,7 +130,7 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
         } else {
             progressBar.visibility = View.GONE
 
-            if (recyclerView.adapter?.itemCount == 0 && loadState.refresh is LoadState.NotLoading) {
+            if (recyclerView.adapter?.itemCount == 0 ) {
                 recyclerView.visibility = View.GONE
                 placeholderView.visibility = View.VISIBLE
             } else {

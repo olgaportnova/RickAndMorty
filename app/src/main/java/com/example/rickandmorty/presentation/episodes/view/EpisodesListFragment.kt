@@ -35,6 +35,7 @@ class EpisodesListFragment : BaseFragmentList<FragmentEpisodesListBinding, Episo
         initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
             searchCategory = SearchCategoriesEpisodes.values()[position]
         }
+
         setupSwipeToRefresh(binding.swipeRefreshLayout) {
             observeData()
         }
