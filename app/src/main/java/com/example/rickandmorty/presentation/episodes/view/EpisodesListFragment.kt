@@ -62,5 +62,11 @@ class EpisodesListFragment : BaseFragmentList<FragmentEpisodesListBinding, Episo
         observeAndSubmitData(viewModel.getListData(), episodeAdapter)
     }
 
+    companion object {
+        private const val KEY_SEARCH_TEXT = "search_text"
+        private const val KEY_SEARCH_CATEGORY = "search_category"
+    }
+
+
 }
 

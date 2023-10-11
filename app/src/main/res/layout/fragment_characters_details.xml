@@ -20,15 +20,10 @@
 
             <ImageButton
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@null"
-                android:contentDescription="Назад"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back" />
+                app:srcCompat="@drawable/ic_back"
+                style="@style/list_screen_back" />
 
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -126,41 +121,20 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_episodes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:padding="12dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:background="@drawable/flexbox_stroke_layout"
-                />
+                style="@style/details_screen_recycle" />
 
             <TextView
                 android:id="@+id/placeholder_no_episodes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="50dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:padding="12dp"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:visibility="gone"
-                android:fontFamily="@font/wubbalubbadubdub"
                 android:text="@string/no_episodes_character"
-                android:background="@drawable/flexbox_stroke_layout"
-                />
+                style="@style/details_screen_no_items_recycle" />
             <TextView
                 android:id="@+id/episodes_info"
                 android:text="Episodes"

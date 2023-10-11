@@ -6,32 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.characters.view.CharactersListFragment">
 
-
     <TextView
         android:id="@+id/header_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/schwifty"
-        android:gravity="center_horizontal"
         android:text="@string/locations"
-        android:textColor="@color/fresh_green"
-        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/list_screen_header" />
 
     <LinearLayout
         android:id="@+id/search_layout"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_title"
-        android:orientation="horizontal">
+        style="@style/details_screen_search_layout">
 
         <Spinner
             android:spinnerMode="dialog"
@@ -43,17 +31,13 @@
             android:layout_weight="2"
             android:layout_height="match_parent" />
 
-
-
-
         <EditText
             android:id="@+id/input_text_search"
             style="@style/edit_text_search"
             android:hint="Type here"
             android:paddingEnd="4dp"
             android:paddingStart="12dp"
-            android:drawableEnd="@drawable/ic_clear"
-            />
+            android:drawableEnd="@drawable/ic_clear" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -67,18 +51,12 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_layout">
-
+        app:layout_constraintTop_toBottomOf="@id/search_layout"
+        style="@style/details_screen_swipe_layout">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_height="0dp"
@@ -104,15 +82,11 @@
 
     <LinearLayout
         android:id="@+id/placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_layout">
+        app:layout_constraintTop_toBottomOf="@id/search_layout"
+        style="@style/list_screen_layout_placeholder">
 
         <ImageView
             android:id="@+id/image_placeholder"
@@ -122,18 +96,8 @@
 
         <TextView
             android:id="@+id/text_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="12dp"
-            android:fontFamily="@font/wubbalubbadubdub"
-            android:gravity="center"
             android:text="@string/placeholder_text"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            style="@style/list_screen_placeholder" />
     </LinearLayout>
 
 

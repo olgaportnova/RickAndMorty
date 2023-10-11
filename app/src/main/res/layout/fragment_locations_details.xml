@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_light_blue"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,36 +16,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@null"
-            android:contentDescription="Назад"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
-
+            app:srcCompat="@drawable/ic_back"
+            style="@style/details_screen_back" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="24dp"
-            android:ellipsize="marquee"
-            android:fontFamily="@font/wubbalubbadubdub"
-            android:maxLines="1"
-            android:textColor="#000000"
-            android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/details_screen_main_name" />
 
         <TextView
             android:id="@+id/basic_info"
@@ -79,8 +61,6 @@
                 style="@style/details_screen_detail"
                 tools:text="December 2, 2013" />
 
-
-
         </com.google.android.flexbox.FlexboxLayout>
 
         <TextView
@@ -89,48 +69,24 @@
             app:layout_constraintStart_toStartOf="@id/rv_characters"
             app:layout_constraintEnd_toEndOf="@id/rv_characters"
             app:layout_constraintTop_toBottomOf="@id/basic_info"
-            android:background = "@drawable/circle_no_internet_details_screen"
-            android:fontFamily="@font/wubbalubbadubdub"
             style="@style/placeholder_no_internet_details" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_characters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
-            android:layout_marginTop="24dp"
-            android:layout_marginBo="24dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:padding="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:background="@drawable/flexbox_stroke_layout"
-            />
+            style="@style/details_screen_recycle" />
 
         <TextView
             android:id="@+id/placeholder_no_residents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/placeholder_no_internet"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:padding="12dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:visibility="gone"
-            android:fontFamily="@font/wubbalubbadubdub"
             android:text="@string/no_resident_location"
-            android:background="@drawable/flexbox_stroke_layout"
-            />
+            style="@style/details_screen_no_items_recycle" />
 
         <TextView
             android:id="@+id/residents_info"

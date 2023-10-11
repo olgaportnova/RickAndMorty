@@ -8,7 +8,6 @@
     tools:context=".presentation.main.view.RootActivity">
 
     <androidx.fragment.app.FragmentContainerView
-
         android:id="@+id/container_view"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -19,17 +18,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph"/>
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_nav_background"
         app:itemIconSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemTextColor="@color/buttom_navigation_icon_color"
         app:itemIconTint="@color/buttom_navigation_icon_color"
-        app:menu="@menu/botton_nav_menu" />
+        app:menu="@menu/botton_nav_menu"
+        style="@style/bottom_navigation_style" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

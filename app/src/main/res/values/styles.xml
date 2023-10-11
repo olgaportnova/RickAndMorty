@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-
-    // characters fragment
-
     <style name="items_fields_name">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -56,9 +53,13 @@
 
     <style name="bt_filter">
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:background">@drawable/rounded_edittext_bg</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:spinnerMode">dialog</item>
     </style>
 
     <style name="bt_search_filter_black">
@@ -66,6 +67,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:background">@drawable/bt_search_filter_black</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">4dp</item>
     </style>
 
     <style name="edit_text_search">
@@ -76,12 +80,12 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/rounded_edittext_bg</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:paddingStart">8dp</item>
         <item name="android:textColorHint">@color/soft_blue</item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
         <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingStart">12dp</item>
         <item name="android:singleLine">true</item>
     </style>
 
@@ -89,8 +93,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">220dp</item>
     </style>
-
-
 
     <style name="bottom_sheet">
         <item name="android:layout_width">match_parent</item>
@@ -162,6 +164,9 @@
         <item name="android:textSize">18sp</item>
         <item name="android:visibility">gone</item>
         <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/circle_no_internet_details_screen</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+
     </style>
 
     <style name="flexbox_details">
@@ -184,6 +189,189 @@
         <item name="android:paddingEnd">4dp</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+
+    </style>
+
+    <style name="item_header_location_episode" parent="item_header">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+    </style>
+
+    <style name="items_fields_location_episode_field_1" parent="items_fields_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="items_fields_location_episode_field_2" parent="items_fields_value">
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+    </style>
+
+    <style name="card_view_item_location_episode">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="list_screen_header">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:fontFamily">@font/schwifty</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/fresh_green</item>
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="details_screen_search_layout">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="details_screen_swipe_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">?attr/actionBarSize</item>
+    </style>
+
+    <style name="list_screen_placeholder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">36dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginEnd">36dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="list_screen_layout_placeholder">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="details_screen_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:contentDescription">Назад</item>
+    </style>
+
+    <style name="details_screen_main_name">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">36dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="details_screen_recycle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">?attr/actionBarSize</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/flexbox_stroke_layout</item>
+    </style>
+
+    <style name="details_screen_no_items_recycle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">50dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:background">@drawable/flexbox_stroke_layout</item>
+    </style>
+
+    <style name="bottom_sheet_radio_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    <style name="bottom_sheet_btn_apply">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_filters</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="bottom_sheet_btn_cancel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_filters</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="bottom_sheet_layout_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginBottom">80dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="bottom_sheet_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="bottom_navigation_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bottom_nav_background</item>
     </style>
 
 
