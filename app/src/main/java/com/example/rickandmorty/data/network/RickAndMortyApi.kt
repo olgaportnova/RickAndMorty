@@ -29,6 +29,7 @@ interface RickAndMortyApi {
     //Episodes
     @GET("api/episode")
     suspend fun getEpisodes(
+        @Query("page") page: Int,
         @Query("name") name: String?,
         @Query("episode") episode: String?,
     ): Response<ApiResponseEpisodes>
@@ -44,6 +45,7 @@ interface RickAndMortyApi {
 
     @GET("api/location")
     suspend fun getLocations(
+        @Query("page") page: Int,
         @Query("name") name: String?,
         @Query("type") type: String?,
         @Query("dimension") dimension: String?,

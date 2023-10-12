@@ -45,6 +45,7 @@ class LocationsRemoteMediator(
 
             }
             val response = api.getLocations(
+                page = loadKey,
                 name = name,
                 type = type,
                 dimension = dimension
