@@ -143,6 +143,18 @@
         <item name="android:layout_margin">8dp</item>
     </style>
 
+    <style name="details_screen_detail_сlicable">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/circle_text_details_screen</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/wubbalubbadubdub</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
     <style name="flexbox_discription">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -334,6 +346,7 @@
         <item name="android:fontFamily">@font/wubbalubbadubdub</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:backgroundTint">@color/black</item>
     </style>
 
     <style name="bottom_sheet_btn_cancel">
