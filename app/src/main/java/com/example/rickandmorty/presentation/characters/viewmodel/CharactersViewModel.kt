@@ -1,5 +1,6 @@
 package com.example.rickandmorty.presentation.characters.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,7 @@ import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
+import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails.Companion.LOCATION
 import com.example.rickandmorty.presentation.main.viewmodel.BaseViewModel
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
@@ -65,6 +67,9 @@ class CharactersViewModel(
 
     private val _navigateToDetails = MutableLiveData<Event<Int>>()
     val navigateToDetails: LiveData<Event<Int>> get() = _navigateToDetails
+
+    private val _navigateToDetailsType = MutableLiveData<Int>()
+    val navigateToDetailsType: LiveData<Int> get() = _navigateToDetailsType
 
     private val _showToast = MutableLiveData<Event<Int>>()
     val showToast: LiveData<Event<Int>> get() = _showToast
@@ -189,17 +194,22 @@ class CharactersViewModel(
         }
     }
     fun navigateToDetails(type: Int) {
-        var url: String? = if (type == 1) {
+        var url: String? = if (type == LOCATION) {
             character.value?.location?.url.toString()
         } else {
             character.value?.origin?.url.toString()
         }
         val id = url?.split("/")?.lastOrNull()?.toIntOrNull()
+        Log.e("CharactersViewModel", "id: $url")
         if (id != null && id != 0) {
             _navigateToDetails.value = Event(id)
         } else {
             _showToast.value = Event(R.string.no_location)
         }
+    }
+
+    fun updateNavigateDetails() {
+        _navigateToDetails.value = Event(2)
     }
 
 }

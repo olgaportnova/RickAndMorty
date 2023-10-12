@@ -90,7 +90,7 @@ class CharactersDetailsFragment :
             setOnClickListenerWithNavigation(binding.location, LOCATION)
         }
         binding.origin.setOnClickListener {
-            setOnClickListenerWithNavigation(binding.location, ORIGIN)
+            setOnClickListenerWithNavigation(binding.origin, ORIGIN)
         }
     }
     private fun setOnClickListenerWithNavigation(view: View, type: Int) {
