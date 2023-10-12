@@ -12,7 +12,7 @@ val viewModelModule = module {
 
 
     viewModel {
-        CharactersViewModel(get(), get(), get())
+        CharactersViewModel(get(), get(), get(), get())
     }
 
     viewModel {

@@ -95,9 +95,12 @@ class CharactersDetailsFragment :
     }
     private fun setOnClickListenerWithNavigation(view: View, type: Int) {
         view.setOnClickListener {
-            viewModel.navigateToDetails(type)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.navigateToDetails(type)
+            }
         }
     }
+
     private fun initUI(character: Characters?) {
         binding.apply {
             Glide.with(this@CharactersDetailsFragment)

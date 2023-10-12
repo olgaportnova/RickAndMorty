@@ -15,6 +15,8 @@ import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
+import com.example.rickandmorty.domain.locations.LocationInteractor
+import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
 import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails.Companion.LOCATION
@@ -35,7 +37,8 @@ import kotlinx.coroutines.withContext
 class CharactersViewModel(
     private val characterConverter: CharacterConverter,
     private val characterInteractor: CharacterInteractor,
-    private val episodeInteractor: EpisodeInteractor
+    private val episodeInteractor: EpisodeInteractor,
+    private val locationsInteractor: LocationInteractor
 ) : BaseViewModel(characterInteractor) {
 
     private val _state = MutableStateFlow(CharacterState())
@@ -193,24 +196,57 @@ class CharactersViewModel(
             }
         }
     }
-    fun navigateToDetails(type: Int) {
-        var url: String? = if (type == LOCATION) {
+
+    // navigation part to locations from characters details
+    suspend fun navigateToDetails(type: Int) {
+        val url = getUrlBasedOnType(type)
+        val id = extractIdFromUrl(url)
+        if (isNetworkAvailable.value == true) {
+            handleNavigation(id)
+        } else {
+            handleOfflineNavigation(id)
+        }
+    }
+
+    private fun getUrlBasedOnType(type: Int): String? {
+        return if (type == LOCATION) {
             character.value?.location?.url.toString()
         } else {
             character.value?.origin?.url.toString()
         }
-        val id = url?.split("/")?.lastOrNull()?.toIntOrNull()
-        Log.e("CharactersViewModel", "id: $url")
+    }
+
+    private fun extractIdFromUrl(url: String?): Int? {
+        return url?.split("/")?.lastOrNull()?.toIntOrNull()
+    }
+
+    private fun handleNavigation(id: Int?) {
         if (id != null && id != 0) {
-            _navigateToDetails.value = Event(id)
+                _navigateToDetails.value = Event(id)
         } else {
             _showToast.value = Event(R.string.no_location)
         }
     }
 
-    fun updateNavigateDetails() {
-        _navigateToDetails.value = Event(2)
+    private suspend fun handleOfflineNavigation(id: Int?) {
+        if (id != null && id != 0) {
+            if (checkIfLocationInDb(id)) {
+                _navigateToDetails.value = Event(id)
+            } else {
+                _showToast.value = Event(R.string.internet_is_needed)
+            }
+        } else {
+            _showToast.value = Event(R.string.no_location)
+        }
     }
+
+    private suspend fun checkIfLocationInDb(locationId: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            locationsInteractor.getLocationByIdFromDb(locationId) != null
+        }
+    }
+
+
 
 }
 
