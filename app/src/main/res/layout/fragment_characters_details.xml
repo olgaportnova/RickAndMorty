@@ -28,30 +28,17 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/roundedCornersImageDetailsScreen" />
+                app:shapeAppearanceOverlay="@style/roundedCornersImageDetailsScreen"
+                style="@style/character_detials_image" />
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/wubbalubbadubdub"
-                android:maxLines="1"
-                android:textColor="#000000"
-                android:textSize="40sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                style="@style/character_details_name" />
 
 
             <TextView
