@@ -35,6 +35,8 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
 
     lateinit var binding: VB
     protected abstract val viewModel: VM
+    private var isToastShown = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +44,7 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
         savedInstanceState: Bundle?
     ): View? {
         binding = bindingInflater.invoke(inflater)
+        resetToastFlag()
         return binding.root
     }
 
@@ -137,15 +140,21 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
                 recyclerView.visibility = View.VISIBLE
                 placeholderView.visibility = View.GONE
             }
-
             // Обработка ошибок загрузки
             val errorState = loadState.refresh as? LoadState.Error
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
-                showToast(getString(R.string.search_error))
+                if (!isToastShown) {
+                    showToast(getString(R.string.search_error))
+                    isToastShown = true
+                }
             }
         }
+    }
+
+    fun resetToastFlag() {
+        isToastShown = false
     }
 
     private fun showToast(message: String) {

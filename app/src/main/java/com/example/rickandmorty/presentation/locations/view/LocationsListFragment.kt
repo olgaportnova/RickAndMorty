@@ -41,7 +41,6 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
     private fun firstLaunch() {
         clearTextSearchField()
     }
-
     private fun initClickListeners() {
         locationsAdapter.onItemClickListener = { episode ->
             val action = LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(episode.id)
@@ -50,7 +49,6 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
         initSearchButton(binding.btSearch, searchCategory, binding.inputTextSearch)
         initClearButton(binding.inputTextSearch)
     }
-
     private fun observeData() {
         locationsAdapter.addLoadStateListener { loadState ->
             handleLoadState(loadState, binding.recyclerViewItems, binding.placeholder, binding.progressBar)
