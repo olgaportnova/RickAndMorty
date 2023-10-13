@@ -22,6 +22,7 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
     private var searchCategory: SearchCategoriesLocations = SearchCategoriesLocations.NAME
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        firstLaunch()
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initClickListeners()
@@ -36,6 +37,9 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
         setupSwipeToRefresh(binding.swipeRefreshLayout) {
             observeData()
         }
+    }
+    private fun firstLaunch() {
+        clearTextSearchField()
     }
 
     private fun initClickListeners() {

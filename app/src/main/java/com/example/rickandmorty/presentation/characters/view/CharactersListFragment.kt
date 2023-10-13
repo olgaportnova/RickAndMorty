@@ -1,6 +1,7 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
@@ -35,7 +36,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        firstLaunch()
         initUI()
         initClickListeners()
         observeData()
@@ -52,6 +53,11 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         setupSwipeToRefresh(binding.swipeRefreshLayout) {
             observeData()
         }
+    }
+    private fun firstLaunch() {
+        viewModel.clearFiltersSearch()
+        clearTextSearchField()
+        viewModel.clearFiltered()
     }
 
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {
@@ -165,6 +171,8 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             }
         )
     }
+
+
 
 }
 

@@ -24,6 +24,7 @@ class EpisodesListFragment : BaseFragmentList<FragmentEpisodesListBinding, Episo
     private var searchCategory: SearchCategoriesEpisodes = SearchCategoriesEpisodes.NAME
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        firstLaunch()
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initClickListeners()
@@ -39,6 +40,9 @@ class EpisodesListFragment : BaseFragmentList<FragmentEpisodesListBinding, Episo
         setupSwipeToRefresh(binding.swipeRefreshLayout) {
             observeData()
         }
+    }
+    private fun firstLaunch() {
+        clearTextSearchField()
     }
 
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {

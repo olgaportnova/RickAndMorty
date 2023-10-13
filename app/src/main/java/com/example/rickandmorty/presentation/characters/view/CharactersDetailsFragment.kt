@@ -1,6 +1,7 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -120,6 +121,7 @@ class CharactersDetailsFragment :
             setVisibility(name, status, species, type, gender, origin, location)
         }
     }
+
 
 }
 

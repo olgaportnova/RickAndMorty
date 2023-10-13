@@ -3,7 +3,7 @@ package com.example.rickandmorty.presentation.episodes.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeBinding
+import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeLocationBinding
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.presentation.main.adapters.BaseAdapter
 
@@ -14,7 +14,7 @@ class EpisodeAdapter : BaseAdapter<Episodes, EpisodeAdapter.ViewHolder>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemViewRecycleEpisodeBinding.inflate(inflater, parent, false)
+        val binding = ItemViewRecycleEpisodeLocationBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -22,14 +22,14 @@ class EpisodeAdapter : BaseAdapter<Episodes, EpisodeAdapter.ViewHolder>(
         holder.bind(item)
     }
 
-    inner class ViewHolder(private val binding: ItemViewRecycleEpisodeBinding) :
+    inner class ViewHolder(private val binding: ItemViewRecycleEpisodeLocationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Episodes) {
             binding.apply {
-                episodeName.text = item.name
-                episodeCode.text = "Episode # - ${item.episode} -"
-                episodeAirDate.text = "Air date - ${item.air_date} -"
+                field1.text = item.name
+                field2.text = "Episode # - ${item.episode} -"
+                field3.text = "Air date - ${item.air_date} -"
             }
             binding.root.setOnClickListener {
                 onItemClick(item)

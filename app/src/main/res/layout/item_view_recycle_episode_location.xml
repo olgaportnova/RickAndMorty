@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/item_card"
         app:cardCornerRadius="12dp"
@@ -16,29 +17,27 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
-                android:id="@+id/location_name"
+                android:id="@+id/field_1"
                 style="@style/item_header_location_episode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Rich Sanchez" />
             <TextView
-                android:id="@+id/location_type"
+                android:id="@+id/field_2"
                 style="@style/items_fields_location_episode_field_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/location_name"
+                app:layout_constraintTop_toBottomOf="@+id/field_1"
                 tools:text="Human" />
             <TextView
-                android:id="@+id/location_dimension"
+                android:id="@+id/field_3"
                 style="@style/items_fields_location_episode_field_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/location_type"
+                app:layout_constraintTop_toBottomOf="@+id/field_2"
                 tools:text="Alive" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

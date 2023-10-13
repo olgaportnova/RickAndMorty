@@ -71,8 +71,6 @@ class CharactersViewModel(
     private val _navigateToDetails = MutableLiveData<Event<Int>>()
     val navigateToDetails: LiveData<Event<Int>> get() = _navigateToDetails
 
-    private val _navigateToDetailsType = MutableLiveData<Int>()
-    val navigateToDetailsType: LiveData<Int> get() = _navigateToDetailsType
 
     private val _showToast = MutableLiveData<Event<Int>>()
     val showToast: LiveData<Event<Int>> get() = _showToast
@@ -115,13 +113,13 @@ class CharactersViewModel(
                 .cachedIn(viewModelScope)
         }
     }
-    suspend fun getCharacter(id: Int): Characters? {
+    private suspend fun getCharacter(id: Int): Characters? {
         return withContext(Dispatchers.IO) {
             characterInteractor.getCharacterByIdFromApi(id)
         }
     }
     // requests to local DB
-    suspend fun getCharacterFromDb(id: Int): Characters? {
+    private suspend fun getCharacterFromDb(id: Int): Characters? {
         return withContext(Dispatchers.IO) {
             characterInteractor.getCharacterByIdFromDb(id)
         }
@@ -137,6 +135,10 @@ class CharactersViewModel(
         _state.value = _state.value.copy(isFilter = gender != Gender.NONE)
     }
 
+    fun clearFiltered() {
+        _state.value = _state.value.copy(isFilter = false)
+    }
+
     fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when (selectedCategory) {
             SearchCategoriesCharacters.NAME -> _nameForSearch.value = searchText
@@ -149,6 +151,11 @@ class CharactersViewModel(
         _nameForSearch.value = ""
         _speciesForSearch.value = ""
         _typeForSearch.value = ""
+    }
+
+    fun clearFiltersSearch() {
+        _genderStateFlow.value = Gender.NONE
+        _statusStateFlow.value = Status.NONE
     }
     fun loadCharacter(characterId: Int?) {
         viewModelScope.launch {
