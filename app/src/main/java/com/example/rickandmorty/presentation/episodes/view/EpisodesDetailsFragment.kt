@@ -48,6 +48,7 @@ class EpisodesDetailsFragment :
         setBackButtonClickListener(binding.back)
         setupObservers()
     }
+
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
             viewModel.charactersSearchResult.collect { charactersList ->
@@ -72,10 +73,12 @@ class EpisodesDetailsFragment :
             }
         }
     }
+
     private fun handleNetworkVisibility(isNetworkAvailable: Boolean) {
         binding.placeholderNoInternet.visibility =
             if (isNetworkAvailable) View.GONE else View.VISIBLE
     }
+
     private fun initUI(episode: Episodes?) {
         binding.apply {
             name.text = episode?.name

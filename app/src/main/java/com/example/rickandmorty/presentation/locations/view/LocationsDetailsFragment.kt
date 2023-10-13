@@ -52,6 +52,7 @@ class LocationsDetailsFragment :
         setBackButtonClickListener(binding.back)
         setupObservers()
     }
+
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
             viewModel.charactersSearchResult.collect { charactersList ->
@@ -76,10 +77,12 @@ class LocationsDetailsFragment :
             }
         }
     }
+
     private fun handleNetworkVisibility(isNetworkAvailable: Boolean) {
         binding.placeholderNoInternet.visibility =
             if (isNetworkAvailable) View.GONE else View.VISIBLE
     }
+
     private fun initUI(location: Locations?) {
         binding.apply {
             name.text = location?.name
@@ -90,6 +93,7 @@ class LocationsDetailsFragment :
             setVisibility(name, created, dimension)
         }
     }
+
     private fun parseISO8601Date(iso8601Date: String?): Date {
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         return format.parse(iso8601Date) ?: Date()

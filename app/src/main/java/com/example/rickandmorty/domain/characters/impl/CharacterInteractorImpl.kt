@@ -23,15 +23,15 @@ class CharacterInteractorImpl(
         return repository.getCharacters(genderString, statusString, name, species, type)
     }
 
-    override suspend fun getCharacterByIdFromApi(id:Int) : Characters? {
-       return repository.getCharacterByIdFromApi(id)
+    override suspend fun getCharacterByIdFromApi(id: Int): Characters? {
+        return repository.getCharacterByIdFromApi(id)
     }
 
-    override suspend fun getMultipleCharactersFromApi(ids: List<Int>): List<Characters>?{
+    override suspend fun getMultipleCharactersFromApi(ids: List<Int>): List<Characters>? {
         return repository.getMultipleCharactersFromApi(ids)
     }
 
-    override suspend fun getCharacterByIdFromDb(id:Int) : Characters? {
+    override suspend fun getCharacterByIdFromDb(id: Int): Characters? {
         return repository.getCharacterByIdFromDb(id)
     }
 

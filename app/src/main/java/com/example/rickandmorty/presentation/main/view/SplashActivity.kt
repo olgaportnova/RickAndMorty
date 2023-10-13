@@ -35,7 +35,6 @@ class SplashActivity : AppCompatActivity() {
         splashImage.startAnimation(fadeInAnimation)
     }
 
-
     companion object {
         private const val SPLASH_TIMEOUT_MS: Long = 3000
         private const val FADE_IN_DURATION_MS: Long = 3000

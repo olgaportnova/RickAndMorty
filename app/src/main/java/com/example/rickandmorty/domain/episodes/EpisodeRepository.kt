@@ -15,11 +15,9 @@ interface EpisodeRepository {
 
     suspend fun getMultipleEpisodes(ids: List<Int>): List<Episodes>?
 
-    suspend fun getEpisodeByIdFromDb(id:Int): Episodes?
+    suspend fun getEpisodeByIdFromDb(id: Int): Episodes?
 
     suspend fun getMultipleEpisodesFromDb(ids: List<Int>): List<Episodes>?
-
-
 
 
 }

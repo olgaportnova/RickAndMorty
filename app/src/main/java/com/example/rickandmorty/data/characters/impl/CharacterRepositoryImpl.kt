@@ -12,7 +12,6 @@ import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.example.rickandmorty.domain.characters.CharacterRepository
 import com.example.rickandmorty.domain.characters.model.Characters
-import com.example.rickandmorty.domain.episodes.model.Episodes
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRepositoryImpl(
@@ -71,7 +70,7 @@ class CharactersRepositoryImpl(
 
         if (response.isSuccessful) {
             val characterBody = response.body()
-            Log.d ("TAG123", "characterBody = $characterBody")
+            Log.d("TAG123", "characterBody = $characterBody")
             if (characterBody != null) {
                 appDatabase.charactersDao().saveById(characterConverter.dtoToEntity(characterBody))
                 return characterConverter.map(characterBody)
@@ -106,7 +105,7 @@ class CharactersRepositoryImpl(
     }
 
 
-    override suspend fun getCharacterByIdFromDb(id: Int) : Characters? {
+    override suspend fun getCharacterByIdFromDb(id: Int): Characters? {
         val characterEntity = appDatabase.charactersDao().getCharacterById(id)
         return if (characterEntity == null) {
             null

@@ -15,7 +15,6 @@ data class ApiResponseEpisodes(
         val prev: String?
     )
 
-
     data class EpisodesDto(
         val id: Int,
         val name: String,

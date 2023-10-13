@@ -2,9 +2,8 @@ package com.example.rickandmorty.utils.event
 
 open class Event<out T>(private val content: T) {
 
-    var hasBeenHandled = false
+    private var hasBeenHandled = false
         private set
-
     fun getContentIfNotHandled(): T? {
         return if (hasBeenHandled) {
             null
@@ -13,7 +12,5 @@ open class Event<out T>(private val content: T) {
             content
         }
     }
-
-    fun peekContent(): T = content
 }
 

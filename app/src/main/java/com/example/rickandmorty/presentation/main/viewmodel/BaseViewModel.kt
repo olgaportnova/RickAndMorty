@@ -57,7 +57,4 @@ open class BaseViewModel(
         }
     }
 
-
-
-
 }

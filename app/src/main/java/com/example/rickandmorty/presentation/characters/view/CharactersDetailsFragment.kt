@@ -1,7 +1,6 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +49,7 @@ class CharactersDetailsFragment :
         setupOnClickListeners()
         setupObservers()
     }
+
     private fun setupObservers() {
         lifecycleScope.launch {
             viewModel.episodeSearchResult.collect { episodesList ->
@@ -80,10 +80,12 @@ class CharactersDetailsFragment :
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         })
     }
+
     private fun handleNetworkVisibility(isNetworkAvailable: Boolean) {
         binding.placeholderNoInternet.visibility =
             if (isNetworkAvailable) View.GONE else View.VISIBLE
     }
+
     private fun setupOnClickListeners() {
         setBackButtonClickListener(binding.back)
 
@@ -94,6 +96,7 @@ class CharactersDetailsFragment :
             setOnClickListenerWithNavigation(binding.origin, ORIGIN)
         }
     }
+
     private fun setOnClickListenerWithNavigation(view: View, type: Int) {
         view.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {

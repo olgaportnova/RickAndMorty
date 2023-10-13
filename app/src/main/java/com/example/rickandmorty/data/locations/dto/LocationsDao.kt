@@ -1,7 +1,5 @@
 package com.example.rickandmorty.data.locations.dto
 
-import com.google.gson.annotations.SerializedName
-
 data class ApiResponseLocations(
     val info: InfoDto,
     val results: List<LocationsDto>
@@ -24,7 +22,6 @@ data class ApiResponseLocations(
         val url: String,
         val created: String
     )
-
 
 
 }

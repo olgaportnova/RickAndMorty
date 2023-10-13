@@ -1,4 +1,5 @@
 package com.example.rickandmorty.data.episodes.db.dao
+
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -18,11 +19,10 @@ interface EpisodesDao {
 
 """
     )
-     fun getPagingSourceEpisodes(
+    fun getPagingSourceEpisodes(
         name: String?,
         episode: String?
     ): PagingSource<Int, EpisodeEntity>
-
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -32,14 +32,12 @@ interface EpisodesDao {
     suspend fun saveById(episode: EpisodeEntity)
 
 
-
     @Query("SELECT * FROM episodes WHERE id = :episodeId")
     fun getEpisodeById(episodeId: Int): EpisodeEntity
 
 
     @Query("SELECT * FROM episodes WHERE id IN (:episodeIds)")
     fun getEpisodesByIds(episodeIds: List<Int>): List<EpisodeEntity>
-
 
 
 }

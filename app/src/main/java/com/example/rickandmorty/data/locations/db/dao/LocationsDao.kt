@@ -27,13 +27,11 @@ interface LocationsDao {
     ): PagingSource<Int, LocationEntity>
 
 
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun save(episodes: List<LocationEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveById(episode: LocationEntity)
-
 
 
     @Query("SELECT * FROM locations WHERE id = :locationId")

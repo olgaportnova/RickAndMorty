@@ -19,7 +19,7 @@ class EpisodeRemoteMediator(
     private val name: String?,
     private val episode: String?,
 
-) : RemoteMediator<Int, EpisodeEntity>() {
+    ) : RemoteMediator<Int, EpisodeEntity>() {
 
 
     override suspend fun load(

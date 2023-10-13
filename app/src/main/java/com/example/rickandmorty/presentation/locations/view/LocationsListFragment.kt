@@ -28,36 +28,57 @@ class LocationsListFragment : BaseFragmentList<FragmentLocationsListBinding, Loc
         initClickListeners()
         observeData()
     }
+
     private fun initUI() {
         binding.placeholder.visibility = View.GONE
-        initAdapter(binding.recyclerViewItems, locationsAdapter,2, GridItemDecorator(2, 10, 10))
-        initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
+        initAdapter(binding.recyclerViewItems, locationsAdapter, 2, GridItemDecorator(2, 10, 10))
+        initSpinnerItemSelectedListener(
+            binding.spinnerCategory,
+            ArrayAdapter(
+                requireContext(),
+                R.layout.item_spinner_selected,
+                SearchCategoriesLocations.values()
+            )
+        ) { position ->
             searchCategory = SearchCategoriesLocations.values()[position]
         }
         setupSwipeToRefresh(binding.swipeRefreshLayout) {
             observeData()
         }
     }
+
     private fun firstLaunch() {
         clearTextSearchField()
     }
+
     private fun initClickListeners() {
         locationsAdapter.onItemClickListener = { episode ->
-            val action = LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(episode.id)
+            val action =
+                LocationsListFragmentDirections.actionLocationsListFragment2ToLocationsDetailsFragment(
+                    episode.id
+                )
             findNavController().navigate(action)
         }
         initSearchButton(binding.btSearch, searchCategory, binding.inputTextSearch)
         initClearButton(binding.inputTextSearch)
     }
+
     private fun observeData() {
         locationsAdapter.addLoadStateListener { loadState ->
-            handleLoadState(loadState, binding.recyclerViewItems, binding.placeholder, binding.progressBar)
+            handleLoadState(
+                loadState,
+                binding.recyclerViewItems,
+                binding.placeholder,
+                binding.progressBar
+            )
         }
         observeAndSubmitData(viewModel.getListData(), locationsAdapter)
     }
+
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {
         viewModel.updateListWithSearch(searchCategories, searchText)
     }
+
     override fun clearTextSearchField() {
         viewModel.clearTextSearchField()
     }

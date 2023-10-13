@@ -52,12 +52,14 @@ class EpisodeViewModel(
             }
         }
     }
+
     // requests to API
     private suspend fun getEpisode(id: Int): Episodes? {
         return withContext(Dispatchers.IO) {
             episodeInteractor.getEpisodeById(id)
         }
     }
+
     fun getListData(): Flow<PagingData<Episodes>> {
         return combine(nameForSearch, episodeForSearch) { name, episode ->
             SearchRequestParamsEpisode(name = name, episode = episode)
@@ -68,12 +70,14 @@ class EpisodeViewModel(
                 .cachedIn(viewModelScope)
         }
     }
+
     // requests to local DB
     private suspend fun getEpisodeFromDb(id: Int): Episodes? {
         return withContext(Dispatchers.IO) {
             episodeInteractor.getEpisodeByIdFromDb(id)
         }
     }
+
     // search support functions
     fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
         when (selectedCategory) {
@@ -82,10 +86,12 @@ class EpisodeViewModel(
             else -> {}
         }
     }
+
     fun clearTextSearchField() {
         _nameForSearch.value = ""
         _episodeForSearch.value = ""
     }
+
     fun loadEpisode(episodeId: Int?) {
         viewModelScope.launch {
             _episode.value = if (_isNetworkAvailable.value == true) {
@@ -103,6 +109,7 @@ class EpisodeViewModel(
             }
         }
     }
+
     private fun extractCharactersIdsFromEpisode(episode: Episodes) {
         _charactersIds.value = episode.characters.mapNotNull { url ->
             url.split("/").lastOrNull()?.toIntOrNull()

@@ -1,13 +1,10 @@
 package com.example.rickandmorty.data.episodes.db.entity
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.rickandmorty.data.characters.db.entity.Location
-import com.example.rickandmorty.data.characters.db.entity.Origin
 
-@Entity(tableName="episodes")
+@Entity(tableName = "episodes")
 data class EpisodeEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "name")
@@ -23,5 +20,5 @@ data class EpisodeEntity(
     @ColumnInfo(name = "created")
     val created: String,
 
-)
+    )
 

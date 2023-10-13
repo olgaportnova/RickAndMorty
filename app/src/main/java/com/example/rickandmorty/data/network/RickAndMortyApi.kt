@@ -20,8 +20,10 @@ interface RickAndMortyApi {
         @Query("species") species: String?,
         @Query("type") type: String?
     ): Response<ApiResponseCharacters>
+
     @GET("/api/character/{id}")
     suspend fun getCharacter(@Path("id") id: Int): Response<ApiResponseCharacters.CharacterDto>
+
     @GET("/api/character/{ids}")
     suspend fun getMultipleCharacters(@Path("ids") ids: String): List<ApiResponseCharacters.CharacterDto>
 
@@ -53,10 +55,5 @@ interface RickAndMortyApi {
 
     @GET("/api/location/{id}")
     suspend fun getLocation(@Path("id") id: Int): Response<ApiResponseLocations.LocationsDto>
-
-    @GET("/api/location/{ids}")
-    suspend fun getMultipleLocations(@Path("ids") ids: String): List<ApiResponseLocations.LocationsDto>
-
-
 
 }

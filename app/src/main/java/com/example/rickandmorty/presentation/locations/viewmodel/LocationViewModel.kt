@@ -55,42 +55,48 @@ class LocationViewModel(
             }
         }
     }
+
     // requests to API
     fun getListData(): Flow<PagingData<Locations>> {
-        return combine(nameForSearch, typeForSearch, dimensionForSearch) {name, type, dimension ->
-            SearchRequestParamsLocations(name = name, type=type, dimension= dimension)
+        return combine(nameForSearch, typeForSearch, dimensionForSearch) { name, type, dimension ->
+            SearchRequestParamsLocations(name = name, type = type, dimension = dimension)
         }.flatMapLatest { params ->
-            locationInteractor.getLocations(params.name, params.type,params.dimension)
+            locationInteractor.getLocations(params.name, params.type, params.dimension)
                 .flow
-                .map {  pagingData -> pagingData.map { locationConverter.map(it) }  }
+                .map { pagingData -> pagingData.map { locationConverter.map(it) } }
                 .cachedIn(viewModelScope)
         }
     }
-    suspend fun getLocation(id: Int) : Locations? {
+
+    suspend fun getLocation(id: Int): Locations? {
         return withContext(Dispatchers.IO) {
             locationInteractor.getLocationById(id)
         }
     }
+
     // requests to local DB
-    suspend fun getLocationFromDb(id: Int) : Locations? {
+    suspend fun getLocationFromDb(id: Int): Locations? {
         return withContext(Dispatchers.IO) {
             locationInteractor.getLocationByIdFromDb(id)
         }
     }
+
     // search support functions
     fun updateListWithSearch(selectedCategory: SearchCategories, searchText: String) {
-        when(selectedCategory) {
-            SearchCategoriesLocations.NAME->_nameForSearch.value = searchText
-            SearchCategoriesLocations.TYPE->_typeForSearch.value = searchText
-            SearchCategoriesLocations.DIMENSION->_dimensionForSearch.value = searchText
+        when (selectedCategory) {
+            SearchCategoriesLocations.NAME -> _nameForSearch.value = searchText
+            SearchCategoriesLocations.TYPE -> _typeForSearch.value = searchText
+            SearchCategoriesLocations.DIMENSION -> _dimensionForSearch.value = searchText
             else -> {}
         }
     }
+
     fun clearTextSearchField() {
         _nameForSearch.value = ""
         _typeForSearch.value = ""
         _dimensionForSearch.value = ""
     }
+
     fun loadLocation(locationId: Int?) {
         viewModelScope.launch {
             _location.value = if (_isNetworkAvailable.value == true) {
@@ -102,13 +108,14 @@ class LocationViewModel(
             _location.value?.let {
                 extractCharactersIdsFromLocation(it)
                 if (charactersIds.value.isNullOrEmpty()) {
-                    _charactersSearchResult.value= emptyList()
+                    _charactersSearchResult.value = emptyList()
                 } else {
                     loadCharacters(charactersIds.value!!)
                 }
             }
         }
     }
+
     private fun extractCharactersIdsFromLocation(location: Locations) {
         _charactersIds.value = location.residents.mapNotNull { url ->
             url.split("/").lastOrNull()?.toIntOrNull()

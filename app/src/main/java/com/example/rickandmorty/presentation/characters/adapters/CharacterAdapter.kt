@@ -13,13 +13,11 @@ import com.example.rickandmorty.presentation.main.adapters.BaseAdapter
 class CharacterAdapter : BaseAdapter<Characters, CharacterAdapter.ViewHolder>(
     createDefaultDiffCallback()
 ) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemViewRecycleCharacterBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
-
     override fun bindViewHolder(holder: ViewHolder, item: Characters) {
         holder.bind(item)
     }

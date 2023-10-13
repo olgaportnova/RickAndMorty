@@ -24,10 +24,6 @@ val interactorModule = module {
         LocationInteractorImpl(get())
     }
 
-
     factory { Gson() }
-
-
-
 
 }

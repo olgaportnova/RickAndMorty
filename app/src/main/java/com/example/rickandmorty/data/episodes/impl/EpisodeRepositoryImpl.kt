@@ -12,7 +12,6 @@ import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.example.rickandmorty.domain.episodes.EpisodeRepository
 import com.example.rickandmorty.domain.episodes.model.Episodes
 
-
 @OptIn(ExperimentalPagingApi::class)
 class EpisodeRepositoryImpl(
     private val dao: EpisodesDao,
@@ -107,7 +106,6 @@ class EpisodeRepositoryImpl(
             listOfEpisodesResponse
         }
     }
-
 
 
 }

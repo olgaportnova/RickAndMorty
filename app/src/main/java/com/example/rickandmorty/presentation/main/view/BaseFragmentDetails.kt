@@ -5,17 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.rickandmorty.R
-import com.example.rickandmorty.utils.NetworkUtils
-import kotlinx.coroutines.launch
 
 
 abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
@@ -25,7 +19,6 @@ abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
     lateinit var binding: VB
     protected abstract val viewModel: VM
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +27,6 @@ abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
         binding = bindingInflater.invoke(inflater)
         return binding.root
     }
-
     protected fun initAdapter(
         recyclerView: RecyclerView,
         adapter: RecyclerView.Adapter<*>,
@@ -46,10 +38,7 @@ abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
             addItemDecoration(itemDecorator)
             this.adapter = adapter
         }
-
     }
-
-
 
     protected fun setVisibility(vararg views: View) {
         views.forEach { view ->
@@ -62,8 +51,6 @@ abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
             requireActivity().onBackPressed()
         }
     }
-
-
     companion object {
         const val ARG_LOCATION_ID = "locationId"
         const val ARG_EPISODE_ID = "episodeId"
@@ -71,8 +58,4 @@ abstract class BaseFragmentDetails<VB : ViewBinding, VM : ViewModel >(
         const val LOCATION = 1
         const val ORIGIN = 2
     }
-
-
-
-
 }

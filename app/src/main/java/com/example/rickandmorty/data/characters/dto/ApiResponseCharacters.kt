@@ -1,6 +1,5 @@
 package com.example.rickandmorty.data.characters.dto
 
-
 data class ApiResponseCharacters(
     val info: InfoDto,
     val results: List<CharacterDto>

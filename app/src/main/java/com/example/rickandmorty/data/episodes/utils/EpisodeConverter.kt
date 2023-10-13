@@ -1,11 +1,11 @@
-package com.example.rickandmorty.data.db.utils
+package com.example.rickandmorty.data.episodes.utils
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.Collections
 
-class EpisodeConverter{
+class EpisodeConverter {
     private val gson = Gson()
 
     @TypeConverter

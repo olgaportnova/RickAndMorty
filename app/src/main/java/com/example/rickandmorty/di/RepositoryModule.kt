@@ -1,7 +1,5 @@
 package com.example.rickandmorty.di
 
-
-
 import com.example.rickandmorty.data.characters.impl.CharactersRepositoryImpl
 import com.example.rickandmorty.data.episodes.impl.EpisodeRepositoryImpl
 import com.example.rickandmorty.data.locations.impl.LocationRepositoryImpl
@@ -13,20 +11,16 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-
-
     single<CharacterRepository> {
-       CharactersRepositoryImpl(get(), get(),get(), get())
+        CharactersRepositoryImpl(get(), get(), get(), get())
     }
 
     single<EpisodeRepository> {
-        EpisodeRepositoryImpl(get(), get(),get(), get())
+        EpisodeRepositoryImpl(get(), get(), get(), get())
     }
 
     single<LocationRepository> {
-        LocationRepositoryImpl(get(), get(),get(), get())
+        LocationRepositoryImpl(get(), get(), get(), get())
     }
-
-
 
 }

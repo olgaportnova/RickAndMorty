@@ -4,7 +4,6 @@ import com.example.rickandmorty.data.episodes.db.entity.EpisodeEntity
 import com.example.rickandmorty.data.episodes.dto.ApiResponseEpisodes
 import com.example.rickandmorty.domain.episodes.model.Episodes
 
-
 class EpisodesConverter {
 
     fun map(episodesDto: ApiResponseEpisodes.EpisodesDto): Episodes {

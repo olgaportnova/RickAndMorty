@@ -8,7 +8,6 @@ import com.example.rickandmorty.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
-
 class App() : Application() {
 
     override fun onCreate() {
@@ -17,10 +16,7 @@ class App() : Application() {
             androidContext(this@App)
             modules(dataModule, interactorModule, repositoryModule, viewModelModule)
         }
-
-
     }
-
 }
 
 

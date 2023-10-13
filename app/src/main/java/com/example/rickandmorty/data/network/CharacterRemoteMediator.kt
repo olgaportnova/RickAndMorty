@@ -8,7 +8,6 @@ import androidx.room.withTransaction
 import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.data.db.AppDatabase
-import com.example.rickandmorty.domain.characters.model.utils.Gender
 import retrofit2.HttpException
 import java.io.IOException
 

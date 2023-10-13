@@ -21,7 +21,7 @@ interface CharactersDao {
 
 """
     )
-     fun getPagingSourceCharacters(
+    fun getPagingSourceCharacters(
         gender: String?,
         status: String?,
         name: String?,
@@ -35,7 +35,6 @@ interface CharactersDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveById(character: CharactersEntity)
-
 
     @Query("SELECT * FROM characters WHERE id = :characterId")
     fun getCharacterById(characterId: Int): CharactersEntity?

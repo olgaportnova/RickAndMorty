@@ -88,7 +88,7 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = true
             action.invoke()
-           swipeRefreshLayout.isRefreshing = false
+            swipeRefreshLayout.isRefreshing = false
         }
     }
 
@@ -133,14 +133,13 @@ abstract class BaseFragmentList<VB : ViewBinding, VM : ViewModel>(
         } else {
             progressBar.visibility = View.GONE
 
-            if (recyclerView.adapter?.itemCount == 0 ) {
+            if (recyclerView.adapter?.itemCount == 0) {
                 recyclerView.visibility = View.GONE
                 placeholderView.visibility = View.VISIBLE
             } else {
                 recyclerView.visibility = View.VISIBLE
                 placeholderView.visibility = View.GONE
             }
-            // Обработка ошибок загрузки
             val errorState = loadState.refresh as? LoadState.Error
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error

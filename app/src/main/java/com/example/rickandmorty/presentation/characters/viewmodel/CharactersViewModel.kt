@@ -1,6 +1,5 @@
 package com.example.rickandmorty.presentation.characters.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,7 +15,6 @@ import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
 import com.example.rickandmorty.domain.locations.LocationInteractor
-import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.characters.utils.CharacterState
 import com.example.rickandmorty.presentation.characters.utils.SearchRequestParams
 import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails.Companion.LOCATION
@@ -84,6 +82,7 @@ class CharactersViewModel(
             }
         }
     }
+
     // requests to API
     fun getListData(): Flow<PagingData<Characters>> {
         return combine(
@@ -113,11 +112,13 @@ class CharactersViewModel(
                 .cachedIn(viewModelScope)
         }
     }
+
     private suspend fun getCharacter(id: Int): Characters? {
         return withContext(Dispatchers.IO) {
             characterInteractor.getCharacterByIdFromApi(id)
         }
     }
+
     // requests to local DB
     private suspend fun getCharacterFromDb(id: Int): Characters? {
         return withContext(Dispatchers.IO) {
@@ -130,6 +131,7 @@ class CharactersViewModel(
         _statusStateFlow.value = status
         _state.value = _state.value.copy(isFilter = status != Status.NONE)
     }
+
     fun setGenderState(gender: Gender) {
         _genderStateFlow.value = gender
         _state.value = _state.value.copy(isFilter = gender != Gender.NONE)
@@ -147,6 +149,7 @@ class CharactersViewModel(
             else -> {}
         }
     }
+
     fun clearTextSearchField() {
         _nameForSearch.value = ""
         _speciesForSearch.value = ""
@@ -157,6 +160,7 @@ class CharactersViewModel(
         _genderStateFlow.value = Gender.NONE
         _statusStateFlow.value = Status.NONE
     }
+
     fun loadCharacter(characterId: Int?) {
         viewModelScope.launch {
             _character.value = if (_isNetworkAvailable.value == true) {
@@ -175,11 +179,13 @@ class CharactersViewModel(
             }
         }
     }
+
     private fun extractEpisodeIdsFromCharacter(character: Characters) {
         _episodeIds.value = character.episode.mapNotNull { url ->
             url.split("/").lastOrNull()?.toIntOrNull()
         }
     }
+
     private fun loadEpisodes(episodeIds: List<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
             if (_isNetworkAvailable.value == true) {
@@ -229,7 +235,7 @@ class CharactersViewModel(
 
     private fun handleNavigation(id: Int?) {
         if (id != null && id != 0) {
-                _navigateToDetails.value = Event(id)
+            _navigateToDetails.value = Event(id)
         } else {
             _showToast.value = Event(R.string.no_location)
         }
@@ -252,9 +258,6 @@ class CharactersViewModel(
             locationsInteractor.getLocationByIdFromDb(locationId) != null
         }
     }
-
-
-
 }
 
 

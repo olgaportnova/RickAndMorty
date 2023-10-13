@@ -7,7 +7,6 @@ import com.example.rickandmorty.databinding.ItemViewRecycleEpisodeLocationBindin
 import com.example.rickandmorty.domain.locations.model.Locations
 import com.example.rickandmorty.presentation.main.adapters.BaseAdapter
 
-
 class LocationAdapter : BaseAdapter<Locations, LocationAdapter.ViewHolder>(
     createDefaultDiffCallback()
 ) {

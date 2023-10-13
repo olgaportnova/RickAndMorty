@@ -12,4 +12,4 @@ data class Episodes(
     val characters: List<String>,
     val url: String,
     val created: String
-): Parcelable
+) : Parcelable

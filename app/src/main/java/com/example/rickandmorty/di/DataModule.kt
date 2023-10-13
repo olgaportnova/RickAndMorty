@@ -1,15 +1,11 @@
 package com.example.rickandmorty.di
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.data.characters.utils.EpisodesConverter
 import com.example.rickandmorty.data.db.AppDatabase
 import com.example.rickandmorty.data.db.AppDatabase.Companion.MIGRATION_2_3
 import com.example.rickandmorty.data.locations.utils.LocationsConverter
-import com.example.rickandmorty.data.network.CharacterRemoteMediator
 import com.example.rickandmorty.data.network.RickAndMortyApi
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -21,17 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://rickandmortyapi.com/"
 
-
-@OptIn(ExperimentalPagingApi::class)
 val dataModule = module {
 
     val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-
     val client = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
-
 
     single<RickAndMortyApi> {
         Retrofit.Builder()
@@ -57,29 +49,5 @@ val dataModule = module {
     factory { CharacterConverter() }
     factory { EpisodesConverter() }
     factory { LocationsConverter() }
-
-
-//
-//    single {
-//        CharacterRemoteMediator(get(), get(), get())
-//    }
-//
-//    single {
-//        Pager(
-//            config = PagingConfig(pageSize = 20),
-//            remoteMediator = CharacterRemoteMediator(
-//                get(),
-//                get(),
-//                get()
-//            ),
-//            pagingSourceFactory = {
-//                get<AppDatabase>().charactersDao()
-//                    .getPagingSourceCharacters(null, null, null, null, null)
-//            }
-//        )
-//    }
-
-
-
 
 }

@@ -1,7 +1,6 @@
 package com.example.rickandmorty.presentation.characters.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
@@ -13,9 +12,9 @@ import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
 import com.example.rickandmorty.presentation.characters.adapters.CharacterAdapter
 import com.example.rickandmorty.presentation.characters.viewmodel.CharactersViewModel
-import com.example.rickandmorty.presentation.main.view.BaseFragmentList
 import com.example.rickandmorty.presentation.main.adapters.GridItemDecorator
 import com.example.rickandmorty.presentation.main.view.BaseFragmentDetails.Companion.ARG_CHARACTER_ID
+import com.example.rickandmorty.presentation.main.view.BaseFragmentList
 import com.example.rickandmorty.utils.SearchCategories
 import com.example.rickandmorty.utils.SearchCategoriesCharacters
 import com.example.rickandmorty.utils.SearchCategoriesLocations
@@ -23,14 +22,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, CharactersViewModel>(
-        FragmentCharactersListBinding::inflate
-    ) {
+    FragmentCharactersListBinding::inflate
+) {
 
     private var characterAdapter = CharacterAdapter()
     override val viewModel: CharactersViewModel by activityViewModel()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private var genderState : Gender = Gender.NONE
-    private var statusState : Status = Status.NONE
+    private var genderState: Gender = Gender.NONE
+    private var statusState: Status = Status.NONE
     private var searchCategory: SearchCategoriesCharacters = SearchCategoriesCharacters.NAME
 
 
@@ -43,10 +42,18 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         restorePreviousState()
 
     }
+
     private fun initUI() {
         binding.placeholder.visibility = View.GONE
-        initAdapter(binding.recyclerViewItems, characterAdapter,2, GridItemDecorator(2, 10, 10))
-        initSpinnerItemSelectedListener(binding.spinnerCategory,ArrayAdapter(requireContext(), R.layout.item_spinner_selected, SearchCategoriesLocations.values())) { position ->
+        initAdapter(binding.recyclerViewItems, characterAdapter, 2, GridItemDecorator(2, 10, 10))
+        initSpinnerItemSelectedListener(
+            binding.spinnerCategory,
+            ArrayAdapter(
+                requireContext(),
+                R.layout.item_spinner_selected,
+                SearchCategoriesLocations.values()
+            )
+        ) { position ->
             searchCategory = SearchCategoriesCharacters.values()[position]
         }
         initBottomSheet()
@@ -54,6 +61,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             observeData()
         }
     }
+
     private fun firstLaunch() {
         viewModel.clearFiltersSearch()
         clearTextSearchField()
@@ -63,6 +71,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
     override fun updateListWithSearch(searchText: String, searchCategories: SearchCategories) {
         viewModel.updateListWithSearch(searchCategories, searchText)
     }
+
     override fun clearTextSearchField() {
         viewModel.clearTextSearchField()
     }
@@ -73,16 +82,15 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
     }
-
-
     private fun initClickListeners() {
 
-        initSearchButton(binding.btSearch,searchCategory,binding.inputTextSearch)
+        initSearchButton(binding.btSearch, searchCategory, binding.inputTextSearch)
         initClearButton(binding.inputTextSearch)
 
         characterAdapter.onItemClickListener = { character ->
             val bundle = Bundle().apply {
-                putInt(ARG_CHARACTER_ID, character.id) }
+                putInt(ARG_CHARACTER_ID, character.id)
+            }
             findNavController().navigate(R.id.charactersDetailsFragment, bundle)
         }
 
@@ -129,6 +137,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         }
 
     }
+
     private fun observeData() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { characterState ->
@@ -141,15 +150,22 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
         }
 
         characterAdapter.addLoadStateListener { loadState ->
-            handleLoadState(loadState, binding.recyclerViewItems, binding.placeholder, binding.progressBar)
+            handleLoadState(
+                loadState,
+                binding.recyclerViewItems,
+                binding.placeholder,
+                binding.progressBar
+            )
         }
 
         observeAndSubmitData(viewModel.getListData(), characterAdapter)
     }
+
     private fun restorePreviousState() {
         updateRadioGroupStatusThatLastData(statusState)
         updateRadioGroupGenderThatLastData(genderState)
     }
+
     private fun updateRadioGroupGenderThatLastData(genderState: Gender) {
         binding.rgGender.check(
             when (genderState) {
@@ -161,6 +177,7 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             }
         )
     }
+
     private fun updateRadioGroupStatusThatLastData(statusState: Status) {
         binding.rgStatus.check(
             when (statusState) {
@@ -171,7 +188,6 @@ class CharactersListFragment : BaseFragmentList<FragmentCharactersListBinding, C
             }
         )
     }
-
 
 
 }
