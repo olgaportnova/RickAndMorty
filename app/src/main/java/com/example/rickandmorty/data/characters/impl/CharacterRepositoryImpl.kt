@@ -28,7 +28,6 @@ class CharactersRepositoryImpl(
         type: String?
     ): Pager<Int, CharactersEntity> {
 
-
         val mediator = CharacterRemoteMediator(
             appDatabase,
             api,

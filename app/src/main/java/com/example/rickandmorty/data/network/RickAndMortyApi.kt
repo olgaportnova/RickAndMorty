@@ -27,7 +27,6 @@ interface RickAndMortyApi {
     @GET("/api/character/{ids}")
     suspend fun getMultipleCharacters(@Path("ids") ids: String): List<ApiResponseCharacters.CharacterDto>
 
-
     //Episodes
     @GET("api/episode")
     suspend fun getEpisodes(

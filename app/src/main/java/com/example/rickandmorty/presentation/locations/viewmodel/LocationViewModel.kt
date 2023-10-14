@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
-import com.example.rickandmorty.data.locations.utils.LocationsConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.locations.LocationInteractor
 import com.example.rickandmorty.domain.locations.model.Locations
@@ -21,12 +19,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LocationViewModel(
-    private val locationConverter: LocationsConverter,
     private val locationInteractor: LocationInteractor,
     private val characterInteractor: CharacterInteractor
 ) : BaseViewModel(characterInteractor) {
@@ -62,8 +58,6 @@ class LocationViewModel(
             SearchRequestParamsLocations(name = name, type = type, dimension = dimension)
         }.flatMapLatest { params ->
             locationInteractor.getLocations(params.name, params.type, params.dimension)
-                .flow
-                .map { pagingData -> pagingData.map { locationConverter.map(it) } }
                 .cachedIn(viewModelScope)
         }
     }

@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
-import com.example.rickandmorty.data.characters.utils.EpisodesConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.episodes.EpisodeInteractor
 import com.example.rickandmorty.domain.episodes.model.Episodes
@@ -21,12 +19,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class EpisodeViewModel(
-    private val episodeConverter: EpisodesConverter,
     private val episodeInteractor: EpisodeInteractor,
     private val characterInteractor: CharacterInteractor
 ) : BaseViewModel(characterInteractor) {
@@ -65,8 +61,6 @@ class EpisodeViewModel(
             SearchRequestParamsEpisode(name = name, episode = episode)
         }.flatMapLatest { params ->
             episodeInteractor.getEpisodes(params.name, params.episode)
-                .flow
-                .map { pagingData -> pagingData.map { episodeConverter.map(it) } }
                 .cachedIn(viewModelScope)
         }
     }

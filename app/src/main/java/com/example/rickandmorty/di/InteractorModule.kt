@@ -13,15 +13,15 @@ import org.koin.dsl.module
 val interactorModule = module {
 
     single<CharacterInteractor> {
-        CharacterInteractorImpl(get())
+        CharacterInteractorImpl(get(), get())
     }
 
     single<EpisodeInteractor> {
-        EpisodeInteractorImpl(get())
+        EpisodeInteractorImpl(get(),  get())
     }
 
     single<LocationInteractor> {
-        LocationInteractorImpl(get())
+        LocationInteractorImpl(get(),  get())
     }
 
     factory { Gson() }

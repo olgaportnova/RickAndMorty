@@ -1,10 +1,11 @@
 package com.example.rickandmorty.domain.characters
 
 import androidx.paging.Pager
-import com.example.rickandmorty.data.characters.db.entity.CharactersEntity
+import androidx.paging.PagingData
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
 import com.example.rickandmorty.domain.characters.model.utils.Status
+import kotlinx.coroutines.flow.Flow
 
 interface CharacterInteractor {
     fun getCharacters(
@@ -13,7 +14,7 @@ interface CharacterInteractor {
         name: String?,
         species: String?,
         type: String?
-    ): Pager<Int, CharactersEntity>
+    ): Flow<PagingData<Characters>>
 
     suspend fun getCharacterByIdFromApi(id: Int): Characters?
     suspend fun getMultipleCharactersFromApi(ids: List<Int>): List<Characters>?

@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.characters.utils.CharacterConverter
 import com.example.rickandmorty.domain.characters.CharacterInteractor
 import com.example.rickandmorty.domain.characters.model.Characters
 import com.example.rickandmorty.domain.characters.model.utils.Gender
@@ -28,12 +26,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CharactersViewModel(
-    private val characterConverter: CharacterConverter,
     private val characterInteractor: CharacterInteractor,
     private val episodeInteractor: EpisodeInteractor,
     private val locationsInteractor: LocationInteractor
@@ -107,10 +103,7 @@ class CharactersViewModel(
                 params.species,
                 params.type
             )
-                .flow
-                .map { pagingData -> pagingData.map { characterConverter.map(it) } }
-                .cachedIn(viewModelScope)
-        }
+        }.cachedIn(viewModelScope)
     }
 
     private suspend fun getCharacter(id: Int): Characters? {
